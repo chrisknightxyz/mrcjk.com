@@ -3,11 +3,13 @@
 import { useEffect, useState } from "react";
 import { MUTED } from "@/components/band";
 import { AiAnswer, GoogleResult, MapsCard } from "@/components/illustrations";
+import { LogoStack } from "@/components/logos";
+import { aiAssistants, type LogoId } from "@/content/site";
 
-const items = [
-  { title: "Google search", body: "Pages built to rank for what your customers type.", Scene: GoogleResult },
-  { title: "Google Maps", body: "A complete Business Profile, so you show up nearby.", Scene: MapsCard },
-  { title: "AI assistants", body: "Clear answers ChatGPT and Gemini can quote.", Scene: AiAnswer },
+const items: { title: string; body: string; Scene: () => React.JSX.Element; logos: LogoId[] }[] = [
+  { title: "Google search", body: "Pages built to rank for what your customers type.", Scene: GoogleResult, logos: ["google"] },
+  { title: "Google Maps", body: "A complete Business Profile, so you show up nearby.", Scene: MapsCard, logos: ["googlemaps", "google"] },
+  { title: "AI assistants", body: "Clear answers every AI assistant can quote.", Scene: AiAnswer, logos: aiAssistants },
 ];
 const STEP_MS = 6000;
 
@@ -46,7 +48,7 @@ export function PlatformTabs() {
               setActive(i);
               setPaused(true);
             }}
-            className="px-5 pb-8 pt-4 text-left sm:px-8"
+            className="flex flex-col justify-start px-5 pb-8 pt-4 text-left sm:px-8"
           >
             <span className="block h-0.5 overflow-hidden rounded-full bg-ink/10">
               <span
@@ -57,6 +59,9 @@ export function PlatformTabs() {
             </span>
             <span className={`mt-5 block whitespace-nowrap text-[17px] ${i === active ? "text-ink" : "text-muted"}`}>{it.title}</span>
             <span className={`mt-1 block ${MUTED}`}>{it.body}</span>
+            <span className="mt-4 flex">
+              <LogoStack ids={it.logos} max={8} />
+            </span>
           </button>
         ))}
       </div>

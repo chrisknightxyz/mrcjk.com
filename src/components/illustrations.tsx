@@ -1,4 +1,4 @@
-import { plans } from "@/content/site";
+import { aiAssistants, logos, plans } from "@/content/site";
 
 // Small product scenes, drawn as real UI rather than clip-art. They sit on
 // gradient art, so every surface is a white card with the site's soft shadow.
@@ -262,7 +262,15 @@ export function AiAnswer() {
           </p>
         </div>
       </div>
-      <p className="mt-5 border-t border-black/5 pt-4 font-mono text-[10px] uppercase tracking-[0.14em] text-muted">Example answer</p>
+      <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-black/5 pt-4">
+        <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">Example answer</span>
+        <span className="flex items-center gap-1.5" aria-label={`Works across ${aiAssistants.map((id) => logos[id].name).join(", ")}`}>
+          {aiAssistants.map((id) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img key={id} src={logos[id].src} alt="" title={logos[id].name} className="h-4 w-4 object-contain" />
+          ))}
+        </span>
+      </div>
     </div>
   );
 }

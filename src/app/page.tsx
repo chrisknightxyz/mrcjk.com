@@ -36,7 +36,7 @@ export const metadata: Metadata = {
 };
 
 // A plan's Stripe Payment Link once it's set; until then, the start flow.
-const planHref = (p: Plan) => stripeLinks[p.id] || `/start?need=${encodeURIComponent(p.need)}`;
+const planHref = (p: Plan) => p.href || stripeLinks[p.id] || `/start?need=${encodeURIComponent(p.need)}`;
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -468,9 +468,9 @@ export default function HomePage() {
                     </li>
                   ))}
                 </ul>
-                <div className="mt-auto flex items-center justify-between gap-4 pt-10">
-                  <p className="min-w-0 truncate text-[15px] text-muted">{plan.note}</p>
-                  <Button href={planHref(plan)} variant={plan.price === null ? "secondary" : "primary"}>
+                <div className="mt-auto flex flex-wrap items-center justify-between gap-x-4 gap-y-3 pt-10">
+                  <p className="whitespace-nowrap text-[15px] text-muted">{plan.note}</p>
+                  <Button href={planHref(plan)} variant={plan.price === null ? "secondary" : "primary"} className="ml-auto">
                     {plan.cta}
                   </Button>
                 </div>

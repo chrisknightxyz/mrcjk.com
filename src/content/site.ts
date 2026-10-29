@@ -39,7 +39,7 @@ export const mailto = (subject: string, body = "") =>
 export const stripeLinks = {
   build: "https://buy.stripe.com/test_5kQ28t4C8eRrbAyd3hfbq00",
   care: "https://buy.stripe.com/test_3cI6oJfgM38JcEC4wLfbq01",
-  growth: "",
+  ai: "",
 };
 
 export type Plan = {
@@ -55,6 +55,8 @@ export type Plan = {
   note: string;
   // Preselects the matching answer in the start flow.
   need: string;
+  // Where the button goes when it isn't a payment link (the AI work is scoped on a call).
+  href?: string;
 };
 
 export const plans: Plan[] = [
@@ -97,22 +99,23 @@ export const plans: Plan[] = [
     need: "Hosting and care",
   },
   {
-    id: "growth",
-    name: "SEO and AEO",
-    // Set the monthly price here; until then the card shows "Price on request".
-    price: null,
-    prefix: "",
-    period: "a month",
-    blurb: "Ongoing work to move you up Google, Google Maps and AI answers.",
+    id: "ai",
+    name: "AI for your business",
+    price: 5000,
+    prefix: "from",
+    period: "one-off",
+    blurb: "I add AI to how your business runs, so you and your team get more done and save money.",
     features: [
-      "Google Business Profile",
-      "On-page and local SEO",
-      "Content AI can quote",
-      "Rankings tracked monthly",
+      "A review of how you work",
+      "AI assistants for your team",
+      "Automated follow-ups",
+      "AI receptionist and chat",
+      "Training for your team",
     ],
-    cta: "Get a quote",
-    note: "Cancel any time",
-    need: "Get found on Google",
+    cta: "Book a call",
+    note: "Scoped on a call",
+    need: "Something else",
+    href: contact.calUrl,
   },
 ];
 
