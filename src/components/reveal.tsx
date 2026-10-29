@@ -20,6 +20,12 @@ export function Reveal({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    // Anything already on screen or scrolled past (a visitor who scrolled before the page finished
+    // loading) shows at once, so content never stays hidden behind the animation.
+    if (el.getBoundingClientRect().top < window.innerHeight) {
+      el.setAttribute("data-shown", "");
+      return;
+    }
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {

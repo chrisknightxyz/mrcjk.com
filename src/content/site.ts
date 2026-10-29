@@ -110,7 +110,7 @@ export const plans: Plan[] = [
   {
     id: "ai",
     name: "AI for your business",
-    price: 5000,
+    price: 4999,
     prefix: "from",
     period: "one-off",
     blurb: "I add AI to how your business runs, so you and your team get more done and save money.",
