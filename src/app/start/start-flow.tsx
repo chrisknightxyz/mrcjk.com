@@ -53,7 +53,7 @@ export function StartFlow() {
   return (
     <div className="flex min-h-[100dvh] flex-col bg-white">
       <header className="mx-auto flex h-16 w-full max-w-3xl items-center justify-between px-4 sm:px-6">
-        <Link href="/services" className="font-display text-2xl tracking-[-0.03em]">
+        <Link href="/services" className="whitespace-nowrap font-display text-[22px] tracking-[-0.03em]">
           {site.name}
         </Link>
         <Link href="/services" aria-label="Close and go back to services" className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-muted shadow-pill hover:text-ink">

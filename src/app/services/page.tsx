@@ -110,7 +110,7 @@ export default function ServicesPage() {
 
       <header className="sticky top-0 z-20 border-b border-black/5 bg-white/85 backdrop-blur-md">
         <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-          <Link href="/" className="font-display text-2xl tracking-[-0.03em]">
+          <Link href="/" className="whitespace-nowrap font-display text-[22px] tracking-[-0.03em]">
             {site.name}
           </Link>
           <div className="hidden items-center gap-8 text-[15px] font-medium text-body lg:flex">

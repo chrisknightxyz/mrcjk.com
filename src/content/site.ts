@@ -2,7 +2,7 @@
 // Edit this file to change what the pages say; the layout reads from it.
 
 export const site = {
-  name: "mrcjk",
+  name: "Chris Knight",
   url: "https://www.mrcjk.com",
   email: "chris@mrcjk.com",
   location: "United Kingdom",
