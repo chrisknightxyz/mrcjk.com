@@ -5,9 +5,9 @@ import { site } from "@/content/site";
 export default function Home() {
   return (
     <main className="mx-auto flex min-h-screen max-w-3xl flex-col justify-center px-6">
-      <p className="font-display text-5xl font-bold tracking-tight">{site.name}</p>
-      <Link href="/services" className="mt-6 text-lg underline underline-offset-4">
-        Services →
+      <p className="font-display text-6xl font-light tracking-tight">{site.name}</p>
+      <Link href="/services" className="mt-6 text-lg text-body underline underline-offset-4">
+        Services
       </Link>
     </main>
   );

@@ -59,239 +59,224 @@ const jsonLd = {
   ],
 };
 
-function Button({ href, children, variant = "dark" }: { href: string; children: React.ReactNode; variant?: "dark" | "light" | "accent" }) {
+function Button({ href, children, variant = "black" }: { href: string; children: React.ReactNode; variant?: "black" | "white" | "stone" }) {
   const styles = {
-    dark: "bg-ink text-cream hover:bg-ink/85",
-    light: "bg-paper text-ink ring-1 ring-ink/15 hover:ring-ink/40",
-    accent: "bg-accent text-ink hover:brightness-105",
+    black: "bg-ink text-white hover:bg-ink/80",
+    white: "bg-white text-ink shadow-pill hover:bg-surface",
+    stone: "bg-stone/80 text-ink shadow-warm ring-1 ring-black/[0.04] hover:bg-stone",
   }[variant];
   const external = href.startsWith("http");
   return (
     <a
       href={href}
       {...(external && { target: "_blank", rel: "noopener noreferrer" })}
-      className={`inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-base font-semibold transition ${styles}`}
+      className={`inline-flex h-11 items-center justify-center rounded-full px-5 text-[15px] font-medium tracking-normal transition ${styles}`}
     >
       {children}
     </a>
   );
 }
 
-function Check({ className = "" }: { className?: string }) {
+function Check() {
   return (
-    <svg viewBox="0 0 20 20" aria-hidden="true" className={`mt-0.5 h-5 w-5 shrink-0 ${className}`}>
-      <circle cx="10" cy="10" r="10" fill="currentColor" opacity="0.15" />
-      <path d="M6 10.5l2.5 2.5L14 7.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <svg viewBox="0 0 16 16" aria-hidden="true" className="mt-[3px] h-4 w-4 shrink-0 text-ink">
+      <path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
 
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return <p className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-accent">{children}</p>;
+function SectionHead({ eyebrow, title, intro }: { eyebrow: string; title: string; intro?: string }) {
+  return (
+    <div className="mx-auto max-w-2xl text-center">
+      <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted">{eyebrow}</p>
+      <h2 className="mt-4 text-balance font-display text-4xl font-light leading-[1.12] tracking-[-0.02em] sm:text-5xl">{title}</h2>
+      {intro && <p className="mt-5 text-lg leading-relaxed text-body">{intro}</p>}
+    </div>
+  );
 }
 
-const planStyles = [
-  { card: "bg-ink text-cream", soft: "text-cream/65", check: "text-lime", button: "accent" as const, badge: "Start here" },
-  { card: "bg-paper ring-1 ring-line", soft: "text-muted", check: "text-accent", button: "dark" as const, badge: null },
-  { card: "bg-lime", soft: "text-ink/65", check: "text-ink", button: "dark" as const, badge: "Add-on" },
-];
-
 export default function ServicesPage() {
+  const [featured] = caseStudies;
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      <header className="sticky top-0 z-20 border-b border-line/70 bg-cream/85 backdrop-blur">
+      <header className="sticky top-0 z-20 border-b border-black/5 bg-white/85 backdrop-blur-md">
         <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-          <Link href="/" className="font-display text-2xl font-bold tracking-tight">
+          <Link href="/" className="font-display text-2xl tracking-[-0.03em]">
             {site.name}
           </Link>
-          <div className="hidden items-center gap-8 text-sm font-medium md:flex">
-            <a href="#pricing" className="hover:text-accent">Pricing</a>
-            <a href="#services" className="hover:text-accent">Services</a>
-            <a href="#work" className="hover:text-accent">Work</a>
-            <a href="#faq" className="hover:text-accent">FAQ</a>
+          <div className="hidden items-center gap-8 text-[15px] font-medium text-body lg:flex">
+            <a href="#pricing" className="hover:text-ink">Pricing</a>
+            <a href="#services" className="hover:text-ink">Services</a>
+            <a href="#work" className="hover:text-ink">Work</a>
+            <a href="#faq" className="hover:text-ink">FAQ</a>
           </div>
-          <a href="#pricing" className="rounded-full bg-ink px-4 py-2 text-sm font-semibold text-cream hover:bg-ink/85">
-            Get started
-          </a>
+          <div className="flex items-center gap-2">
+            <a href={mailto("Hello")} className="hidden h-9 items-center rounded-full bg-white px-4 text-sm font-medium shadow-pill sm:inline-flex">
+              Contact
+            </a>
+            <a href="#pricing" className="inline-flex h-9 items-center rounded-full bg-ink px-4 text-sm font-medium text-white">
+              Get started
+            </a>
+          </div>
         </nav>
       </header>
 
       <main>
         {/* Hero */}
-        <section className="mx-auto max-w-6xl px-4 pb-20 pt-16 sm:px-6 sm:pt-24">
-          <p className="inline-flex items-center gap-2 rounded-full bg-paper px-4 py-1.5 text-sm font-medium ring-1 ring-line">
-            <span className="h-2 w-2 rounded-full bg-accent" />
-            Websites, SEO & AEO for UK local businesses
-          </p>
-          <h1 className="mt-6 max-w-5xl font-display text-[2.75rem] font-bold leading-[1.02] tracking-tight sm:text-7xl lg:text-8xl">
-            Websites that win you{" "}
-            <span className="relative whitespace-nowrap">
-              <span className="relative z-10">local customers</span>
-              <span className="absolute inset-x-0 bottom-1 z-0 h-3 bg-lime sm:bottom-2 sm:h-5" aria-hidden="true" />
-            </span>
-            .
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg text-muted sm:text-xl">
-            A custom website from {gbp(build.price!)}, then {gbp(care.price!)} a month for hosting, updates and a monthly
-            SEO & AEO report. Built to be found on Google and recommended by AI assistants.
-          </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Button href="#pricing">See pricing</Button>
-            <Button href="#work" variant="light">See recent work</Button>
+        <section className="px-4 pt-16 sm:px-6 sm:pt-24">
+          <div className="mx-auto max-w-4xl text-center">
+            <p className="inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-[13px] font-medium text-body shadow-pill">
+              <span className="h-1.5 w-1.5 rounded-full bg-ink" />
+              Websites, SEO & AEO for UK local businesses
+            </p>
+            <h1 className="mt-7 text-balance font-display text-[2.75rem] font-light leading-[1.05] tracking-[-0.035em] sm:text-7xl">
+              Websites that win you local customers
+            </h1>
+            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-body">
+              A custom website from {gbp(build.price!)}, then {gbp(care.price!)} a month for hosting, updates and a monthly
+              SEO & AEO report. Built to be found on Google and recommended by AI assistants.
+            </p>
+            <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
+              <Button href="#pricing">See pricing</Button>
+              <Button href="#work" variant="stone">See recent work</Button>
+            </div>
           </div>
-          <dl className="mt-14 grid max-w-3xl grid-cols-1 gap-6 border-t border-line pt-8 sm:grid-cols-3">
-            <div>
-              <dt className="text-sm text-muted">Website build</dt>
-              <dd className="font-display text-3xl font-bold">from {gbp(build.price!)}</dd>
-            </div>
-            <div>
-              <dt className="text-sm text-muted">Hosting & care</dt>
-              <dd className="font-display text-3xl font-bold">{gbp(care.price!)}/mo</dd>
-            </div>
-            <div>
-              <dt className="text-sm text-muted">Optimised for</dt>
-              <dd className="font-display text-3xl font-bold">Google + AI</dd>
-            </div>
-          </dl>
-        </section>
 
-        {/* Who it's for */}
-        <section aria-label="Who it's for" className="bg-ink py-5 text-cream">
-          <ul className="mx-auto flex max-w-6xl flex-wrap justify-center gap-x-8 gap-y-2 px-4 text-sm font-medium sm:text-base">
+          <div className="gradient-field mx-auto mt-16 max-w-6xl overflow-hidden rounded-3xl px-4 pt-10 shadow-edge sm:px-16 sm:pt-16">
+            <a href={featured.url} target="_blank" rel="noopener noreferrer" className="block overflow-hidden rounded-t-2xl bg-white shadow-card">
+              <div className="flex items-center gap-1.5 border-b border-black/5 px-4 py-3">
+                <span className="h-2.5 w-2.5 rounded-full bg-line" />
+                <span className="h-2.5 w-2.5 rounded-full bg-line" />
+                <span className="h-2.5 w-2.5 rounded-full bg-line" />
+                <span className="ml-3 truncate font-mono text-xs text-muted">{featured.domain}</span>
+              </div>
+              <Image
+                src={featured.image}
+                alt={`${featured.name} website`}
+                width={1440}
+                height={810}
+                priority
+                sizes="(min-width: 1152px) 1024px, 100vw"
+                className="w-full"
+              />
+            </a>
+          </div>
+
+          <ul className="mx-auto mt-10 flex max-w-4xl flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-muted">
             {audiences.map((a) => (
-              <li key={a} className="flex items-center gap-2">
-                <span className="text-lime">✦</span>
-                {a}
-              </li>
+              <li key={a}>{a}</li>
             ))}
           </ul>
         </section>
 
         {/* How it works */}
-        <section id="how-it-works" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-24 sm:px-6">
-          <SectionLabel>How it works</SectionLabel>
-          <h2 className="max-w-3xl font-display text-4xl font-bold tracking-tight sm:text-6xl">
-            From first call to live website, without the agency runaround.
-          </h2>
-          <ol className="mt-12 grid gap-5 md:grid-cols-3">
+        <section id="how-it-works" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-24 sm:px-6 sm:py-32">
+          <SectionHead eyebrow="How it works" title="From first call to live website" />
+          <ol className="mt-14 grid gap-4 md:grid-cols-3">
             {steps.map((s, i) => (
-              <li key={s.title} className="rounded-3xl bg-paper p-7 ring-1 ring-line">
-                <span className="flex h-11 w-11 items-center justify-center rounded-full bg-accent font-display text-lg font-bold">
-                  {i + 1}
-                </span>
-                <h3 className="mt-6 font-display text-2xl font-bold">{s.title}</h3>
-                <p className="mt-3 text-muted">{s.body}</p>
+              <li key={s.title} className="rounded-[20px] bg-white p-7 shadow-card">
+                <span className="font-mono text-xs text-muted">0{i + 1}</span>
+                <h3 className="mt-8 font-display text-2xl font-light tracking-[-0.02em]">{s.title}</h3>
+                <p className="mt-3 leading-relaxed text-body">{s.body}</p>
               </li>
             ))}
           </ol>
         </section>
 
         {/* Pricing */}
-        <section id="pricing" className="scroll-mt-20 bg-paper py-24">
-          <div className="mx-auto max-w-6xl px-4 sm:px-6">
-            <SectionLabel>Pricing</SectionLabel>
-            <h2 className="max-w-3xl font-display text-4xl font-bold tracking-tight sm:text-6xl">
-              Simple, fixed pricing. No surprises.
-            </h2>
-            <p className="mt-5 max-w-2xl text-lg text-muted">
-              One price to build your website, one monthly fee to keep it running. Agreed up front, before any work starts.
-            </p>
-
-            <div className="mt-12 grid gap-5 lg:grid-cols-3">
-              {plans.map((plan, i) => {
-                const s = planStyles[i];
-                return (
-                  <div key={plan.id} className={`flex flex-col rounded-[2rem] p-8 ${s.card}`}>
-                    <div className="flex items-center justify-between gap-4">
-                      <h3 className="font-display text-2xl font-bold">{plan.name}</h3>
-                      {s.badge && (
-                        <span className={`rounded-full px-3 py-1 text-xs font-bold ${i === 0 ? "bg-lime text-ink" : "bg-ink text-cream"}`}>
-                          {s.badge}
-                        </span>
-                      )}
-                    </div>
-                    <p className="mt-6 flex flex-wrap items-baseline gap-x-2">
-                      {plan.price === null ? (
-                        <span className="font-display text-4xl font-bold tracking-tight">Ask for price</span>
-                      ) : (
-                        <>
-                          {plan.prefix && <span className={s.soft}>{plan.prefix}</span>}
-                          <span className="font-display text-6xl font-bold tracking-tight">{gbp(plan.price)}</span>
-                          <span className={s.soft}>{plan.period}</span>
-                        </>
-                      )}
-                    </p>
-                    <p className={`mt-4 ${s.soft}`}>{plan.blurb}</p>
-                    <ul className="mt-8 space-y-3">
-                      {plan.features.map((f) => (
-                        <li key={f} className="flex gap-3">
-                          <Check className={s.check} />
-                          {f}
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="mt-auto pt-10">
-                      <Button href={planHref(plan)} variant={s.button}>
-                        {plan.cta}
-                      </Button>
-                    </div>
+        <section id="pricing" className="scroll-mt-16 bg-surface px-4 py-24 sm:px-6 sm:py-32">
+          <div className="mx-auto max-w-6xl">
+            <SectionHead
+              eyebrow="Pricing"
+              title="Simple, fixed pricing"
+              intro="One price to build your website, one monthly fee to keep it running. Agreed up front, before any work starts."
+            />
+            <div className="mt-14 grid gap-4 lg:grid-cols-3">
+              {plans.map((plan, i) => (
+                <div key={plan.id} className={`flex flex-col rounded-3xl p-8 shadow-card ${i === 0 ? "bg-stone" : "bg-white"}`}>
+                  <div className="flex items-center justify-between gap-4">
+                    <h3 className="text-[15px] font-medium">{plan.name}</h3>
+                    {i === 0 && <span className="rounded-full bg-white px-3 py-1 text-xs font-medium shadow-pill">Start here</span>}
+                    {plan.id === "growth" && <span className="rounded-full bg-surface px-3 py-1 text-xs font-medium text-body">Add-on</span>}
                   </div>
-                );
-              })}
+                  <p className="mt-8 flex flex-wrap items-baseline gap-x-2">
+                    {plan.price === null ? (
+                      <span className="font-display text-4xl font-light tracking-[-0.03em]">Ask for price</span>
+                    ) : (
+                      <>
+                        {plan.prefix && <span className="text-sm text-muted">{plan.prefix}</span>}
+                        <span className="font-display text-6xl font-light tracking-[-0.04em]">{gbp(plan.price)}</span>
+                        <span className="text-sm text-muted">{plan.period}</span>
+                      </>
+                    )}
+                  </p>
+                  <p className="mt-4 leading-relaxed text-body">{plan.blurb}</p>
+                  <ul className="mt-8 space-y-3 border-t border-black/5 pt-8 text-[15px]">
+                    {plan.features.map((f) => (
+                      <li key={f} className="flex gap-3">
+                        <Check />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mt-auto pt-10">
+                    <Button href={planHref(plan)} variant={i === 0 ? "black" : "white"}>
+                      {plan.cta}
+                    </Button>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
         {/* Services */}
-        <section id="services" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-24 sm:px-6">
-          <SectionLabel>All services</SectionLabel>
-          <h2 className="max-w-3xl font-display text-4xl font-bold tracking-tight sm:text-6xl">
-            Everything you need to get found and get busy.
-          </h2>
-          <p className="mb-10 mt-5 max-w-2xl text-lg text-muted">
-            Add the services you&apos;re interested in and send one enquiry. Anything without a fixed price is quoted to your goals.
-          </p>
-          <Catalogue />
+        <section id="services" className="mx-auto max-w-6xl scroll-mt-16 px-4 py-24 sm:px-6 sm:py-32">
+          <SectionHead
+            eyebrow="All services"
+            title="Everything you need to get found"
+            intro="Add the services you're interested in and send one enquiry. Anything without a fixed price is quoted to your goals."
+          />
+          <div className="mt-12">
+            <Catalogue />
+          </div>
         </section>
 
         {/* Work */}
-        <section id="work" className="scroll-mt-20 bg-paper py-24">
-          <div className="mx-auto max-w-6xl px-4 sm:px-6">
-            <SectionLabel>Recent work</SectionLabel>
-            <h2 className="max-w-3xl font-display text-4xl font-bold tracking-tight sm:text-6xl">Websites I&apos;ve built.</h2>
-            <div className="mt-12 grid gap-8 md:grid-cols-2">
+        <section id="work" className="scroll-mt-16 bg-surface px-4 py-24 sm:px-6 sm:py-32">
+          <div className="mx-auto max-w-6xl">
+            <SectionHead eyebrow="Recent work" title="Websites I've built" />
+            <div className="mt-14 grid gap-6 md:grid-cols-2">
               {caseStudies.map((c) => (
-                <a key={c.url} href={c.url} target="_blank" rel="noopener noreferrer" className="group block">
-                  <div className="overflow-hidden rounded-3xl bg-cream ring-1 ring-line">
-                    <div className="flex items-center gap-1.5 border-b border-line px-4 py-3">
-                      <span className="h-2.5 w-2.5 rounded-full bg-line" />
-                      <span className="h-2.5 w-2.5 rounded-full bg-line" />
-                      <span className="h-2.5 w-2.5 rounded-full bg-line" />
-                      <span className="ml-3 truncate text-xs text-muted">{c.domain}</span>
-                    </div>
+                <a key={c.url} href={c.url} target="_blank" rel="noopener noreferrer" className="group flex flex-col rounded-3xl bg-white p-3 shadow-card">
+                  <div className="overflow-hidden rounded-[20px] shadow-edge">
                     <Image
                       src={c.image}
                       alt={`${c.name} website`}
                       width={1440}
                       height={810}
                       sizes="(min-width: 768px) 560px, 100vw"
-                      className="aspect-video w-full object-cover object-top transition duration-500 group-hover:scale-[1.02]"
+                      className="aspect-video w-full object-cover object-top transition duration-500 group-hover:scale-[1.015]"
                     />
                   </div>
-                  <p className="mt-5 text-sm font-semibold uppercase tracking-[0.14em] text-accent">{c.sector}</p>
-                  <h3 className="mt-2 font-display text-3xl font-bold group-hover:underline group-hover:underline-offset-4">
-                    {c.name} ↗
-                  </h3>
-                  <p className="mt-2 text-muted">{c.summary}</p>
-                  <ul className="mt-4 flex flex-wrap gap-2">
-                    {c.built.map((b) => (
-                      <li key={b} className="rounded-full bg-cream px-3 py-1 text-sm ring-1 ring-line">
-                        {b}
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="flex flex-1 flex-col p-5">
+                    <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted">{c.sector}</p>
+                    <h3 className="mt-3 flex items-center justify-between gap-4 font-display text-3xl font-light tracking-[-0.02em]">
+                      {c.name}
+                      <span className="text-xl text-muted transition group-hover:translate-x-0.5 group-hover:text-ink" aria-hidden="true">↗</span>
+                    </h3>
+                    <p className="mt-2 leading-relaxed text-body">{c.summary}</p>
+                    <ul className="mt-5 flex flex-wrap gap-2">
+                      {c.built.map((b) => (
+                        <li key={b} className="rounded-full bg-surface px-3 py-1 text-[13px] text-body">
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </a>
               ))}
             </div>
@@ -299,56 +284,47 @@ export default function ServicesPage() {
         </section>
 
         {/* FAQ */}
-        <section id="faq" className="mx-auto grid max-w-6xl scroll-mt-20 gap-12 px-4 py-24 sm:px-6 lg:grid-cols-[1fr_1.4fr]">
-          <div>
-            <SectionLabel>FAQ</SectionLabel>
-            <h2 className="font-display text-4xl font-bold tracking-tight sm:text-6xl">Questions, answered.</h2>
-            <p className="mt-5 text-muted">
-              Something else on your mind?{" "}
-              <a href={mailto("Question")} className="font-semibold text-ink underline underline-offset-4">
-                Email me
-              </a>
-              .
-            </p>
-          </div>
-          <div className="divide-y divide-line border-y border-line">
+        <section id="faq" className="mx-auto max-w-3xl scroll-mt-16 px-4 py-24 sm:px-6 sm:py-32">
+          <SectionHead eyebrow="FAQ" title="Questions, answered" />
+          <div className="mt-12 divide-y divide-black/[0.06] border-y border-black/[0.06]">
             {faqs.map((f) => (
               <details key={f.q} className="group py-5">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 font-display text-xl font-semibold">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-[17px] font-medium">
                   {f.q}
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full ring-1 ring-ink/20 transition group-open:rotate-45">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white text-muted shadow-pill transition group-open:rotate-45">
                     +
                   </span>
                 </summary>
-                <p className="mt-3 pr-12 text-muted">{f.a}</p>
+                <p className="mt-3 pr-12 leading-relaxed text-body">{f.a}</p>
               </details>
             ))}
           </div>
+          <p className="mt-8 text-center text-body">
+            Something else?{" "}
+            <a href={mailto("Question")} className="text-ink underline decoration-muted underline-offset-4">
+              Email me
+            </a>
+          </p>
         </section>
 
         {/* Final CTA */}
         <section className="px-4 pb-24 sm:px-6">
-          <div className="mx-auto max-w-6xl rounded-[2.5rem] bg-ink px-6 py-16 text-center text-cream sm:px-12 sm:py-24">
-            <h2 className="mx-auto max-w-3xl font-display text-4xl font-bold tracking-tight sm:text-6xl">
-              Get a website that brings in work.
+          <div className="gradient-field mx-auto max-w-6xl rounded-3xl px-6 py-20 text-center shadow-edge sm:py-28">
+            <h2 className="mx-auto max-w-3xl text-balance font-display text-4xl font-light leading-[1.1] tracking-[-0.03em] sm:text-6xl">
+              Get a website that brings in work
             </h2>
-            <p className="mx-auto mt-5 max-w-xl text-lg text-cream/75">
+            <p className="mx-auto mt-5 max-w-xl text-lg text-body">
               Start today, or tell me about your business and I&apos;ll come back with a fixed price.
             </p>
-            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-              <Button href={planHref(build)} variant="accent">{build.cta}</Button>
-              <a
-                href={mailto("New website enquiry")}
-                className="inline-flex items-center justify-center rounded-full px-6 py-3.5 font-semibold text-cream ring-1 ring-cream/30 hover:ring-cream"
-              >
-                Ask a question
-              </a>
+            <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
+              <Button href={planHref(build)}>{build.cta}</Button>
+              <Button href={mailto("New website enquiry")} variant="white">Ask a question</Button>
             </div>
           </div>
         </section>
       </main>
 
-      <footer className="border-t border-line">
+      <footer className="border-t border-black/5">
         <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-8 text-sm text-muted sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <p>
             © {new Date().getFullYear()} {site.name}
