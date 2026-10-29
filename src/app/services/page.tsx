@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { audiences, caseStudies, faqs, mailto, plans, services, site, steps, stripeLinks, type Plan } from "@/content/site";
+import { audiences, caseStudies, faqs, mailto, plans, services, site, steps, type Plan } from "@/content/site";
 import { GradientField } from "@/components/gradient-field";
 import { AiCard, EnquiryCard, MapsCard, StepBuild, StepGrow, StepTalk } from "@/components/illustrations";
 import { Reveal } from "@/components/reveal";
@@ -13,18 +13,18 @@ const [build, care] = plans;
 const gbp = (n: number) => `£${n.toLocaleString("en-GB")}`;
 
 export const metadata: Metadata = {
-  title: "Website design, SEO & AEO for local businesses",
-  description: `Custom websites for UK local businesses from ${gbp(build.price!)}, plus ${gbp(care.price!)}/month hosting & care. SEO and AEO so customers find you on Google and AI assistants.`,
+  title: "Websites, SEO and AEO for local businesses",
+  description: `Custom websites for UK local businesses, from ${gbp(build.price!)}. Then ${gbp(care.price!)} a month for hosting and care. Built to be found on Google and recommended by AI.`,
   alternates: { canonical: "/services" },
   openGraph: {
-    title: "Website design, SEO & AEO for local businesses",
-    description: `Custom websites from ${gbp(build.price!)}. Hosting & care ${gbp(care.price!)}/month.`,
+    title: "Websites that bring in work",
+    description: `Custom websites for local businesses, from ${gbp(build.price!)}. Hosting and care, ${gbp(care.price!)} a month.`,
     url: "/services",
     type: "website",
   },
 };
 
-const planHref = (p: Plan) => stripeLinks[p.id] || mailto(`${p.name} enquiry`);
+const planHref = (p: Plan) => `/start?need=${encodeURIComponent(p.need)}`;
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -47,7 +47,7 @@ const jsonLd = {
               "@type": "Offer",
               itemOffered: { "@type": "Service", name: p.name, description: p.blurb },
               priceSpecification:
-                p.period === "per month"
+                p.period === "a month"
                   ? { "@type": "UnitPriceSpecification", price: p.price, priceCurrency: "GBP", unitText: "MONTH" }
                   : { "@type": "PriceSpecification", minPrice: p.price, priceCurrency: "GBP" },
             })),
@@ -120,10 +120,10 @@ export default function ServicesPage() {
           </div>
           <div className="flex items-center gap-2">
             <a href={mailto("Hello")} className="hidden h-9 items-center rounded-full bg-white px-4 text-sm font-medium shadow-pill sm:inline-flex">
-              Contact
+              Email me
             </a>
-            <a href="#pricing" className="inline-flex h-9 items-center rounded-full bg-ink px-4 text-sm font-medium text-white">
-              Get started
+            <a href="/start" className="inline-flex h-9 items-center rounded-full bg-ink px-4 text-sm font-medium text-white">
+              Start now
             </a>
           </div>
         </nav>
@@ -138,18 +138,18 @@ export default function ServicesPage() {
                 <span className="pulse-ring absolute inset-0 rounded-full bg-ink" />
                 <span className="relative h-1.5 w-1.5 rounded-full bg-ink" />
               </span>
-              Websites, SEO & AEO for UK local businesses
+              Websites, SEO and AEO for UK local businesses
             </p>
             <h1 className="rise mt-7 text-balance font-display text-[2.75rem] font-light leading-[1.05] tracking-[-0.035em] [animation-delay:120ms] sm:text-7xl">
-              Websites that win you local customers
+              Websites that bring in work
             </h1>
             <p className="rise mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-body [animation-delay:240ms]">
-              A custom website from {gbp(build.price!)}, then {gbp(care.price!)} a month for hosting, updates and a monthly
-              SEO & AEO report. Built to be found on Google and recommended by AI assistants.
+              I design, build and look after websites for local businesses, so more people find you on Google and in AI
+              answers. From {gbp(build.price!)}, then {gbp(care.price!)} a month.
             </p>
             <div className="rise mt-9 flex flex-col justify-center gap-3 [animation-delay:360ms] sm:flex-row">
-              <Button href="#pricing">See pricing</Button>
-              <Button href="#work" variant="stone">See recent work</Button>
+              <Button href="/start">Start now</Button>
+              <Button href="#pricing" variant="stone">See pricing</Button>
             </div>
           </div>
 
@@ -196,7 +196,7 @@ export default function ServicesPage() {
 
         {/* How it works */}
         <section id="how-it-works" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-24 sm:px-6 sm:py-32">
-          <SectionHead eyebrow="How it works" title="From first call to live website" />
+          <SectionHead eyebrow="How it works" title="Three simple steps" />
           <ol className="mt-14 grid gap-4 md:grid-cols-3">
             {steps.map((s, i) => {
               const Art = stepArt[i];
@@ -221,8 +221,8 @@ export default function ServicesPage() {
           <div className="mx-auto max-w-6xl">
             <SectionHead
               eyebrow="Pricing"
-              title="Simple, fixed pricing"
-              intro="One price to build your website, one monthly fee to keep it running. Agreed up front, before any work starts."
+              title="Clear prices. No surprises."
+              intro={`Pay once for your website, then ${gbp(care.price!)} a month to keep it fast, safe and up to date. You'll know your price before any work starts.`}
             />
             <div className="mt-14 grid gap-4 lg:grid-cols-3">
               {plans.map((plan, i) => (
@@ -238,7 +238,7 @@ export default function ServicesPage() {
                   </div>
                   <p className="mt-8 flex flex-wrap items-baseline gap-x-2">
                     {plan.price === null ? (
-                      <span className="font-display text-4xl font-light tracking-[-0.03em]">Ask for price</span>
+                      <span className="font-display text-4xl font-light tracking-[-0.03em]">Quoted for you</span>
                     ) : (
                       <>
                         {plan.prefix && <span className="text-sm text-muted">{plan.prefix}</span>}
@@ -271,8 +271,8 @@ export default function ServicesPage() {
         <section id="services" className="mx-auto max-w-6xl scroll-mt-16 px-4 py-24 sm:px-6 sm:py-32">
           <SectionHead
             eyebrow="All services"
-            title="Everything you need to get found"
-            intro="Add the services you're interested in and send one enquiry. Anything without a fixed price is quoted to your goals."
+            title="More ways I can help"
+            intro="Add the services you want, then continue. Anything without a fixed price is quoted for you."
           />
           <div className="mt-12">
             <Catalogue />
@@ -336,7 +336,7 @@ export default function ServicesPage() {
             ))}
           </div>
           <p className="mt-8 text-center text-body">
-            Something else?{" "}
+            Still have a question?{" "}
             <a href={mailto("Question")} className="text-ink underline decoration-muted underline-offset-4">
               Email me
             </a>
@@ -347,14 +347,14 @@ export default function ServicesPage() {
         <section className="px-4 pb-24 sm:px-6">
           <GradientField className="mx-auto max-w-6xl rounded-3xl px-6 py-20 text-center sm:py-28">
             <h2 className="mx-auto max-w-3xl text-balance font-display text-4xl font-light leading-[1.1] tracking-[-0.03em] sm:text-6xl">
-              Get a website that brings in work
+              Your new website starts here
             </h2>
             <p className="mx-auto mt-5 max-w-xl text-lg text-body">
-              Start today, or tell me about your business and I&apos;ll come back with a fixed price.
+              A few quick questions, about a minute. Then message me on WhatsApp or book a call.
             </p>
             <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
-              <Button href={planHref(build)}>{build.cta}</Button>
-              <Button href={mailto("New website enquiry")} variant="white">Ask a question</Button>
+              <Button href="/start">Start now</Button>
+              <Button href={mailto("Question")} variant="white">Email me</Button>
             </div>
           </GradientField>
         </section>

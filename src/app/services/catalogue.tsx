@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { CategoryIcon } from "@/components/illustrations";
 import { Reveal } from "@/components/reveal";
-import { mailto, services } from "@/content/site";
+import { services } from "@/content/site";
 
 const categories = ["All", ...Array.from(new Set(services.map((s) => s.category)))];
 
@@ -15,10 +15,7 @@ export function Catalogue() {
   const toggle = (title: string) =>
     setSelected((cur) => (cur.includes(title) ? cur.filter((t) => t !== title) : [...cur, title]));
 
-  const enquiry = mailto(
-    "Services enquiry",
-    `Hi Chris,\n\nI'm interested in:\n${selected.map((s) => `- ${s}`).join("\n")}\n\nBusiness name:\nWebsite (if any):\nLocation:\n`,
-  );
+  const enquiry = `/start?services=${encodeURIComponent(selected.join("|"))}`;
 
   return (
     <>
@@ -89,7 +86,7 @@ export function Catalogue() {
             </button>
           </p>
           <a href={enquiry} tabIndex={selected.length ? 0 : -1} className="inline-flex h-10 items-center whitespace-nowrap rounded-full bg-ink px-5 text-sm font-medium text-white hover:bg-ink/80">
-            Send enquiry
+            Continue
           </a>
         </div>
       </div>

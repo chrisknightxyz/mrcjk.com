@@ -8,11 +8,18 @@ export const site = {
   location: "United Kingdom",
 };
 
+// Where qualified leads go. Until these are set, /start offers email instead.
+export const contact = {
+  // WhatsApp number in international format, digits only, e.g. "447700900123".
+  whatsapp: "",
+  // Cal.com booking link, e.g. "https://cal.com/mrcjk/intro".
+  calUrl: "",
+};
+
 export const mailto = (subject: string, body = "") =>
   `mailto:${site.email}?subject=${encodeURIComponent(subject)}${body ? `&body=${encodeURIComponent(body)}` : ""}`;
 
-// Stripe Payment Links (Stripe Dashboard > Payment Links). Paste each URL in;
-// until a link is set, its button opens an email instead.
+// Stripe Payment Links for taking payment after the call (Stripe Dashboard > Payment Links).
 export const stripeLinks = {
   build: "",
   care: "",
@@ -28,80 +35,86 @@ export type Plan = {
   blurb: string;
   features: string[];
   cta: string;
+  // Preselects the matching answer on /start.
+  need: string;
 };
 
 export const plans: Plan[] = [
   {
     id: "build",
-    name: "Website build",
+    name: "Website",
     price: 999,
     prefix: "from",
     period: "one-off",
-    blurb: "A fast, custom website designed to turn local searches into enquiries.",
+    blurb: "A custom website that turns visitors into calls, bookings and enquiries.",
     features: [
-      "Custom design for your business, no off-the-shelf templates",
-      "Mobile-first and built for speed",
-      "Technical SEO set up from day one",
-      "Schema markup so Google and AI assistants understand you",
-      "Contact forms, click-to-call and maps",
-      "You own your website",
+      "Designed for your business, not a template",
+      "Looks great on every phone",
+      "Loads fast",
+      "Set up for Google and AI answers",
+      "Click-to-call, contact forms and maps",
+      "Yours to keep",
     ],
-    cta: "Start your website",
+    cta: "Start now",
+    need: "New website",
   },
   {
     id: "care",
-    name: "Hosting & care",
+    name: "Hosting and care",
     price: 99,
     prefix: "",
-    period: "per month",
-    blurb: "Your site kept online, secure and up to date, with a monthly report on how it's performing.",
+    period: "a month",
+    blurb: "Everything that keeps your site online, safe and working. Handled for you.",
     features: [
-      "Fast global hosting",
-      "SSL certificate",
-      "Security and software updates",
-      "Monthly SEO & AEO report",
-      "Cancel anytime",
+      "Fast, secure hosting",
+      "SSL certificate included",
+      "Security updates and fixes",
+      "A monthly SEO and AEO report",
+      "Cancel any time",
     ],
-    cta: "Start hosting & care",
+    cta: "Start now",
+    need: "Hosting and care",
   },
   {
     id: "growth",
-    name: "SEO & AEO growth",
-    // Set the monthly price here; until then the card shows "Ask for price".
+    name: "SEO and AEO",
+    // Set the monthly price here; until then the card shows "Price on request".
     price: null,
     prefix: "",
-    period: "per month",
-    blurb: "Ongoing work to climb Google and Google Maps, and get recommended by ChatGPT, Gemini and Perplexity.",
+    period: "a month",
+    blurb: "Ongoing work to move you up Google, Google Maps and AI answers.",
     features: [
-      "Local SEO and Google Business Profile optimisation",
-      "On-page and technical SEO",
-      "Answer-ready content and structured data",
-      "Rankings and AI visibility tracking",
+      "Google Business Profile, fully optimised",
+      "Local SEO, on the page and behind the scenes",
+      "Content that answers your customers' questions",
+      "Rankings and AI visibility, tracked monthly",
     ],
-    cta: "Add SEO & AEO",
+    cta: "Start now",
+    need: "Get found on Google",
   },
 ];
 
-// The full catalogue. Core services are priced above; the rest are quoted.
+// The full catalogue. `core` shows a "Fixed price" badge: add it to Local SEO and AEO
+// once the SEO and AEO plan has a price. Everything else is quoted.
 export type Service = { title: string; body: string; category: string; core?: boolean };
 
 export const services: Service[] = [
-  { title: "Website Design & Build", body: "A custom website that looks the part on every screen and makes it easy to call, book or enquire.", category: "Website", core: true },
-  { title: "Hosting & Maintenance", body: "Fast, secure hosting with updates and a monthly performance report.", category: "Website", core: true },
-  { title: "Local SEO", body: "Rank on Google and Google Maps when people nearby search for what you do.", category: "Search", core: true },
-  { title: "AEO", body: "Answer Engine Optimisation: get recommended by ChatGPT, Gemini, Perplexity and Google's AI answers.", category: "Search", core: true },
-  { title: "Google Business Profile", body: "Set up and optimised so you show in the map pack with the right details, photos and categories.", category: "Search" },
-  { title: "Google & Bing Ads", body: "Search ads that put you in front of people ready to buy.", category: "Marketing" },
-  { title: "Social Ads", body: "Paid campaigns on Facebook and Instagram, targeted at your local area.", category: "Marketing" },
-  { title: "Social Media Management", body: "Strategy, posting and community management.", category: "Content" },
-  { title: "Photo & Video", body: "On-location photos and video for your website and socials.", category: "Content" },
-  { title: "Email Newsletters", body: "Newsletters that keep customers coming back.", category: "Content" },
-  { title: "Branding & Identity", body: "Logo, colours, tone of voice and templates.", category: "Marketing" },
-  { title: "Reviews & Reputation", body: "Review requests, response support and review monitoring.", category: "Marketing" },
-  { title: "AI Receptionist", body: "Answers your calls with an AI voice, takes messages and books appointments.", category: "AI" },
-  { title: "AI Website Assistant", body: "A chat assistant on your site that answers customer questions around the clock.", category: "AI" },
-  { title: "AI Automation", body: "Automate admin like enquiries, follow-ups and bookings.", category: "AI" },
-  { title: "Analytics & Conversion Tracking", body: "Tracking set up so you know which calls, forms and sales your marketing brings in.", category: "Search" },
+  { title: "Website Design & Build", body: "A custom website that makes it easy to call, book or get in touch.", category: "Website", core: true },
+  { title: "Hosting & Care", body: "Fast, secure hosting, updates and a monthly report. One simple fee.", category: "Website", core: true },
+  { title: "Local SEO", body: "Show up on Google and Google Maps when people nearby search for what you do.", category: "Search" },
+  { title: "AEO", body: "Answer engine optimisation. Get recommended when people ask ChatGPT, Gemini or Google's AI.", category: "Search" },
+  { title: "Google Business Profile", body: "The right details, photos and categories, so you stand out on Maps.", category: "Search" },
+  { title: "Google & Bing Ads", body: "Search ads that reach people who are ready to buy.", category: "Marketing" },
+  { title: "Social Ads", body: "Facebook and Instagram ads, aimed at your local area.", category: "Marketing" },
+  { title: "Social Media Management", body: "Planning, posting and replies, so your feeds stay active.", category: "Content" },
+  { title: "Photo & Video", body: "Photos and short videos of your business, shot on location.", category: "Content" },
+  { title: "Email Newsletters", body: "Regular emails that bring customers back.", category: "Content" },
+  { title: "Branding & Identity", body: "A logo, colours and tone of voice that feel like you.", category: "Marketing" },
+  { title: "Reviews & Reputation", body: "More reviews, better replies and an eye on what people say.", category: "Marketing" },
+  { title: "AI Receptionist", body: "Answers your calls, takes messages and books appointments. Day and night.", category: "AI" },
+  { title: "AI Website Assistant", body: "A chat assistant on your site that answers customer questions instantly.", category: "AI" },
+  { title: "AI Automation", body: "Takes repetitive admin off your hands, like follow-ups and booking reminders.", category: "AI" },
+  { title: "Analytics & Tracking", body: "See which calls, forms and sales your marketing brings in.", category: "Search" },
 ];
 
 export const caseStudies = [
@@ -111,8 +124,8 @@ export const caseStudies = [
     domain: "richardknightuk.com",
     image: "/work/richardknightuk.jpg",
     sector: "Private wealth advice",
-    summary: "Website for a British wealth advisor serving expats in Thailand.",
-    built: ["Website design & build", "100+ service, location and guide pages", "Online booking", "Financial calculators", "SEO & AEO"],
+    summary: "A website for a British wealth advisor who works with expats in Thailand.",
+    built: ["Design and build", "100+ pages", "Online booking", "Financial calculators", "SEO and AEO"],
   },
   {
     name: "The Private Clubs",
@@ -121,67 +134,122 @@ export const caseStudies = [
     image: "/work/theprivateclubs.jpg",
     sector: "Membership directory",
     summary: "A directory of private membership clubs, with club profiles, maps, rankings and paid memberships.",
-    built: ["Website design & build", "Club profiles, maps and rankings", "Stripe memberships", "AI assistant", "SEO & AEO"],
+    built: ["Design and build", "Maps and rankings", "Stripe payments", "AI assistant", "SEO and AEO"],
   },
 ];
 
 export const steps = [
   {
     title: "Tell me about your business",
-    body: "Book a quick call or drop me an email. I'll learn what you do, who your customers are and what the website needs to achieve.",
+    body: "Answer a few quick questions, then message me on WhatsApp or book a call. It takes about a minute.",
   },
   {
     title: "I design and build it",
-    body: "You get a fixed price up front. I design, write and build your site, then refine it with your feedback.",
+    body: "You get a fixed price before I start. I design, write and build your site, and refine it with you.",
   },
   {
-    title: "Launch and grow",
-    body: "Your site goes live on fast hosting. Each month you get a report on how it's ranking on Google and in AI search.",
+    title: "You go live and grow",
+    body: "Your site launches on fast, secure hosting. Each month, you get a report on how you're doing.",
   },
 ];
 
 export const audiences = [
-  "Trades & home services",
-  "Restaurants & cafés",
-  "Salons & barbers",
-  "Clinics & health",
-  "Gyms & studios",
-  "Shops & retail",
+  "Trades and home services",
+  "Restaurants and cafés",
+  "Salons and barbers",
+  "Clinics and health",
+  "Gyms and studios",
+  "Shops",
   "Professional services",
-  "Hotels & hospitality",
+  "Hotels and B&Bs",
 ];
 
 export const faqs = [
   {
-    q: "Why “from” £999?",
-    a: "£999 covers a focused website for most local businesses. If you need extra pages, online booking, e-commerce or other features, I'll give you a fixed quote before any work starts, so there are no surprises.",
+    q: "Why does it say “from £999”?",
+    a: "£999 covers a focused website for most local businesses. If you need more, like extra pages, online booking or a shop, you'll get a fixed price before any work starts.",
   },
   {
-    q: "What does the £99 a month cover?",
-    a: "Hosting, your SSL certificate, security and software updates, plus a monthly report on how your site is ranking in Google and AI search.",
+    q: "What do I get for £99 a month?",
+    a: "Hosting, an SSL certificate, security updates and fixes, and a monthly report on how you're doing on Google and in AI answers.",
   },
   {
-    q: "Can I cancel the monthly plan?",
-    a: "Yes, you can cancel anytime.",
+    q: "Can I cancel Hosting and care?",
+    a: "Yes. Cancel any time.",
   },
   {
-    q: "What is AEO?",
-    a: "Answer Engine Optimisation. More customers now ask AI assistants like ChatGPT, Gemini and Perplexity for recommendations instead of searching. AEO structures your website and online presence so those assistants understand your business and recommend it.",
+    q: "What's AEO?",
+    a: "Answer engine optimisation. More people now ask AI assistants like ChatGPT and Gemini for recommendations. AEO helps those assistants understand your business, so they suggest you.",
   },
   {
-    q: "What's the difference between SEO and AEO?",
-    a: "SEO helps you rank in traditional search results like Google and Google Maps. AEO helps you get cited in AI-generated answers. They overlap a lot, and every website I build is set up for both.",
+    q: "How is that different from SEO?",
+    a: "SEO, or search engine optimisation, helps you rank on Google and Google Maps. AEO helps you appear in AI answers. They work together, and every website I build is set up for both.",
   },
   {
     q: "How are the other services priced?",
-    a: "Ads, social, photo and video, branding, reviews and AI services are quoted to your goals. Select the ones you're interested in and send one enquiry.",
+    a: "Ads, social media, photo and video, branding, reviews and AI services are priced for your business. Add the ones you want, then continue.",
   },
   {
-    q: "Do I own my website?",
-    a: "Yes. The website and its content are yours.",
+    q: "Will I own my website?",
+    a: "Yes. Your website and everything on it belongs to you.",
   },
   {
     q: "I already have a website. Can you help?",
-    a: "Yes. I can redesign it, move it onto faster hosting, or just work on its SEO and AEO.",
+    a: "Yes. I can redesign it, move it to faster hosting, or work on its SEO and AEO.",
   },
 ];
+
+// The /start questions. Each answer is added to the WhatsApp message and the call notes.
+export type Question = {
+  id: string;
+  // Short label used in the WhatsApp message and call notes.
+  label: string;
+  title: string;
+  hint?: string;
+  options: string[];
+  multi?: boolean;
+};
+
+export const questions: Question[] = [
+  {
+    id: "needs",
+    label: "Looking for",
+    title: "What can I help with?",
+    hint: "Choose all that apply.",
+    multi: true,
+    options: ["New website", "Redesign my website", "Get found on Google", "Get recommended by AI", "Hosting and care", "Something else"],
+  },
+  {
+    id: "business",
+    label: "Business",
+    title: "What kind of business do you run?",
+    options: [...audiences, "Something else"],
+  },
+  {
+    id: "website",
+    label: "Has a website",
+    title: "Do you have a website now?",
+    options: ["Yes", "No"],
+  },
+  {
+    id: "timing",
+    label: "Start",
+    title: "When would you like to start?",
+    options: ["As soon as possible", "In the next month", "In the next few months", "Just exploring"],
+  },
+  {
+    id: "budget",
+    label: "Budget",
+    title: "Websites start at £999, then £99 a month. Does that work for you?",
+    options: ["Yes, that works", "I'd like to talk it through"],
+  },
+];
+
+// Maps a service picked in the basket to the matching /start answer.
+export const serviceNeeds: Record<string, string> = {
+  "Website Design & Build": "New website",
+  "Hosting & Care": "Hosting and care",
+  "Local SEO": "Get found on Google",
+  "Google Business Profile": "Get found on Google",
+  AEO: "Get recommended by AI",
+};
