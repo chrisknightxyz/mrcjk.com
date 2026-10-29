@@ -68,7 +68,7 @@ export function StartFlow({ need, services, onClose }: { need: string | null; se
               services={picked}
               notes={notes}
               title="Last step: your details"
-              intro="I'll design your homepage and send it within 24 hours. You only pay if you're happy."
+              intro="I'll design your homepage and send it within 24 hours. You pay once you've approved it."
             />
             <div className="mt-6">
               <BackButton onClick={() => setStep(step - 1)} />

@@ -41,7 +41,7 @@ export default function ServicesPage() {
         <HowIWork />
 
         <Band id="services">
-          <BandHead title="Choose your services" intro="Your website is ticked already. Add anything else, then continue to your free draft." />
+          <BandHead title="Choose your services" intro="Your website is ticked already. Add anything else, then continue to tell me about your business." />
           <div className="border-t border-ink/5 px-5 py-12 sm:px-8 lg:py-16">
             <Catalogue />
           </div>
@@ -65,7 +65,7 @@ export default function ServicesPage() {
         </Band>
 
         <Band className="flex flex-col gap-6 px-5 py-12 sm:px-8 md:flex-row md:items-center md:justify-between">
-          <h2 className="font-display text-[28px] font-light leading-9 sm:text-[32px]">Your free draft is two minutes away</h2>
+          <h2 className="font-display text-[28px] font-light leading-9 sm:text-[32px]">Start your website in two minutes</h2>
           <div className="flex flex-wrap gap-3">
             <Button href={contact.calUrl} variant="secondary">
               Book a call

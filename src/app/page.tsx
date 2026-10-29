@@ -16,14 +16,14 @@ const gbp = (n: number) => `£${n.toLocaleString("en-GB")}`;
 
 export const metadata: Metadata = {
   title: "Websites for UK local businesses",
-  description: `Your new homepage, free, within 24 hours. Like it? From ${gbp(build.price!)} to finish and launch, then ${gbp(care.price!)} a month. Don't? You owe nothing.`,
+  description: `Websites that make you money. Your homepage draft within 24 hours, then from ${gbp(build.price!)} to finish and launch and ${gbp(care.price!)} a month. You pay once you've approved the draft.`,
   alternates: { canonical: "/" },
   twitter: { card: "summary_large_image", title: "Websites that make you money", images: ["/og.jpg"] },
   openGraph: {
     siteName: site.name,
     locale: "en_GB",
     title: "Websites that make you money",
-    description: `Your new homepage, free, within 24 hours. From ${gbp(build.price!)}, then ${gbp(care.price!)} a month. You only pay if you like it.`,
+    description: `Your homepage draft within 24 hours. From ${gbp(build.price!)}, then ${gbp(care.price!)} a month.`,
     url: "/",
     type: "website",
     images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "Chris Knight: websites that make you money" }],
@@ -72,9 +72,9 @@ const jsonLd = {
 
 // Three steps, the whole offer in one line each.
 const howItWorks = [
-  { title: "Tell me about your business", body: "A few quick questions, about two minutes. No payment, no call needed." },
+  { title: "Tell me about your business", body: "A few quick questions, about two minutes. No call needed." },
   { title: "See your draft within 24 hours", body: "Your homepage, designed and written for your business. You still haven't paid." },
-  { title: "Pay when you're happy, then go live", body: `One fixed price, from ${gbp(build.price!)}. Then ${gbp(care.price!)} a month keeps it fast, safe and found.` },
+  { title: "Approve it, pay, then go live", body: `One fixed price, from ${gbp(build.price!)}. Then ${gbp(care.price!)} a month keeps it fast, safe and found.` },
 ];
 const sellPlans = plans.filter((p) => p.id !== "ai");
 const planArt: GradientVariant[] = ["dusk", "ocean"];
@@ -95,11 +95,11 @@ export default function HomePage() {
           <div className="flex flex-col justify-center px-5 pb-12 pt-14 sm:px-8 lg:px-12 lg:py-20">
             <h1 className="rise text-[14px] text-muted sm:text-[15px]">Websites for UK trades, salons, cafés and shops</h1>
             <p className="rise mt-3 font-display text-[36px] font-light leading-[42px] tracking-[-0.02em] sm:text-[48px] sm:leading-[52px]">
-              Your new homepage, free, within 24 hours
+              Websites that make you money
             </p>
             <p className={`rise mt-5 max-w-md [animation-delay:120ms] ${LEAD}`}>
-              I&apos;m Chris. Tell me about your business and I&apos;ll design your homepage within 24 hours, free. Like it? It&apos;s
-              from {gbp(build.price!)} to finish and launch, then {gbp(care.price!)} a month. Don&apos;t? You owe nothing.
+              I&apos;m Chris. Tell me about your business and I&apos;ll send your homepage draft within 24 hours. Your website is
+              from {gbp(build.price!)} to finish and launch, then {gbp(care.price!)} a month. You pay once you&apos;ve approved the draft.
             </p>
             <div className="rise mt-8 flex flex-wrap gap-3 [animation-delay:240ms]">
               <Button href="/start">Build my website</Button>
@@ -108,7 +108,7 @@ export default function HomePage() {
               </Button>
             </div>
             <ul className="rise mt-8 flex flex-wrap gap-x-5 gap-y-2 text-[14px] text-muted [animation-delay:360ms]">
-              {["No payment until you're happy", "Fixed price", "One person, start to finish"].map((t) => (
+              {["Draft in 24 hours", "Fixed price", "One person, start to finish"].map((t) => (
                 <li key={t} className="flex items-center gap-2 whitespace-nowrap">
                   <span aria-hidden="true" className="text-ink">
                     ✓
@@ -159,10 +159,10 @@ export default function HomePage() {
           </div>
         </Band>
 
-        {/* What the free draft looks like: an example homepage for each kind of business. */}
+        {/* What your draft looks like: an example homepage for each kind of business. */}
         <Band>
           <BandHead
-            title="What your free draft looks like"
+            title="What your draft looks like"
             intro="A homepage written for your trade, your town and your customers. These are examples; yours is written for your business."
           />
           <SectorTabs />
@@ -247,7 +247,7 @@ export default function HomePage() {
 
         {/* Closing band */}
         <Band className="flex flex-col gap-6 px-5 py-12 sm:px-8 md:flex-row md:items-center md:justify-between">
-          <h2 className="font-display text-[28px] font-light leading-9 sm:text-[32px]">Your free draft is two minutes away</h2>
+          <h2 className="font-display text-[28px] font-light leading-9 sm:text-[32px]">Start your website in two minutes</h2>
           <div className="flex flex-wrap gap-3">
             <Button href={contact.calUrl} variant="secondary">
               Book a call

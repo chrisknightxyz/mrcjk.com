@@ -33,8 +33,9 @@ export const projects = [
 export const mailto = (subject: string, body = "") =>
   `mailto:${site.email}?subject=${encodeURIComponent(subject)}${body ? `&body=${encodeURIComponent(body)}` : ""}`;
 
-// Stripe Payment Links (Stripe Dashboard > Payment Links). The website is paid for after the first
-// draft is approved, so its link is sent by hand, not shown on the page; hosting is subscribed online.
+// Stripe Payment Links (Stripe Dashboard > Payment Links). Nothing is bought from the page: the website is
+// paid for after the first draft is approved, and hosting when the site goes live, so these links are sent
+// by hand. Kept here so they're in one place.
 // Test mode for now: swap in the live links (buy.stripe.com/...) before taking real payments.
 export const stripeLinks = {
   build: "https://buy.stripe.com/test_5kQ28t4C8eRrbAyd3hfbq00",
@@ -99,16 +100,12 @@ export const plans: Plan[] = [
       "Secure padlock (https)",
       "Updates and fixes",
       "Monthly results report",
-      "Monthly, quarterly or yearly",
+      "Cancel any time",
     ],
-    cta: "Subscribe",
-    note: "Renews until you cancel",
+    cta: "Add hosting",
+    note: "Starts when your site goes live",
     need: "Hosting and care",
-    billing: [
-      { label: "Monthly", price: 99, period: "a month", link: stripeLinks.care },
-      { label: "Quarterly", price: 297, period: "every 3 months", link: stripeLinks.careQuarterly },
-      { label: "Yearly", price: 1188, period: "a year", link: stripeLinks.careYearly },
-    ],
+    href: "/start?need=Hosting%20and%20care",
   },
   {
     id: "ai",
@@ -289,7 +286,6 @@ export const clients: { name: string; logo: string; mono?: boolean; url: string 
 
 // More work and press, listed under the case studies. Titles come from each link.
 export const portfolio: { title: string; kind: string; source: string; url: string; logo: string; pad?: boolean; mono?: boolean }[] = [
-  { title: "HackHouse", kind: "Venture", source: "hackhouse.xyz", url: "https://www.hackhouse.xyz/", logo: "/press/hackhouse.png" },
   {
     title: "Creator economy startup Superjoi raises $2.5 million",
     kind: "Press",
@@ -312,16 +308,6 @@ export const portfolio: { title: string; kind: string; source: string; url: stri
     url: "https://www.thedrum.com/news/pepsi-max-among-first-uk-brands-embrace-snapchat-sponsored-lenses-chelfie-valentines",
   },
   { title: "Google", kind: "Case study", source: "Forever Beta", url: "https://forever-beta.com/case-study/google/", logo: "/logos/google.svg", pad: true },
-  { title: "Nike", kind: "Brand", source: "nike.com", url: "https://www.nike.com/", logo: "/clients/nike.svg", pad: true, mono: true },
-  { title: "Rafahia", kind: "Website", source: "Built in Framer", url: "https://rafahia.framer.ai/", logo: "/press/framer.png" },
-  {
-    title: "Clokka",
-    kind: "Product design",
-    source: "Figma prototype",
-    logo: "/logos/figma.svg",
-    pad: true,
-    url: "https://www.figma.com/proto/rtYaAoxFtYONCArs3OPVf1/Clokka?node-id=7114-547&t=1zVbBk0EcFZ4t2SN-1",
-  },
 ];
 
 export const caseStudies = [
@@ -407,8 +393,8 @@ export const servicesFaq = (q: string) => /AEO|SEO|other services/.test(q);
 
 export const faqs = [
   {
-    q: "Is the first draft really free?",
-    a: "Yes. I design your homepage and send it within 24 hours. You only pay if you're happy with it and want to go ahead.",
+    q: "What happens after I send my request?",
+    a: "I design your homepage and send you the draft within 24 hours. You approve it, pay, and I finish and launch your website.",
   },
   {
     q: "When do I pay?",

@@ -39,7 +39,7 @@ export async function POST(req: Request) {
   if (!key || !from) return NextResponse.json({ error: "Email is not set up" }, { status: 503 });
 
   const rows: [string, string][] = [
-    ...(body.draft ? ([["Free draft for", business || "-"], ["Kind of business", kind || "-"], ["Town", town || "-"]] as [string, string][]) : []),
+    ...(body.draft ? ([["Draft for", business || "-"], ["Kind of business", kind || "-"], ["Town", town || "-"]] as [string, string][]) : []),
     ["Name", name],
     ["Email", email],
     ["Phone", phone || "-"],
@@ -60,7 +60,7 @@ export async function POST(req: Request) {
       from,
       to: site.email,
       reply_to: email,
-      subject: body.draft ? `Free draft request: ${business || name}` : `New request from ${name}`,
+      subject: body.draft ? `Website request: ${business || name}` : `New request from ${name}`,
       text: rows.map(([k, v]) => `${k}: ${v}`).join("\n"),
       html: `<table>${rows.map(([k, v]) => `<tr><td><b>${k}</b></td><td>${escape(v)}</td></tr>`).join("")}</table>`,
     }),

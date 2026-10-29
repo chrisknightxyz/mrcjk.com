@@ -7,7 +7,7 @@ type Status = "idle" | "sending" | "sent" | "fallback";
 
 const FIELD = "ring-1 ring-inset ring-ink/[0.08] outline-none transition placeholder:text-muted focus:ring-2 focus:ring-ink";
 
-// One form, two uses. On the homepage ("draft") it asks for the business, its kind and town, for a free
+// One form, two uses. On the homepage ("draft") it asks for the business, its kind and town, for a
 // first draft. Under the services checklist it carries the ticked services. Either way it posts to
 // /api/enquiry; if email isn't set up there, it offers WhatsApp or email instead.
 export function RequestForm({
@@ -36,7 +36,7 @@ export function RequestForm({
   const summary = [
     `Hi Chris, I'm ${form.name}.`,
     "",
-    ...(draft ? [`Free draft for: ${form.business}`, ...(kindKnown ? [] : [`Kind of business: ${form.kind || "-"}`]), `Town: ${form.town}`] : []),
+    ...(draft ? [`Draft for: ${form.business}`, ...(kindKnown ? [] : [`Kind of business: ${form.kind || "-"}`]), `Town: ${form.town}`] : []),
     `Services: ${services.join(", ") || (draft ? "Website build" : "Not sure yet")}`,
     ...notes.map(([k, v]) => `${k}: ${v}`),
     `Email: ${form.email}`,
@@ -89,8 +89,8 @@ export function RequestForm({
       <p className="mt-2 text-body">
         {intro ??
           (draft
-            ? "Tell me about your business. I'll design your homepage and send it within 24 hours. You only pay if you're happy."
-            : "I'll reply with a fixed price and your first draft. You pay once you're happy with it.")}
+            ? "Tell me about your business. I'll design your homepage and send it within 24 hours. You pay once you've approved it."
+            : "I'll reply with a fixed price and your first draft. You pay once you've approved it.")}
       </p>
 
       {draft && (
@@ -180,7 +180,7 @@ export function RequestForm({
             disabled={status === "sending"}
             className="ml-auto inline-flex h-11 shrink-0 items-center whitespace-nowrap rounded-full bg-ink px-5 text-[15px] font-medium text-canvas transition hover:bg-ink/80 disabled:opacity-50"
           >
-            {status === "sending" ? "Sending…" : draft ? "Build my website" : "Send request"}
+            {status === "sending" ? "Sending…" : draft ? "Send my request" : "Send request"}
           </button>
         </div>
       )}
