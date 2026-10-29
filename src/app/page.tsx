@@ -174,13 +174,14 @@ export default function HomePage() {
             then choose services, send the request, and pay. */}
         {/* Hero, after the elevenlabs.io homepage: the headline left, its line right, then one big stage. */}
         <Band>
-          <div className="grid gap-6 px-5 pb-10 pt-14 sm:px-8 lg:grid-cols-2 lg:items-end lg:gap-12 lg:pb-12 lg:pt-24">
+          <div className="grid gap-6 px-5 pb-10 pt-14 sm:px-8 lg:grid-cols-2 lg:items-start lg:gap-12 lg:pb-12 lg:pt-24">
             <div>
-              <h1 className="rise font-display text-[36px] font-light leading-[42px] tracking-[-0.02em] sm:text-[48px] sm:leading-[52px]">
+              <h1 className="rise text-[15px] text-muted">Websites, SEO and AEO for UK local businesses</h1>
+              <p className="rise mt-3 font-display text-[36px] font-light leading-[42px] tracking-[-0.02em] sm:text-[48px] sm:leading-[52px]">
                 Websites that
                 <br />
                 make you money
-              </h1>
+              </p>
               <div className="rise mt-8 flex flex-wrap gap-3 [animation-delay:240ms] max-lg:hidden">
                 <Button href="#services">Start now</Button>
                 <Button href="#pricing" variant="secondary">
@@ -189,7 +190,7 @@ export default function HomePage() {
               </div>
             </div>
             <div>
-              <p className={`rise max-w-md [animation-delay:120ms] ${LEAD}`}>
+              <p className={`rise max-w-md [animation-delay:120ms] lg:mt-9 ${LEAD}`}>
                 Your new website, live in 24 hours. Designed for your business, found on Google and recommended by AI. From{" "}
                 {gbp(build.price!)}, then {gbp(care.price!)} a month.
               </p>
@@ -231,7 +232,7 @@ export default function HomePage() {
           <p className="pt-8 text-center text-[15px] text-muted">Brands I&apos;ve worked with</p>
           <ul className="grid grid-cols-2 sm:grid-cols-4">
             {clients.map((c) => (
-              <li key={c.name} className="flex justify-center pb-8 pt-6 opacity-50 grayscale transition hover:opacity-100 hover:grayscale-0 sm:pb-10">
+              <li key={c.name} className="flex justify-center pb-8 pt-6 opacity-60 grayscale transition hover:opacity-100 hover:grayscale-0 sm:pb-10">
                 <a href={c.url} target="_blank" rel="noopener noreferrer" aria-label={c.name}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={c.logo} alt={c.name} className={`h-10 w-16 object-contain ${c.mono ? "dark:invert" : ""}`} />
@@ -244,7 +245,6 @@ export default function HomePage() {
         {/* What the work does */}
         <Band>
           <BandHead
-            eyebrow="Websites, SEO and AEO for UK local businesses"
             title="More calls and bookings, from one website"
             intro="A site designed for your business, found on Google and recommended by AI. Then looked after every month, so it keeps working."
           />
@@ -282,7 +282,7 @@ export default function HomePage() {
                     </span>
                   </span>
                   <span className="block px-2 pb-4 pt-5">
-                    <span className="flex min-h-6 flex-wrap items-center gap-2 text-[13px] text-muted">
+                    <span className="flex h-6 items-center gap-2 overflow-hidden text-[13px] text-muted">
                       <span className="whitespace-nowrap">{c.sector}</span>
                       {"own" in c && c.own && <span className="whitespace-nowrap rounded-full bg-stone px-2 py-0.5 text-ink">My product</span>}
                     </span>
@@ -370,7 +370,7 @@ export default function HomePage() {
           <Reveal className="relative flex flex-col items-center px-5 py-20 text-center sm:py-28">
             <p
               aria-hidden="true"
-              className="select-none bg-gradient-to-b from-ink/[0.09] to-ink/[0.02] bg-clip-text font-display text-[120px] font-light leading-none tracking-[-0.04em] text-transparent sm:text-[220px]"
+              className="select-none bg-gradient-to-b from-ink/[0.16] to-ink/[0.03] bg-clip-text font-display text-[120px] font-light leading-none tracking-[-0.04em] text-transparent sm:text-[220px]"
             >
               <CountUp to={24} duration={900} />
             </p>
@@ -472,13 +472,31 @@ export default function HomePage() {
 
         {/* Getting started */}
         <Band>
-          <BandHead center title="Start your website today" />
+          <BandHead
+            center
+            title={
+              <>
+                Start your website today
+                <span className="block text-muted">or talk it through first</span>
+              </>
+            }
+          />
           <Cells cols={2}>
-            <div className="px-5 py-10 sm:px-8 lg:px-12 lg:pb-20">
-              <h3 className="text-[17px]">Not sure what you need?</h3>
-              <p className={`mt-1.5 max-w-sm ${MUTED}`}>Answer five quick questions and I&apos;ll point you to the right website and services.</p>
-              <div className="mt-6">
-                <Button href="/start">Answer 5 questions</Button>
+            <div className="p-3 sm:p-4">
+              <div className="flex h-full flex-col rounded-3xl bg-stone p-6 ring-[0.5px] ring-ink/10 sm:p-8">
+                <div className="flex items-center gap-4">
+                  <GradientArt variant="ocean" className="h-12 w-12 shrink-0 rounded-full" />
+                  <div className="min-w-0">
+                    <h3 className="truncate text-[17px]">Not sure what you need?</h3>
+                    <p className="truncate text-[14px] text-muted">Five quick questions</p>
+                  </div>
+                </div>
+                <p className={`mt-6 max-w-sm ${MUTED}`}>Tell me about your business and I&apos;ll point you to the right website and services.</p>
+                <div className="mt-6">
+                  <Button href="/start" variant="secondary">
+                    Answer 5 questions
+                  </Button>
+                </div>
               </div>
             </div>
             <div className="p-3 sm:p-4">

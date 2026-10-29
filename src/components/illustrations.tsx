@@ -7,18 +7,27 @@ const card = "theme-light rounded-2xl bg-white/95 shadow-[0_0_0_1px_rgba(0,0,0,0
 
 /* How it works */
 
-export function StepTalk() {
+export function StepChoose() {
+  const rows = [
+    ["Website build", true],
+    ["Local SEO", true],
+    ["Online booking", false],
+  ] as const;
   return (
     <div className={`${card} w-full max-w-[17rem] p-4`}>
-      <p className="text-[11px] text-muted">Question 2 of 5</p>
-      <p className="mt-2 text-sm font-medium">What kind of business do you run?</p>
-      <div className="mt-3 grid gap-1.5 text-xs">
-        <span className="flex items-center justify-between rounded-xl bg-ink px-3 py-2 text-white">
-          Trades and home services <span>✓</span>
-        </span>
-        <span className="rounded-xl px-3 py-2 shadow-card">Restaurants and cafés</span>
-        <span className="rounded-xl px-3 py-2 shadow-card">Salons and barbers</span>
-      </div>
+      <p className="text-[11px] text-muted">Choose your services</p>
+      <ul className="mt-2 divide-y divide-black/5 text-xs">
+        {rows.map(([name, on]) => (
+          <li key={name} className="flex items-center gap-2.5 py-2">
+            <span className={`flex h-4 w-4 items-center justify-center rounded-full text-[9px] ${on ? "bg-ink text-white" : "ring-1 ring-black/15"}`}>
+              {on ? "✓" : ""}
+            </span>
+            <span className="flex-1">{name}</span>
+            <span className={`rounded-full px-2 py-0.5 text-[10px] ${on ? "bg-ink text-white" : "bg-surface"}`}>{on ? "Added" : "+ Add"}</span>
+          </li>
+        ))}
+      </ul>
+      <span className="mt-3 flex h-8 items-center justify-center rounded-full bg-ink text-[11px] text-white">Send request</span>
     </div>
   );
 }
@@ -174,6 +183,11 @@ export function GoogleResult() {
         <p className="mt-2 text-xs text-muted">
           <span className="text-[#f2a600]">★★★★★</span> 4.9 · Example
         </p>
+      </div>
+      <div className="mt-5 border-t border-black/5 pt-5 opacity-60">
+        <p className="text-xs text-muted">another-plumber.co.uk</p>
+        <p className="mt-0.5 text-[17px] text-[#1a0dab]">Plumbers in Greater Manchester</p>
+        <p className="mt-1 text-xs leading-relaxed text-body">Heating and plumbing services. Contact us for a quote.</p>
       </div>
     </div>
   );

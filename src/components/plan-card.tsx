@@ -70,7 +70,7 @@ export function PlanCard({ plan, href, variant, delay }: { plan: Plan; href: str
         ))}
       </ul>
       <div className="mt-auto pt-10">
-        <Button href={option?.link || href} pick={plan.pick} variant={price === null ? "secondary" : "primary"} className="w-full">
+        <Button href={option?.link || href} pick={plan.pick} variant={price === null || href.startsWith("http") ? "secondary" : "primary"} className="w-full">
           {plan.cta}
         </Button>
         <p className="mt-3 text-center text-[14px] text-muted">{plan.note}</p>

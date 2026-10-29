@@ -52,7 +52,7 @@ export function IntegrationTabs() {
         ))}
       </div>
       </div>
-      <ul key={active} className="rise grid grid-cols-1 gap-2 px-5 pb-10 pt-6 sm:grid-cols-2 sm:px-8 lg:grid-cols-4">
+      <ul key={active} className={`rise grid grid-cols-1 gap-2 px-5 pb-10 pt-6 sm:grid-cols-2 sm:px-8 ${group.tools.length % 4 === 1 ? "lg:grid-cols-3" : "lg:grid-cols-4"}`}>
         {group.tools.map((tool, i) => (
           <li key={tool.name} className={!all && i >= 6 ? "max-sm:hidden" : ""}>
             <ToolTile tool={tool} />

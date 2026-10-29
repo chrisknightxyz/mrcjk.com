@@ -3,12 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Band, BandHead, MUTED } from "@/components/band";
 import { Button } from "@/components/button";
-import { StepBuild, StepConnect, StepGrow, StepLive, StepPay, StepTalk, StepTune } from "@/components/illustrations";
+import { StepBuild, StepChoose, StepConnect, StepGrow, StepLive, StepPay, StepTune } from "@/components/illustrations";
 import { Reveal } from "@/components/reveal";
 import { steps } from "@/content/site";
 
 // One scene per step, shown beside the timeline as the line reaches that step.
-const scenes = [StepTalk, StepBuild, StepPay, StepConnect, StepTune, StepLive, StepGrow];
+const scenes = [StepChoose, StepBuild, StepPay, StepConnect, StepTune, StepLive, StepGrow];
 
 /**
  * The seven steps, after the hiring timeline on theprivateclubs.com/careers: number badges on a line
@@ -71,7 +71,7 @@ export function HowIWork() {
     <Band id="how-it-works">
       <BandHead
         title="Live in 24 hours, then looked after"
-        intro="Live in 24 hours. You see a first draft before you pay anything, then one fixed price, one person from start to finish, and one monthly fee once you're live."
+        intro="You see a first draft before you pay anything. Then one fixed price, one person from start to finish, and one monthly fee once you're live."
       />
       <div className="grid grid-cols-[minmax(0,1fr)] border-t border-ink/5 lg:grid-cols-2 lg:divide-x lg:divide-ink/5">
         <div className="hidden p-4 lg:block">
