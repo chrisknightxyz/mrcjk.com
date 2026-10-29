@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
-import { Band, BandHead, Cells, MUTED } from "@/components/band";
+import Image from "next/image";
+import { Band, BandHead, Cells, CtaBand, MUTED, PageHero } from "@/components/band";
 import { Button } from "@/components/button";
 import { Footer } from "@/components/footer";
+import { AiReceptionist, EnquiryCard } from "@/components/illustrations";
 import { PlanCard } from "@/components/plan-card";
 import { Reveal } from "@/components/reveal";
 import { SiteHeader } from "@/components/site-header";
 import { contact, plans, projects } from "@/content/site";
 
 const ai = plans.find((p) => p.id === "ai")!;
+const build = plans.find((p) => p.id === "build")!;
 const privateClubs = projects.find((p) => p.name === "Private Clubs")?.url ?? "https://www.theprivateclubs.com";
 const gbp = (n: number) => `£${n.toLocaleString("en-GB")}`;
 
@@ -23,26 +26,70 @@ const steps = [
   { title: "Your team trained", body: "Everyone knows how to use it on day one, and I stay on hand while it beds in." },
 ];
 
+// One line drawing per step, after the three benefit columns on elevenlabs.io. They draw in on scroll.
+const line = { fill: "none", stroke: "currentColor", strokeWidth: 1, pathLength: 1 } as const;
+function WeekGrid() {
+  return (
+    <svg viewBox="0 0 160 90" aria-hidden="true" className="draw mx-auto h-[150px] w-full text-ink">
+      {Array.from({ length: 21 }, (_, i) => {
+        const x = 10 + (i % 7) * 20;
+        const y = 12 + Math.floor(i / 7) * 24;
+        const on = [3, 9, 16].includes(i);
+        return <rect key={i} x={x} y={y} width="14" height="14" rx="3" {...line} fill={on ? "currentColor" : "none"} fillOpacity={on ? 0.85 : 0} />;
+      })}
+    </svg>
+  );
+}
+function Branches() {
+  return (
+    <svg viewBox="0 0 160 90" aria-hidden="true" className="draw mx-auto h-[150px] w-full text-ink">
+      <circle cx="40" cy="45" r="9" {...line} />
+      <path d="M49 45 C 80 45, 85 18, 116 18" {...line} />
+      <path d="M49 45 H 116" {...line} />
+      <path d="M49 45 C 80 45, 85 72, 116 72" {...line} />
+      <circle cx="122" cy="18" r="6" {...line} />
+      <circle cx="122" cy="45" r="6" {...line} />
+      <circle cx="122" cy="72" r="6" {...line} />
+    </svg>
+  );
+}
+function Rings() {
+  return (
+    <svg viewBox="0 0 160 90" aria-hidden="true" className="draw mx-auto h-[150px] w-full text-ink">
+      <circle cx="80" cy="45" r="12" {...line} />
+      <circle cx="80" cy="45" r="25" {...line} />
+      <circle cx="80" cy="45" r="38" {...line} />
+      <circle cx="107" cy="18" r="3.5" fill="currentColor" />
+    </svg>
+  );
+}
+const drawings = [WeekGrid, Branches, Rings];
+
 // AI for your business: a different buyer from the website, so its own page and its own pitch.
 export default function AiPage() {
   return (
     <>
       <SiteHeader />
       <main>
-        <Band className="grid grid-cols-[minmax(0,1fr)] gap-6 px-5 pb-12 pt-14 sm:px-8 lg:grid-cols-2 lg:items-end lg:gap-12 lg:pb-14 lg:pt-24">
-          <div>
-            <h1 className="rise text-[14px] text-muted sm:text-[15px]">AI for your business</h1>
-            <p className="rise mt-3 font-display text-[36px] font-light leading-[42px] tracking-[-0.02em] sm:text-[48px] sm:leading-[52px]">
-              Stop missing calls and chasing follow-ups
-            </p>
-          </div>
-          <div>
-            <p className="rise max-w-md text-[16px] leading-6 [animation-delay:120ms]">
-              I add AI to how your business runs: answering calls, booking, follow-ups and the admin that eats your week. From{" "}
-              {gbp(ai.price!)}, scoped on a call.
-            </p>
-            <div className="rise mt-6 flex flex-wrap gap-3 [animation-delay:240ms]">
-              <Button href={contact.calUrl}>Book a call</Button>
+        {/* Split hero, then a full-width panel showing the work, as on the elevenlabs.io agents page. */}
+        <Band>
+          <PageHero
+            eyebrow="AI for your business"
+            title={<>Stop missing calls and chasing follow&#8209;ups</>}
+            intro={
+              <>
+                I add AI to how your business runs: answering calls, booking, follow-ups and the admin that eats your week. From{" "}
+                {gbp(ai.price!)}, scoped on a call.
+              </>
+            }
+            actions={<Button href={contact.calUrl}>Book a call</Button>}
+          />
+          <div className="border-t border-ink/5 p-3 sm:p-4">
+            <div className="relative grid min-h-[22rem] place-items-center overflow-hidden rounded-[20px] bg-stone px-4 py-10 ring-[0.5px] ring-ink/10 sm:min-h-[30rem]">
+              <AiReceptionist />
+              <div className="absolute right-6 top-6 hidden sm:block">
+                <EnquiryCard />
+              </div>
             </div>
           </div>
         </Band>
@@ -50,38 +97,61 @@ export default function AiPage() {
         <Band>
           <BandHead title="How it works" intro="Three steps, one fixed price agreed before any work starts." />
           <Cells>
-            {steps.map((s, i) => (
-              <Reveal key={s.title} delay={i * 80} className="px-5 py-10 sm:px-8 lg:px-12">
-                <p className="font-display text-[40px] font-light leading-none text-muted">{i + 1}</p>
-                <h3 className="mt-6 text-[17px] leading-6">{s.title}</h3>
-                <p className={`mt-1.5 ${MUTED}`}>{s.body}</p>
-              </Reveal>
-            ))}
+            {steps.map((s, i) => {
+              const Drawing = drawings[i];
+              return (
+                <Reveal key={s.title} delay={i * 80} className="flex flex-col px-5 pb-10 pt-8 sm:px-8 lg:px-10">
+                  <Drawing />
+                  <p className="mt-6 text-[14px] tabular-nums text-muted">0{i + 1}</p>
+                  <h3 className="mt-1 text-[16px] leading-6">{s.title}</h3>
+                  <p className={`mt-1 ${MUTED}`}>{s.body}</p>
+                </Reveal>
+              );
+            })}
           </Cells>
         </Band>
 
+        {/* Proof: an AI assistant already live on one of my own products. */}
         <Band>
-          <div className="flex flex-col gap-3 px-5 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-8">
-            <p className="text-[16px] leading-6">
-              See it working: the AI assistant I built for{" "}
-              <a href={privateClubs} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">
-                Private Clubs
-              </a>
-              , which answers members&apos; questions and recommends clubs.
-            </p>
+          <BandHead
+            title="See it working"
+            intro="The AI assistant I built for Private Clubs answers members' questions and recommends clubs."
+            action={
+              <Button href={privateClubs} variant="secondary">
+                Try it on Private Clubs ↗
+              </Button>
+            }
+          />
+          <div className="border-t border-ink/5 p-3 sm:p-4">
+            <div className="relative overflow-hidden rounded-[20px] bg-stone p-4 pb-0 ring-[0.5px] ring-ink/10 sm:p-8 sm:pb-0">
+              <div className="theme-light overflow-hidden rounded-t-xl bg-white shadow-[0_0_0_0.5px_rgba(0,0,0,0.12),0_12px_32px_rgba(30,20,10,0.12)]">
+                <div className="flex items-center gap-1.5 border-b border-black/5 px-3 py-2">
+                  <span className="h-2 w-2 rounded-full bg-[#e5e5e5]" />
+                  <span className="h-2 w-2 rounded-full bg-[#e5e5e5]" />
+                  <span className="h-2 w-2 rounded-full bg-[#e5e5e5]" />
+                  <span className="ml-2 truncate font-mono text-[10px] text-[#777169]">theprivateclubs.com</span>
+                </div>
+                <Image src="/work/theprivateclubs.jpg" alt="Private Clubs homepage" width={1440} height={900} sizes="(min-width: 1200px) 1100px, 100vw" className="w-full" />
+              </div>
+            </div>
           </div>
         </Band>
 
+        {/* Pricing: the AI work, with the website beside it for anyone who needs that first. */}
         <Band id="pricing">
-          <BandHead title={`From ${gbp(ai.price!)}`} intro="Scoped on a call, then one fixed price. No VAT to add." />
-          <div className="mx-auto grid max-w-xl border-t border-ink/5">
+          <BandHead title="One fixed price, agreed on a call" intro="Scoped on a call, then one price before any work starts. No VAT to add." />
+          <Cells cols={2}>
             <PlanCard plan={ai} href={contact.calUrl} variant="ember" delay={0} />
-          </div>
+            <PlanCard plan={build} href="/start" variant="dusk" delay={80} />
+          </Cells>
         </Band>
-        <Band className="flex flex-col gap-6 px-5 py-12 sm:px-8 md:flex-row md:items-center md:justify-between">
-          <h2 className="font-display text-[28px] font-light leading-9 sm:text-[32px]">Just need a website?</h2>
-          <Button href="/start">Build my website</Button>
-        </Band>
+
+        <CtaBand title="Find out where AI saves you time">
+          <Button href="/start" variant="secondary">
+            Build my website
+          </Button>
+          <Button href={contact.calUrl}>Book a call</Button>
+        </CtaBand>
       </main>
       <Footer />
     </>

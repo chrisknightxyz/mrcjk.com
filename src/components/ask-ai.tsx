@@ -27,10 +27,10 @@ export function AskAi() {
               rel="noopener noreferrer"
               aria-label={`Ask ${logos[a.id].name} about ${site.name}`}
               title={`Ask ${logos[a.id].name}`}
-              className="flex h-10 w-10 items-center justify-center rounded-lg border border-ink/10 bg-ink/[0.03] transition hover:border-ink/20 hover:bg-ink/[0.06]"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-card shadow-[0_0_0_0.5px_rgb(var(--ink)/0.15)] transition hover:bg-surface"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={logos[a.id].src} alt="" className={`h-5 w-5 object-contain ${logos[a.id].mono ? "dark:invert" : ""}`} />
+              <img src={logos[a.id].src} alt="" className={`h-[18px] w-[18px] object-contain ${logos[a.id].mono ? "dark:invert" : ""}`} />
             </a>
           </li>
         ))}

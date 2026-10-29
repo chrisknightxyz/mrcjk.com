@@ -62,8 +62,6 @@ export type Plan = {
   href?: string;
   // The service the button ticks in the checklist before jumping to the request form.
   pick?: string;
-  // Billing choices on one card. Hosting and care: the same £99 a month whichever you pick, renewing until cancelled.
-  billing?: { label: string; price: number; period: string; link: string }[];
 };
 
 export const plans: Plan[] = [
@@ -272,16 +270,18 @@ export const paymentTools: Tool[] = [
 
 // Brands Chris has worked with. `mono` marks are single-colour and invert in dark mode.
 // Logos: Simple Icons (simpleicons.org); the Manchester City crest is the club's current badge.
-export const clients: { name: string; logo: string; mono?: boolean; url: string }[] = [
+// h: each logo's height in the strip, so the four read at the same optical size.
+export const clients: { name: string; logo: string; mono?: boolean; h: string; url: string }[] = [
   {
     name: "Snapchat",
     logo: "/clients/snapchat.svg",
     mono: true,
+    h: "h-9",
     url: "https://www.thedrum.com/news/pepsi-max-among-first-uk-brands-embrace-snapchat-sponsored-lenses-chelfie-valentines",
   },
-  { name: "Nike", logo: "/clients/nike.svg", mono: true, url: "https://www.nike.com/" },
-  { name: "Google", logo: "/clients/google.svg", mono: true, url: "https://forever-beta.com/case-study/google/" },
-  { name: "Manchester City", logo: "/clients/manchester-city.png", url: "https://www.theguardian.com/sport/2018/aug/19/manchester-city-fantom" },
+  { name: "Nike", logo: "/clients/nike.svg", mono: true, h: "h-5", url: "https://www.nike.com/" },
+  { name: "Google", logo: "/clients/google.svg", mono: true, h: "h-8", url: "https://forever-beta.com/case-study/google/" },
+  { name: "Manchester City", logo: "/clients/manchester-city.png", h: "h-10", url: "https://www.theguardian.com/sport/2018/aug/19/manchester-city-fantom" },
 ];
 
 // More work and press, listed under the case studies. Titles come from each link.
@@ -349,15 +349,15 @@ export const caseStudies = [
 export const steps = [
   {
     title: "Send your request",
-    body: "Tick your services below and send one request. It takes about two minutes.",
+    body: "Tick your services below, then answer a few quick questions. About two minutes.",
   },
   {
-    title: "See a first draft",
-    body: "I design your homepage, written for your business. You see it before you pay anything.",
+    title: "Draft in 24 hours",
+    body: "I design your homepage, written for your business, and send it to you within 24 hours.",
   },
   {
     title: "Approve and pay",
-    body: "Happy with the draft? You get one fixed price, pay online, and I finish the rest.",
+    body: "Approve the draft, pay the fixed price online, and I finish the rest.",
   },
   {
     title: "Connect your tools",

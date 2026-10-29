@@ -50,7 +50,7 @@ export function StartModal() {
       aria-label="Start your project"
       onClose={() => setOpened(null)}
       onClick={(e) => e.target === e.currentTarget && dialog.current?.close()}
-      className="m-0 h-full max-h-full w-full max-w-full overflow-y-auto border-0 bg-card p-0 text-ink backdrop:bg-black/40 backdrop:backdrop-blur-sm sm:m-auto sm:h-fit sm:max-h-[90dvh] sm:w-[calc(100%-3rem)] sm:max-w-2xl sm:rounded-[28px] sm:shadow-[0_0_0_1px_rgba(0,0,0,0.06),0_24px_64px_rgba(30,20,10,0.25)]"
+      className="m-0 h-full max-h-full w-full max-w-full overflow-y-auto border-0 bg-card p-0 text-ink backdrop:bg-black/40 backdrop:backdrop-blur-sm sm:m-auto sm:h-[min(90dvh,780px)] sm:w-[calc(100%-3rem)] sm:max-w-2xl sm:rounded-[28px] sm:shadow-[0_0_0_1px_rgba(0,0,0,0.06),0_24px_64px_rgba(30,20,10,0.25)]"
     >
       {opened && <StartFlow key={opened.n} need={opened.need} services={opened.services} onClose={() => dialog.current?.close()} />}
     </dialog>

@@ -12,7 +12,7 @@ export function WorkCards() {
       {caseStudies.map((c, i) => (
         <Reveal key={c.url} delay={i * 80}>
           <a href={c.url} target="_blank" rel="noopener noreferrer" className="group block p-3 sm:p-4">
-            <span className="block overflow-hidden rounded-3xl bg-stone p-4 pb-0 ring-[0.5px] ring-ink/10 sm:p-6 sm:pb-0">
+            <span className="block overflow-hidden rounded-2xl bg-stone p-4 pb-0 ring-[0.5px] ring-ink/10 sm:p-6 sm:pb-0">
               <span className="theme-light block overflow-hidden rounded-t-xl bg-white shadow-[0_0_0_0.5px_rgba(0,0,0,0.12),0_12px_32px_rgba(30,20,10,0.12)] transition duration-500 group-hover:-translate-y-1">
                 <span className="flex items-center gap-1.5 border-b border-black/5 px-3 py-2">
                   <span className="h-2 w-2 rounded-full bg-[#e5e5e5]" />
@@ -24,17 +24,47 @@ export function WorkCards() {
               </span>
             </span>
             <span className="block px-2 pb-4 pt-5">
-              <span className="flex h-6 items-center gap-2 overflow-hidden text-[13px] text-muted">
-                <span className="whitespace-nowrap">{c.sector}</span>
-                {"own" in c && c.own && <span className="whitespace-nowrap rounded-full bg-stone px-2 py-0.5 text-ink">My product</span>}
+              <span className="block whitespace-nowrap text-[20px] leading-[27px] group-hover:underline group-hover:underline-offset-4">{c.name}</span>
+              <span className="mt-2 flex gap-2 whitespace-nowrap text-[14px]">
+                <span>{c.sector}</span>
+                {"own" in c && c.own && <span className="text-muted md:max-lg:hidden">My product</span>}
               </span>
-              <span className="mt-1.5 block whitespace-nowrap text-[17px] group-hover:underline group-hover:underline-offset-4">{c.name}</span>
-              <span className={`mt-1.5 block ${MUTED}`}>{c.summary}</span>
+              <span className={`mt-2 block ${MUTED}`}>{c.summary}</span>
             </span>
           </a>
         </Reveal>
       ))}
     </Cells>
+  );
+}
+
+// The brands strip, after the logo grid under every elevenlabs.io hero: a label row, then four cells.
+export function LogoStrip({ link = true }: { link?: boolean }) {
+  return (
+    <Band>
+      <div className="flex items-center justify-between gap-4 px-5 py-5 sm:px-8">
+        <p className="text-[16px]">Before this, I made digital work for</p>
+        {link && (
+          <Button href="/work" variant="secondary" className="max-sm:hidden">
+            See my work
+          </Button>
+        )}
+      </div>
+      <ul className="grid grid-cols-2 border-t border-ink/5 sm:grid-cols-4 [&>li]:border-ink/5 max-sm:[&>li:nth-child(-n+2)]:border-b max-sm:[&>li:nth-child(odd)]:border-r sm:[&>li:not(:last-child)]:border-r">
+        {clients.map((c) => (
+          <li key={c.name} className="flex h-[112px] items-center justify-center">
+            <a href={c.url} target="_blank" rel="noopener noreferrer" aria-label={c.name}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={c.logo}
+                alt={c.name}
+                className={`${c.h} w-auto max-w-[7rem] object-contain opacity-50 grayscale transition-opacity duration-150 hover:opacity-100 hover:grayscale-0 ${c.mono ? "dark:invert" : "dark:opacity-70 dark:brightness-[1.6]"}`}
+              />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </Band>
   );
 }
 
@@ -49,7 +79,7 @@ export function PressList() {
               <img src={w.logo} alt="" loading="lazy" className={`h-full w-full object-contain ${w.pad ? "p-2" : ""}`} />
             </span>
             <span className="min-w-0 flex-1">
-              <span className="block truncate text-[16px]">{w.title}</span>
+              <span className="line-clamp-2 block text-[16px]">{w.title}</span>
               <span className="block truncate text-[14px] text-muted">
                 {w.kind} · {w.source}
               </span>
@@ -77,14 +107,14 @@ export function About() {
     <Band id="about">
       <BandHead title="Who you'll work with" intro="One person, start to finish. No account managers, no handovers, no outsourcing." />
       <Cells cols={2} from="lg">
-        <div className="p-3 sm:p-4">
+        <div className="p-3 sm:p-4 lg:h-full">
           <Image
             src="/chris-knight.jpg"
             alt="Chris Knight"
             width={1518}
             height={1012}
             sizes="(min-width: 1024px) 560px, 100vw"
-            className="aspect-[3/2] w-full rounded-3xl object-cover object-top ring-[0.5px] ring-ink/10"
+            className="aspect-[3/2] w-full rounded-[20px] object-cover object-[50%_20%] ring-[0.5px] ring-ink/10 lg:aspect-auto lg:h-full"
           />
         </div>
         <div className="flex flex-col px-5 py-10 sm:px-8 lg:px-12">

@@ -49,6 +49,12 @@ summary::-webkit-details-marker {
   display: none;
 }
 
+/* Hairlines at 5% vanish on the dark canvas; double them there so the page frame still reads. */
+.dark .border-ink\/5,
+.dark .divide-ink\/5 > :not([hidden]) ~ :not([hidden]) {
+  border-color: rgb(var(--ink) / 0.1);
+}
+
 
 /* Motion. Everything below is switched off for prefers-reduced-motion. */
 @keyframes rise {

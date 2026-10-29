@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
+import { Band } from "@/components/band";
 import { Footer } from "@/components/footer";
-import { Wordmark } from "@/components/wordmark";
+import { SiteHeader } from "@/components/site-header";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -28,26 +29,24 @@ const sections: [string, string[]][] = [
 export default function PrivacyPage() {
   return (
     <>
-      <header className="border-b border-ink/5">
-        <nav className="mx-auto flex h-16 w-[calc(100%-2.5rem)] max-w-[1178px] items-center">
-          <Wordmark />
-        </nav>
-      </header>
-      <main className="mx-auto w-[calc(100%-2.5rem)] max-w-[1178px] border-x border-ink/5 px-5 py-16 sm:px-8 lg:py-24">
-        <div className="max-w-2xl">
-          <h1 className="font-display text-[36px] font-light leading-[42px]">Privacy</h1>
-          <p className="mt-3 text-[15px] text-muted">Last updated 29 October 2026</p>
-          {sections.map(([title, lines]) => (
-            <section key={title} className="mt-10">
-              <h2 className="text-[17px]">{title}</h2>
-              {lines.map((l) => (
-                <p key={l} className="mt-2 text-[16px] leading-6 text-body">
-                  {l}
-                </p>
-              ))}
-            </section>
-          ))}
-        </div>
+      <SiteHeader />
+      <main>
+        <Band className="px-5 pb-24 pt-16 sm:px-8 lg:pb-[120px] lg:pt-24">
+          <div className="max-w-[720px]">
+            <h1 className="font-display text-[36px] font-light leading-[42px] tracking-[-0.02em] sm:text-[48px] sm:leading-[52px]">Privacy</h1>
+            <p className="mt-3 text-[15px] text-muted">Last updated 29 October 2026</p>
+            {sections.map(([title, lines]) => (
+              <section key={title} className="mt-14">
+                <h2 className="font-display text-[24px] font-light leading-8">{title}</h2>
+                {lines.map((l) => (
+                  <p key={l} className="mt-3 text-[17px] leading-[30px] text-ink">
+                    {l}
+                  </p>
+                ))}
+              </section>
+            ))}
+          </div>
+        </Band>
       </main>
       <Footer />
     </>

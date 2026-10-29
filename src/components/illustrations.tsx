@@ -32,6 +32,27 @@ export function StepChoose() {
   );
 }
 
+// Step one on the homepage: the start flow's first question, answered.
+export function StepAsk() {
+  const options = ["Barbers", "Plumbers", "Cafés"];
+  return (
+    <div className={`${card} w-full max-w-[17rem] p-4`}>
+      <p className="text-[11px] text-muted">Question 2 of 3</p>
+      <p className="mt-1 text-sm">What kind of business?</p>
+      <ul className="mt-3 grid gap-1.5 text-xs">
+        {options.map((o, i) => (
+          <li key={o} className={`flex items-center gap-2.5 rounded-lg px-2.5 py-2 ${i === 0 ? "bg-ink text-white" : "bg-surface"}`}>
+            <span className={`flex h-3.5 w-3.5 items-center justify-center rounded-full text-[8px] ${i === 0 ? "bg-white text-ink" : "ring-1 ring-black/15"}`}>
+              {i === 0 ? "✓" : ""}
+            </span>
+            {o}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export function StepBuild() {
   return (
     <div className={`${card} w-full max-w-[17rem] overflow-hidden`}>
@@ -321,6 +342,38 @@ export function AiAnswer() {
           ))}
         </span>
       </div>
+    </div>
+  );
+}
+
+/* AI for your business: a missed call, answered and booked. */
+
+export function AiReceptionist() {
+  const lines: [boolean, string][] = [
+    [false, "Hi, can I book a boiler service this week?"],
+    [true, "Of course. I have Thursday at 10am or Friday at 2pm. Which suits you?"],
+    [false, "Thursday, please."],
+  ];
+  return (
+    <div className={`${card} w-full max-w-md p-5`}>
+      <p className="flex items-center gap-2.5 text-[13px]">
+        <span className="orb h-6 w-6 shrink-0 rounded-full" />
+        <span className="flex-1">Incoming call · answered by AI</span>
+        <span className="tabular-nums text-muted">0:42</span>
+      </p>
+      <div className="mt-4 grid gap-2.5 text-sm">
+        {lines.map(([ai, text]) => (
+          <p
+            key={text}
+            className={`w-fit max-w-[85%] rounded-2xl px-4 py-2.5 ${ai ? "rounded-bl-md bg-ink text-white" : "ml-auto rounded-br-md bg-surface text-body"}`}
+          >
+            {text}
+          </p>
+        ))}
+      </div>
+      <p className="mt-4 border-t border-black/5 pt-4 text-xs">
+        <span className="rounded-full bg-[#e7f5ec] px-2.5 py-1 text-[#1d7a3e]">✓ Booked · Thu 10:00 · added to your calendar</span>
+      </p>
     </div>
   );
 }

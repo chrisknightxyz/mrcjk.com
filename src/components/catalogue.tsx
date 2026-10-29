@@ -49,8 +49,8 @@ export function Catalogue() {
 
   return (
     <>
-      <div>
-        <div className="mx-auto max-w-3xl">
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-12">
+        <div>
         {groups.map((g) => (
           <section key={g.category} aria-labelledby={`cat-${g.category}`} className="mb-6 break-inside-avoid lg:mb-10">
             <button
@@ -71,7 +71,7 @@ export function Catalogue() {
                 <path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
-            <ul className={`mt-3 divide-y divide-ink/[0.06] overflow-hidden rounded-3xl bg-card ring-1 ring-ink/[0.06] ${open.includes(g.category) ? "" : "max-lg:hidden"}`}>
+            <ul className={`mt-3 divide-y divide-ink/[0.06] overflow-hidden rounded-2xl bg-card ring-[0.5px] ring-ink/10 ${open.includes(g.category) ? "" : "max-lg:hidden"}`}>
               {g.items.map((s) => {
                 const on = selected.includes(s.title);
                 return (
@@ -123,18 +123,28 @@ export function Catalogue() {
           </section>
         ))}
         </div>
-        <div id="request" ref={request} className="mx-auto flex max-w-3xl items-center justify-between gap-4 rounded-3xl bg-stone p-6 sm:p-8">
-          <p className="text-[15px] text-body">
-            <span className="text-ink">{selected.length}</span> selected. Next, a few quick questions about your business.
-          </p>
-          <a href={next} className="inline-flex h-11 shrink-0 items-center whitespace-nowrap rounded-full bg-ink px-5 text-[15px] text-canvas hover:bg-ink/80">
+        {/* Your selection: under the list on phones, a sticky card beside it on desktop (the calculator layout on elevenlabs.io). */}
+        <aside id="request" ref={request} className="rounded-2xl bg-stone p-6 lg:sticky lg:top-24 lg:self-start">
+          <p className="text-[14px] text-muted">Your selection</p>
+          <p className="mt-1 font-display text-[48px] font-light leading-none">{selected.length}</p>
+          {selected.length > 0 && (
+            <ul className="mt-4 flex flex-wrap gap-2">
+              {selected.map((t) => (
+                <li key={t} className="whitespace-nowrap rounded-full bg-card px-3 py-1 text-[13px] shadow-[0_0_0_0.5px_rgb(var(--ink)/0.12)]">
+                  {t}
+                </li>
+              ))}
+            </ul>
+          )}
+          <a href={next} className="mt-6 inline-flex h-11 w-full items-center justify-center rounded-full bg-ink px-5 text-[16px] text-canvas hover:bg-ink/80">
             Continue
           </a>
-        </div>
+          <p className="mt-3 text-center text-[14px] text-muted">Next, a few quick questions about your business</p>
+        </aside>
       </div>
 
       <div
-        className={`fixed inset-x-0 bottom-0 z-30 p-4 transition-[transform,visibility] duration-300 ${showBar ? "visible translate-y-0" : "invisible translate-y-[150%]"}`}
+        className={`fixed inset-x-0 bottom-0 z-30 p-4 lg:hidden transition-[transform,visibility] duration-300 ${showBar ? "visible translate-y-0" : "invisible translate-y-[150%]"}`}
         aria-hidden={!showBar}
       >
         <div className="mx-auto flex max-w-md items-center justify-between gap-4 rounded-full bg-card/90 py-2 pl-5 pr-2 shadow-[0_0_0_1px_rgba(0,0,0,0.06),0_12px_32px_rgba(78,50,23,0.12)] backdrop-blur-md">
@@ -146,7 +156,7 @@ export function Catalogue() {
               Clear
             </button>
           </p>
-          <a href={next} tabIndex={showBar ? 0 : -1} className="inline-flex h-10 items-center whitespace-nowrap rounded-full bg-ink px-5 text-sm font-medium text-canvas hover:bg-ink/80">
+          <a href={next} tabIndex={showBar ? 0 : -1} className="inline-flex h-10 items-center whitespace-nowrap rounded-full bg-ink px-5 text-[15px] text-canvas hover:bg-ink/80">
             Continue
           </a>
         </div>

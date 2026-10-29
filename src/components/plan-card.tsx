@@ -1,6 +1,3 @@
-"use client";
-
-import { useState } from "react";
 import { MUTED } from "@/components/band";
 import { Button } from "@/components/button";
 import { GradientArt, type GradientVariant } from "@/components/gradient-art";
@@ -17,63 +14,42 @@ function Check() {
   );
 }
 
-// One pricing column. A plan with billing options (hosting and care) gets a Monthly / Quarterly /
-// Yearly switch, after the billing toggle on elevenlabs.io/pricing; the price and the Stripe link follow it.
+// One pricing column, after elevenlabs.io/pricing: a gradient header card with the name and price,
+// the button straight under it, then what's included. Light art (paper) takes black text.
 export function PlanCard({ plan, href, variant, delay }: { plan: Plan; href: string; variant: GradientVariant; delay: number }) {
-  const [choice, setChoice] = useState(0);
-  const option = plan.billing?.[choice];
-  const price = option?.price ?? plan.price;
-  const period = option?.period ?? plan.period;
-
+  const light = variant === "paper";
   return (
-    <Reveal delay={delay} className="flex flex-col px-5 py-10 sm:px-8 lg:px-10">
-      <div className="flex items-center gap-3">
-        <GradientArt variant={variant} className="h-9 w-9 shrink-0 rounded-lg" />
-        <h3 className="whitespace-nowrap text-[17px]">{plan.name}</h3>
-      </div>
-      <p className="mt-8 flex items-baseline gap-x-2 whitespace-nowrap">
-        {price === null ? (
-          <span className="font-display text-[36px] font-light leading-[48px]">Quoted for you</span>
-        ) : (
-          <>
-            {plan.prefix && <span className="text-[15px] text-muted">{plan.prefix}</span>}
-            <span className="font-display text-[48px] font-light leading-[48px] tracking-[-0.02em]">{gbp(price)}</span>
-            <span className="text-[15px] text-muted">{period}</span>
-          </>
-        )}
-      </p>
-      {plan.billing && (
-        <div role="radiogroup" aria-label="Billing" className="mt-4 inline-flex w-fit gap-1 rounded-full bg-stone p-1">
-          {plan.billing.map((b, i) => (
-            <button
-              key={b.label}
-              type="button"
-              role="radio"
-              aria-checked={i === choice}
-              onClick={() => setChoice(i)}
-              className={`h-8 whitespace-nowrap rounded-full px-3 text-[14px] transition ${
-                i === choice ? "bg-card text-ink shadow-[0_0_0_0.5px_rgb(var(--ink)/0.15),0_1px_2px_rgb(var(--ink)/0.06)]" : "text-muted hover:text-ink"
-              }`}
-            >
-              {b.label}
-            </button>
-          ))}
+    <Reveal delay={delay} className="flex flex-col p-3 sm:p-4">
+      <GradientArt variant={variant} className={`h-[200px] rounded-2xl ${light ? "text-[#000]" : "text-white"}`}>
+        <div className="flex h-[200px] flex-col justify-between p-5 sm:p-6">
+          <h3 className="whitespace-nowrap text-[22px] leading-8 tracking-[-0.01em] sm:text-[24px]">{plan.name}</h3>
+          <p className="flex items-baseline gap-x-2 whitespace-nowrap">
+            {plan.price === null ? (
+              <span className="font-display text-[36px] font-light leading-none">Quoted for you</span>
+            ) : (
+              <>
+                {plan.prefix && <span className="text-[15px] opacity-80">{plan.prefix}</span>}
+                <span className="font-display text-[48px] font-light leading-none tracking-[-0.02em]">{gbp(plan.price)}</span>
+                <span className="text-[15px] opacity-80">{plan.period}</span>
+              </>
+            )}
+          </p>
         </div>
-      )}
-      <p className={`mt-3 ${MUTED}`}>{plan.blurb}</p>
-      <ul className="mt-8 space-y-2.5 border-t border-ink/5 pt-8 text-[15px]">
-        {plan.features.map((f) => (
-          <li key={f} className="flex gap-3 whitespace-nowrap">
-            <Check />
-            {f}
-          </li>
-        ))}
-      </ul>
-      <div className="mt-auto pt-10">
-        <Button href={option?.link || href} pick={plan.pick} variant={price === null || href.startsWith("http") ? "secondary" : "primary"} className="w-full">
-          {plan.cta}
-        </Button>
-        <p className="mt-3 text-center text-[14px] text-muted">{plan.note}</p>
+      </GradientArt>
+      <Button href={href} pick={plan.pick} className="mt-3 w-full">
+        {plan.cta}
+      </Button>
+      <p className="mt-2 text-center text-[14px] text-muted">{plan.note}</p>
+      <div className="px-2 pb-4 sm:px-4">
+        <p className={`mt-8 ${MUTED}`}>{plan.blurb}</p>
+        <ul className="mt-4 text-[15px] [&>li]:border-b [&>li]:border-dotted [&>li]:border-ink/15 [&>li]:py-2.5">
+          {plan.features.map((f) => (
+            <li key={f} className="flex gap-3 whitespace-nowrap">
+              <Check />
+              {f}
+            </li>
+          ))}
+        </ul>
       </div>
     </Reveal>
   );

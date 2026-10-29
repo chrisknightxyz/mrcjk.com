@@ -32,11 +32,34 @@ export function PlatformTabs() {
   return (
     <div className="border-t border-ink/5">
       <div className="p-3 sm:p-4">
-        <div className="grid min-h-[20rem] place-items-center rounded-3xl bg-stone px-4 py-10 ring-[0.5px] ring-ink/10 sm:min-h-[26rem] sm:px-10">
+        <div className="grid min-h-[20rem] place-items-center rounded-[20px] bg-stone px-4 py-10 ring-[0.5px] ring-ink/10 sm:min-h-[24rem] sm:px-10">
           <div key={active} className="rise flex w-full justify-center">
             <Scene />
           </div>
         </div>
+      </div>
+      {/* Phones: the three progress lines in a row, and only the active caption below. */}
+      <div className="flex gap-2 px-5 sm:px-8 md:hidden">
+        {items.map((it, i) => (
+          <button
+            key={it.title}
+            type="button"
+            aria-label={`Show ${it.title}`}
+            onClick={() => {
+              setActive(i);
+              setPaused(true);
+            }}
+            className="flex-1 py-3"
+          >
+            <span className="block h-0.5 overflow-hidden rounded-full bg-ink/10">
+              <span
+                key={`${active}-${paused}`}
+                className={`block h-full bg-ink ${i < active ? "w-full" : i !== active ? "w-0" : paused ? "w-full" : "progress"}`}
+                style={{ animationDuration: `${STEP_MS}ms` }}
+              />
+            </span>
+          </button>
+        ))}
       </div>
       <div role="tablist" aria-label="Where you show up" className="grid md:grid-cols-3">
         {items.map((it, i) => (
@@ -48,9 +71,9 @@ export function PlatformTabs() {
               setActive(i);
               setPaused(true);
             }}
-            className="flex flex-col justify-start px-5 pb-8 pt-4 text-left sm:px-8"
+            className="flex flex-col justify-start px-5 pb-8 pt-1 text-left max-md:[&[aria-selected=false]]:hidden sm:px-8 md:pt-4"
           >
-            <span className="block h-0.5 overflow-hidden rounded-full bg-ink/10">
+            <span className="hidden h-0.5 overflow-hidden rounded-full bg-ink/10 md:block">
               <span
                 key={`${active}-${paused}`}
                 className={`block h-full bg-ink ${i !== active ? "w-0" : paused ? "w-full" : "progress"}`}

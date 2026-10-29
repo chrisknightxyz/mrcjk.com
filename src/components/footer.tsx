@@ -40,14 +40,14 @@ export function Footer() {
   return (
     <footer className="border-t border-ink/5">
       <div className="mx-auto w-[calc(100%-2.5rem)] max-w-[1178px] border-x border-ink/5">
-        <div className="grid grid-cols-2 gap-10 px-5 py-14 sm:px-8 md:grid-cols-4 lg:grid-cols-[1.4fr_repeat(4,1fr)]">
+        <div className="grid grid-cols-2 gap-10 px-5 pb-16 pt-20 sm:px-8 lg:pt-[110px] md:grid-cols-4 lg:grid-cols-[1.4fr_repeat(4,1fr)]">
           <div className="col-span-2 md:col-span-4 lg:col-span-1">
             <Wordmark />
             <p className="mt-3 max-w-xs text-[15px] text-muted">Websites that make you money.</p>
           </div>
           {columns.map((c) => (
             <div key={c.title}>
-              <p className="text-[15px] text-muted">{c.title}</p>
+              <p className="text-[14px] text-muted">{c.title}</p>
               <ul className="mt-3 space-y-2 text-[14px]">
                 {c.links.map((l) => (
                   <li key={l.label}>

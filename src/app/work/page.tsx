@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Band, BandHead } from "@/components/band";
+import { Band, BandHead, CtaBand, PageHero } from "@/components/band";
 import { Button } from "@/components/button";
 import { Footer } from "@/components/footer";
 import { SiteHeader } from "@/components/site-header";
-import { About, PressList, WorkCards } from "@/components/work";
+import { About, LogoStrip, PressList, WorkCards } from "@/components/work";
 import { contact } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -19,7 +19,19 @@ export default function WorkPage() {
       <SiteHeader />
       <main>
         <Band>
-          <BandHead h1 title="Work" intro="Live websites I've designed and built, past work for global brands, and the press about it." />
+          <PageHero
+            center
+            eyebrow="Work"
+            title="Websites I've designed, built and look after"
+            intro="Live sites, past work for global brands, and the press about it."
+            actions={<Button href="/start">Build my website</Button>}
+          />
+        </Band>
+
+        <LogoStrip link={false} />
+
+        <Band>
+          <BandHead title="Recent websites" intro="Live sites, designed and built by me. Open any of them." />
           <WorkCards />
         </Band>
 
@@ -30,15 +42,12 @@ export default function WorkPage() {
 
         <About />
 
-        <Band className="flex flex-col gap-6 px-5 py-12 sm:px-8 md:flex-row md:items-center md:justify-between">
-          <h2 className="font-display text-[28px] font-light leading-9 sm:text-[32px]">Websites that make you money</h2>
-          <div className="flex flex-wrap gap-3">
-            <Button href={contact.calUrl} variant="secondary">
-              Book a call
-            </Button>
-            <Button href="/start">Build my website</Button>
-          </div>
-        </Band>
+        <CtaBand title="Websites that make you money">
+          <Button href={contact.calUrl} variant="secondary">
+            Book a call
+          </Button>
+          <Button href="/start">Build my website</Button>
+        </CtaBand>
       </main>
       <Footer />
     </>

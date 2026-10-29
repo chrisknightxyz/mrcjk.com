@@ -9,9 +9,9 @@ function ToolTile({ tool }: { tool: Tool }) {
       href={tool.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="group flex items-center gap-3 rounded-2xl bg-card px-3 py-3 shadow-[0_0_0_0.5px_rgb(var(--ink)/0.12),0_1px_2px_rgb(var(--ink)/0.04)] transition hover:shadow-[0_0_0_0.5px_rgb(var(--ink)/0.25),0_4px_12px_rgb(var(--ink)/0.06)]"
+      className="group flex items-center gap-3 rounded-xl px-2 py-2 transition hover:bg-stone/70"
     >
-      <span className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white ring-[0.5px] ring-black/10">
+      <span className="flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white ring-[0.5px] ring-black/10">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={tool.logo} alt="" className="h-full w-full object-contain" loading="lazy" />
       </span>
@@ -33,7 +33,7 @@ export function IntegrationTabs() {
   return (
     <div className="border-t border-ink/5">
       <div className="px-5 pt-8 sm:px-8">
-      <div role="tablist" aria-label="Kinds of business" className="flex w-fit max-w-full gap-1 overflow-x-auto rounded-full bg-stone p-1">
+      <div role="tablist" aria-label="Kinds of business" className="flex w-fit max-w-full gap-1 overflow-x-auto rounded-full bg-stone p-1 max-md:[mask-image:linear-gradient(90deg,#000_85%,transparent)]">
         {bookingTools.map((g, i) => (
           <button
             key={g.sector}
@@ -52,7 +52,7 @@ export function IntegrationTabs() {
         ))}
       </div>
       </div>
-      <ul key={active} className={`rise grid grid-cols-1 gap-2 px-5 pb-10 pt-6 sm:grid-cols-2 sm:px-8 ${group.tools.length % 4 === 1 ? "lg:grid-cols-3" : "lg:grid-cols-4"}`}>
+      <ul key={active} className={`rise grid grid-cols-1 gap-x-6 gap-y-1 px-5 pb-10 pt-6 sm:grid-cols-2 sm:px-8 ${group.tools.length % 4 === 1 ? "lg:grid-cols-3" : "lg:grid-cols-4"}`}>
         {group.tools.map((tool, i) => (
           <li key={tool.name} className={!all && i >= 6 ? "max-sm:hidden" : ""}>
             <ToolTile tool={tool} />
@@ -70,7 +70,7 @@ export function IntegrationTabs() {
       <div className="border-t border-ink/5 px-5 pb-10 pt-8 sm:px-8">
         <h3 className="text-[17px]">Payments</h3>
         <p className="mt-1.5 text-[15px] text-muted">Take cards, wallets and direct debits on your site, in person and by link.</p>
-        <ul className="mt-6 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-5">
+        <ul className="mt-6 grid grid-cols-1 gap-x-6 gap-y-1 sm:grid-cols-2 lg:grid-cols-5">
           {paymentTools.map((tool, i) => (
             <li key={tool.name} className={!allPay && i >= 6 ? "max-sm:hidden" : ""}>
               <ToolTile tool={tool} />

@@ -17,6 +17,7 @@ export function RequestForm({
   notes = [],
   title,
   intro,
+  onBack,
 }: {
   services?: string[];
   onRemove?: (title: string) => void;
@@ -25,6 +26,8 @@ export function RequestForm({
   notes?: [string, string][];
   title?: string;
   intro?: string;
+  // Inside the start dialog: a Back button beside Send, and no card around the form (the dialog is the card).
+  onBack?: () => void;
 }) {
   const kindKnown = notes.some(([k]) => k === "Business");
   const [status, setStatus] = useState<Status>("idle");
@@ -67,14 +70,14 @@ export function RequestForm({
 
   if (status === "sent") {
     return (
-      <div className="rounded-3xl bg-stone p-6 sm:p-8" role="status">
+      <div className={onBack ? "" : "rounded-2xl bg-stone p-6 sm:p-8"} role="status">
         <p className="font-display text-3xl font-light tracking-[-0.02em]">Thanks, {form.name.split(" ")[0]}.</p>
         <p className="mt-2 text-body">
           {draft
             ? `I'm on it. Your first draft for ${form.business} will be with you at ${form.email} within 24 hours.`
             : `Your request is with me. Next, I'll email ${form.email} with a fixed price, then your first draft.`}
         </p>
-        <a href={contact.calUrl} className="mt-5 inline-flex h-11 items-center whitespace-nowrap rounded-full bg-ink px-5 text-[15px] text-canvas hover:bg-ink/80">
+        <a href={contact.calUrl} className="mt-5 inline-flex h-11 items-center whitespace-nowrap rounded-full bg-ink px-5 text-[16px] text-canvas hover:bg-ink/80">
           Want to talk sooner? Book a call
         </a>
       </div>
@@ -82,11 +85,18 @@ export function RequestForm({
   }
 
   return (
-    <form onSubmit={submit} className="rounded-3xl bg-stone p-6 sm:p-8">
-      <h3 className="whitespace-nowrap font-display text-[26px] font-light tracking-[-0.02em] sm:text-3xl">
-        {title ?? (draft ? "Build my website" : "Send your request")}
-      </h3>
-      <p className="mt-2 text-body">
+    <form onSubmit={submit} className={onBack ? "" : "rounded-2xl bg-stone p-6 sm:p-8"}>
+      {onBack ? (
+        <>
+          <p className="text-[14px] text-muted">Last step</p>
+          <h2 className="mt-3 text-balance font-display text-3xl font-light leading-[1.1] tracking-[-0.03em] sm:text-4xl">{title ?? "Your details"}</h2>
+        </>
+      ) : (
+        <h3 className="whitespace-nowrap font-display text-[26px] font-light tracking-[-0.02em] sm:text-3xl">
+          {title ?? (draft ? "Build my website" : "Send your request")}
+        </h3>
+      )}
+      <p className={`${onBack ? "mt-3" : "mt-2"} text-body`}>
         {intro ??
           (draft
             ? "Tell me about your business. I'll design your homepage and send it within 24 hours. You pay once you've approved it."
@@ -100,7 +110,7 @@ export function RequestForm({
             aria-label="Kind of business"
             value={form.kind}
             onChange={set("kind")}
-            className={`h-12 w-full appearance-none rounded-2xl bg-card px-4 text-[16px] ${FIELD} ${form.kind ? "" : "text-muted"}`}
+            className={`h-11 w-full appearance-none rounded-xl bg-card px-4 text-[16px] ${FIELD} ${form.kind ? "" : "text-muted"}`}
           >
             <option value="">Kind of business (optional)</option>
             {[...bookingTools.map((b) => b.sector), "Something else"].map((k) => (
@@ -138,7 +148,7 @@ export function RequestForm({
         <Field label="Your name" value={form.name} onChange={set("name")} autoComplete="name" required />
         <Field label="Email" type="email" value={form.email} onChange={set("email")} autoComplete="email" required />
         <PhoneField code={form.code} onCode={(code) => setForm({ ...form, code })} value={form.phone} onChange={set("phone")} />
-        <Field label="Your website or Facebook page" value={form.website} onChange={set("website")} autoComplete="url" />
+        <Field label="Website or Facebook page" value={form.website} onChange={set("website")} autoComplete="url" className="sm:col-span-2" />
       </div>
       {/* Hidden from people; bots fill it in and are dropped. */}
       <input type="text" name="company" value={form.company} onChange={set("company")} tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
@@ -151,7 +161,7 @@ export function RequestForm({
           <div className="mt-4 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
             <a
               href={mailto("New request", summary)}
-              className="inline-flex h-11 items-center justify-center whitespace-nowrap rounded-full bg-card px-5 text-[15px] font-medium shadow-pill hover:bg-surface"
+              className="inline-flex h-11 items-center justify-center whitespace-nowrap rounded-full bg-card px-5 text-[16px] shadow-pill hover:bg-surface"
             >
               Send by email
             </a>
@@ -160,7 +170,7 @@ export function RequestForm({
                 href={`https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(summary)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-11 items-center justify-center whitespace-nowrap rounded-full bg-ink px-5 text-[15px] font-medium text-canvas hover:bg-ink/80"
+                className="inline-flex h-11 items-center justify-center whitespace-nowrap rounded-full bg-ink px-5 text-[16px] text-canvas hover:bg-ink/80"
               >
                 Send on WhatsApp
               </a>
@@ -168,34 +178,43 @@ export function RequestForm({
           </div>
         </div>
       ) : (
-        <div className="mt-8 flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
-          <p className="text-sm text-muted">
+        <>
+          <p className="mt-6 text-sm text-muted">
             No payment now. I only use these details to reply to you.{" "}
             <a href="/privacy" className="underline underline-offset-2 hover:text-ink">
               Privacy
             </a>
           </p>
-          <button
-            type="submit"
-            disabled={status === "sending"}
-            className="ml-auto inline-flex h-11 shrink-0 items-center whitespace-nowrap rounded-full bg-ink px-5 text-[15px] font-medium text-canvas transition hover:bg-ink/80 disabled:opacity-50"
-          >
-            {status === "sending" ? "Sending…" : draft ? "Send my request" : "Send request"}
-          </button>
-        </div>
+          <div className="mt-6 flex items-center justify-between gap-4">
+            {onBack ? (
+              <button type="button" onClick={onBack} className="inline-flex h-11 items-center gap-2 rounded-full px-4 text-[16px] text-body hover:text-ink">
+                ← Back
+              </button>
+            ) : (
+              <span />
+            )}
+            <button
+              type="submit"
+              disabled={status === "sending"}
+              className="inline-flex h-11 shrink-0 items-center whitespace-nowrap rounded-full bg-ink px-5 text-[16px] text-canvas transition hover:bg-ink/80 disabled:opacity-50"
+            >
+              {status === "sending" ? "Sending…" : draft ? "Send my request" : "Send request"}
+            </button>
+          </div>
+        </>
       )}
     </form>
   );
 }
 
-function Field({ label, required, ...props }: { label: string; required?: boolean } & React.InputHTMLAttributes<HTMLInputElement>) {
+function Field({ label, required, className = "", ...props }: { label: string; required?: boolean } & React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <input
       {...props}
       aria-label={label}
       placeholder={required ? label : `${label} (optional)`}
       required={required}
-      className={`h-12 w-full rounded-2xl bg-card px-4 text-[16px] ${FIELD}`}
+      className={`h-11 w-full rounded-xl bg-card px-4 text-[16px] ${FIELD} ${className}`}
     />
   );
 }
@@ -221,12 +240,12 @@ const flag = (cc: string) => String.fromCodePoint(...[...cc].map((c) => 127397 +
 
 function PhoneField({ code, onCode, ...props }: { code: string; onCode: (v: string) => void } & React.InputHTMLAttributes<HTMLInputElement>) {
   return (
-    <div className={`flex h-12 items-center rounded-2xl bg-card ${FIELD} focus-within:ring-2 focus-within:ring-ink`}>
+    <div className={`flex h-11 items-center rounded-xl bg-card sm:col-span-2 ${FIELD} focus-within:ring-2 focus-within:ring-ink`}>
       <select
         aria-label="Country code"
         value={code}
         onChange={(e) => onCode(e.target.value)}
-        className="h-full shrink-0 cursor-pointer appearance-none rounded-l-2xl bg-transparent pl-4 pr-2 text-[16px] outline-none"
+        className="h-full shrink-0 cursor-pointer appearance-none rounded-l-xl bg-transparent pl-4 pr-2 text-[16px] outline-none"
       >
         {codes.map(([cc, dial]) => (
           <option key={cc} value={`${cc} ${dial}`}>
@@ -241,7 +260,7 @@ function PhoneField({ code, onCode, ...props }: { code: string; onCode: (v: stri
         aria-label="Phone"
         placeholder="Phone (optional)"
         autoComplete="tel-national"
-        className="h-full min-w-0 flex-1 rounded-r-2xl bg-transparent px-3 text-[16px] outline-none placeholder:text-muted"
+        className="h-full min-w-0 flex-1 rounded-r-xl bg-transparent px-3 text-[16px] outline-none placeholder:text-muted"
       />
     </div>
   );

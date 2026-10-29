@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Band, BandHead, H2, MUTED } from "@/components/band";
+import { Band, BandHead, CtaBand, H2, MUTED, PageHero } from "@/components/band";
 import { Button } from "@/components/button";
 import { Catalogue } from "@/components/catalogue";
 import { Footer } from "@/components/footer";
@@ -22,10 +22,18 @@ export default function ServicesPage() {
       <SiteHeader />
       <main>
         <Band id="platforms">
-          <BandHead
-            h1
+          <PageHero
+            eyebrow="Services"
             title="Found on Google, Maps and AI assistants"
             intro="More customers ask ChatGPT or Google's AI before they call. I set up your site and Google profile so they can tell people what you do and where."
+            actions={
+              <>
+                <Button href="/start">Build my website</Button>
+                <Button href={contact.calUrl} variant="secondary">
+                  Book a call
+                </Button>
+              </>
+            }
           />
           <PlatformTabs />
         </Band>
@@ -47,7 +55,7 @@ export default function ServicesPage() {
           </div>
         </Band>
 
-        <Band className="grid gap-8 px-5 py-20 sm:px-8 lg:grid-cols-[1fr_2fr] lg:gap-12 lg:py-[120px]">
+        <Band className="grid gap-8 px-5 pb-20 pt-24 sm:px-8 lg:grid-cols-[1fr_2fr] lg:gap-12 lg:pb-[120px] lg:pt-[160px]">
           <h2 className={H2}>Questions about services</h2>
           <div>
             {faqs.filter((f) => servicesFaq(f.q)).map((f) => (
@@ -64,15 +72,12 @@ export default function ServicesPage() {
           </div>
         </Band>
 
-        <Band className="flex flex-col gap-6 px-5 py-12 sm:px-8 md:flex-row md:items-center md:justify-between">
-          <h2 className="font-display text-[28px] font-light leading-9 sm:text-[32px]">Start your website in two minutes</h2>
-          <div className="flex flex-wrap gap-3">
-            <Button href={contact.calUrl} variant="secondary">
-              Book a call
-            </Button>
-            <Button href="/start">Build my website</Button>
-          </div>
-        </Band>
+        <CtaBand title="Start your website in two minutes">
+          <Button href={contact.calUrl} variant="secondary">
+            Book a call
+          </Button>
+          <Button href="/start">Build my website</Button>
+        </CtaBand>
       </main>
       <Footer />
     </>

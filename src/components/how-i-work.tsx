@@ -71,11 +71,11 @@ export function HowIWork() {
     <Band id="how-it-works">
       <BandHead
         title="Draft in 24 hours, then built and looked after"
-        intro="You see a first draft before you pay anything. Then one fixed price, one person from start to finish, and one monthly fee once you're live."
+        intro="Your homepage draft within 24 hours. Then one fixed price, one person from start to finish, and one monthly fee once you're live."
       />
       <div className="grid grid-cols-[minmax(0,1fr)] border-t border-ink/5 lg:grid-cols-2 lg:divide-x lg:divide-ink/5">
         <div className="hidden p-4 lg:block">
-          <div className="sticky top-24 aspect-[4/3] overflow-hidden rounded-3xl bg-stone ring-[0.5px] ring-ink/10">
+          <div className="sticky top-24 aspect-[4/3] overflow-hidden rounded-[20px] bg-stone ring-[0.5px] ring-ink/10">
             <span aria-hidden="true" className="orb absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full opacity-50 blur-3xl" />
             {scenes.map((Scene, i) => (
               <div
@@ -113,6 +113,15 @@ export function HowIWork() {
                 <div className={`min-w-0 pt-2 ${i < steps.length - 1 ? "pb-10" : ""}`}>
                   <h3 className="whitespace-nowrap text-[17px] leading-6">{s.title}</h3>
                   <p className={`mt-1.5 ${MUTED}`}>{s.body}</p>
+                  {/* Phones have no scene panel, so every other step shows its scene inline. */}
+                  {[1, 3, 5].includes(i) && (
+                    <div className="mt-4 grid h-44 place-items-center rounded-2xl bg-stone px-4 lg:hidden">
+                      {(() => {
+                        const Scene = scenes[i];
+                        return <Scene />;
+                      })()}
+                    </div>
+                  )}
                   {i === 0 && (
                     <Button href="#services" className="mt-4">
                       Choose your services

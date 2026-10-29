@@ -1,7 +1,7 @@
 // Grainy mesh gradients in the ElevenLabs style: soft colour fields, film grain
 // and optional contour lines. Used for card art, the hero and the closing panel.
 
-export type GradientVariant = "dusk" | "ember" | "forest" | "ocean" | "rose" | "sand" | "mint";
+export type GradientVariant = "dusk" | "ember" | "forest" | "ocean" | "rose" | "sand" | "mint" | "paper";
 
 const fields: Record<GradientVariant, string> = {
   dusk: [
@@ -47,6 +47,12 @@ const fields: Record<GradientVariant, string> = {
     "radial-gradient(60% 50% at 80% 45%, #7cc7b4 0%, transparent 70%)",
     "radial-gradient(80% 55% at 50% 100%, #1d4b4a 0%, transparent 75%)",
     "linear-gradient(180deg, #c6e8dc 0%, #5aa898 55%, #1a4544 100%)",
+  ].join(","),
+  // Pale and quiet, for the plan beside the highlighted one; takes black text.
+  paper: [
+    "radial-gradient(70% 60% at 20% 15%, #fbf8f4 0%, transparent 70%)",
+    "radial-gradient(60% 55% at 85% 85%, #e6ded3 0%, transparent 70%)",
+    "linear-gradient(180deg, #f4f0ea 0%, #ebe4da 100%)",
   ].join(","),
 };
 

@@ -67,12 +67,10 @@ export function StartFlow({ need, services, onClose }: { need: string | null; se
               draft
               services={picked}
               notes={notes}
-              title="Last step: your details"
+              title="Your details"
               intro="I'll design your homepage and send it within 24 hours. You pay once you've approved it."
+              onBack={() => setStep(step - 1)}
             />
-            <div className="mt-6">
-              <BackButton onClick={() => setStep(step - 1)} />
-            </div>
           </div>
         )}
       </div>
@@ -111,7 +109,7 @@ function Question({
         </p>
       )}
 
-      <div className={`mt-8 grid gap-2.5 ${question.options.length > 4 && question.options.every((o) => o.length <= 20) ? "sm:grid-cols-2" : ""}`}>
+      <div className={`mt-8 grid gap-2.5 ${question.options.length > 4 && question.options.every((o) => o.length <= 24) ? "sm:grid-cols-2" : ""}`}>
         {question.options.map((o) => {
           const on = selected.includes(o);
           return (
@@ -143,7 +141,7 @@ function Question({
             type="button"
             onClick={onNext}
             disabled={!selected.length}
-            className="inline-flex h-12 items-center rounded-full bg-ink px-7 text-[15px] font-medium text-canvas transition hover:bg-ink/80 disabled:cursor-not-allowed disabled:opacity-30"
+            className="inline-flex h-11 items-center rounded-full bg-ink px-5 text-[16px] text-canvas transition hover:bg-ink/80 disabled:cursor-not-allowed disabled:opacity-30"
           >
             Continue
           </button>
@@ -155,7 +153,7 @@ function Question({
 
 function BackButton({ onClick }: { onClick: () => void }) {
   return (
-    <button type="button" onClick={onClick} className="inline-flex h-12 items-center gap-2 rounded-full px-4 text-[15px] font-medium text-body hover:text-ink">
+    <button type="button" onClick={onClick} className="inline-flex h-11 items-center gap-2 rounded-full px-4 text-[16px] text-body hover:text-ink">
       ← Back
     </button>
   );
