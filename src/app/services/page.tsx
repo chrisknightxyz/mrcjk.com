@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { aiAssistants, audiences, caseStudies, clients, faqs, mailto, plans, services, site, steps, type LogoId, type Plan } from "@/content/site";
 import { LogoTile } from "@/components/logos";
+import { Footer } from "@/components/footer";
 import { GradientField } from "@/components/gradient-field";
 import { AiCard, EnquiryCard, MapsCard, StepBuild, StepGrow, StepTalk } from "@/components/illustrations";
 import { Reveal } from "@/components/reveal";
@@ -406,18 +407,7 @@ export default function ServicesPage() {
         </section>
       </main>
 
-      <footer className="border-t border-black/5">
-        <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-8 text-sm text-muted sm:flex-row sm:items-center sm:justify-between sm:px-6">
-          <p>
-            © {new Date().getFullYear()} {site.name}
-          </p>
-          <a href={`mailto:${site.email}`} className="hover:text-ink">{site.email}</a>
-        </div>
-        <p className="mx-auto max-w-6xl px-4 pb-8 text-xs text-muted sm:px-6">
-          ChatGPT, Claude, Gemini, Perplexity, Copilot, Grok, Meta AI, Muse, Google and Meta are trademarks of their owners.
-          Logos show where the work appears and don&apos;t imply any partnership.
-        </p>
-      </footer>
+      <Footer />
     </>
   );
 }

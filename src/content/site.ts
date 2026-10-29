@@ -16,6 +16,18 @@ export const contact = {
   calUrl: "https://cal.com/chrisknightxyz/meeting",
 };
 
+// Footer links. A link with an empty url is hidden until it's filled in.
+export const social = [
+  { name: "LinkedIn", url: "" },
+  { name: "X", url: "" },
+  { name: "GitHub", url: "https://github.com/chrisknightxyz" },
+];
+
+export const projects = [
+  { name: "The Private Clubs", url: "https://www.theprivateclubs.com" },
+  { name: "CreatorBrands", url: "https://creatorbrands.xyz" },
+];
+
 export const mailto = (subject: string, body = "") =>
   `mailto:${site.email}?subject=${encodeURIComponent(subject)}${body ? `&body=${encodeURIComponent(body)}` : ""}`;
 
