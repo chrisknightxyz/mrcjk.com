@@ -27,7 +27,7 @@ export const social = [
 export const projects = [
   { name: "HackHouse", url: "https://www.hackhouse.xyz" },
   { name: "CreatorBrands", url: "https://creatorbrands.xyz" },
-  { name: "The Private Clubs", url: "https://www.theprivateclubs.com" },
+  { name: "Private Clubs", url: "https://www.theprivateclubs.com" },
 ];
 
 export const mailto = (subject: string, body = "") =>
@@ -318,7 +318,7 @@ export const caseStudies = [
     built: ["Design and build", "100+ pages", "Online booking", "SEO and AEO"],
   },
   {
-    name: "The Private Clubs",
+    name: "Private Clubs",
     url: "https://www.theprivateclubs.com",
     domain: "theprivateclubs.com",
     image: "/work/theprivateclubs.jpg",
