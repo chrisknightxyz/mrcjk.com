@@ -48,7 +48,7 @@ export function Catalogue() {
   return (
     <>
       <div>
-        <div className="gap-8 lg:columns-2">
+        <div className="mx-auto max-w-3xl">
         {groups.map((g) => (
           <section key={g.category} aria-labelledby={`cat-${g.category}`} className="mb-6 break-inside-avoid lg:mb-10">
             <button
@@ -121,7 +121,7 @@ export function Catalogue() {
           </section>
         ))}
         </div>
-        <div id="request" ref={request} className="scroll-mt-24">
+        <div id="request" ref={request} className="mx-auto max-w-3xl scroll-mt-24">
           <RequestForm services={selected} onRemove={toggle} />
         </div>
       </div>
