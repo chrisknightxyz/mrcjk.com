@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { caseStudies, clients, contact, faqs, mailto, plans, portfolio, projects, services, site, social, stripeLinks, type Plan } from "@/content/site";
+import { caseStudies, clients, contact, faqs, mailto, plans, services, site, social, stripeLinks, type Plan } from "@/content/site";
 import { Band, BandHead, Cells, H2, IconTile, LEAD, MUTED } from "@/components/band";
 import { Button } from "@/components/button";
 import { CalModal } from "@/components/cal-modal";
@@ -15,8 +15,8 @@ import { PlatformTabs } from "@/components/platform-tabs";
 import { Reveal } from "@/components/reveal";
 import { SectorTabs } from "@/components/sector-tabs";
 import { StartModal } from "@/components/start-modal";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { Wordmark } from "@/components/wordmark";
+import { SiteHeader } from "@/components/site-header";
+import { WorkCards } from "@/components/work";
 import { Catalogue } from "./catalogue";
 
 const planVariant: GradientVariant[] = ["dusk", "ocean", "ember"];
@@ -104,14 +104,6 @@ const benefits = [
   },
 ];
 
-// The proof under the bio: each name links to the work or the press about it.
-const about: [string, [string, string][]][] = [
-  ["Brands", clients.map((c) => [c.name, c.url])],
-  ["Press", portfolio.filter((w) => w.kind === "Press").map((w) => [w.source.split(" · ")[0], w.url])],
-  ["Products", projects.map((p) => [p.name, p.url])],
-];
-const linkedin = social.find((s) => s.name === "LinkedIn")?.url;
-
 export default function HomePage() {
   const [featured] = caseStudies;
   const whatsapp = `https://wa.me/${contact.whatsapp}`;
@@ -120,58 +112,11 @@ export default function HomePage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      <header className="sticky top-0 z-20 border-b border-ink/5 bg-canvas/85 backdrop-blur-md">
-        <nav className="mx-auto flex h-16 w-[calc(100%-2.5rem)] max-w-[1178px] items-center justify-between">
-          <div className="flex items-center gap-10">
-            <Wordmark />
-            <div className="hidden items-center gap-7 text-[15px] lg:flex">
-              <a href="#work" className="hover:text-muted">Work</a>
-              <a href="#services" className="hover:text-muted">Services</a>
-              <a href="#pricing" className="hover:text-muted">Pricing</a>
-              <a href="#faq" className="hover:text-muted">FAQ</a>
-            </div>
-          </div>
-          <div className="flex items-center gap-1.5 sm:gap-2">
-            {/* Phones: the section links and WhatsApp in a small menu. */}
-            <details className="group relative lg:hidden">
-              <summary className="flex h-9 cursor-pointer list-none items-center rounded-full bg-card px-3 text-[15px] shadow-[0_0_0_0.5px_rgb(var(--ink)/0.2),0_1px_2px_rgb(var(--ink)/0.06)] sm:px-4">Menu</summary>
-              <div className="absolute right-0 top-11 z-30 grid w-48 gap-1 rounded-2xl bg-card p-2 text-[15px] shadow-[0_0_0_0.5px_rgb(var(--ink)/0.15),0_12px_32px_rgba(30,20,10,0.14)]">
-                {[
-                  ["Work", "#work"],
-                  ["Services", "#services"],
-                  ["Pricing", "#pricing"],
-                  ["FAQ", "#faq"],
-                ].map(([label, href]) => (
-                  <a key={href} href={href} className="rounded-xl px-3 py-2 hover:bg-surface">
-                    {label}
-                  </a>
-                ))}
-                <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="rounded-xl px-3 py-2 hover:bg-surface">
-                  WhatsApp
-                </a>
-                <span className="flex items-center justify-between rounded-xl px-3 py-1 sm:hidden">
-                  Theme <ThemeToggle />
-                </span>
-              </div>
-            </details>
-            <span className="hidden sm:inline-flex">
-              <ThemeToggle />
-            </span>
-            <a
-              href={contact.calUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex h-9 items-center whitespace-nowrap rounded-full bg-ink px-3 text-[15px] text-canvas hover:bg-ink/80 sm:px-4"
-            >
-              Book a call
-            </a>
-          </div>
-        </nav>
-      </header>
+      <SiteHeader />
 
       <main>
-        {/* The page tells one story: the promise, proof, the person, how it works for them,
-            then choose services, send the request, and pay. */}
+        {/* The page tells one story: the promise, proof, how it works for your business,
+            then choose services, send the request, and pay. The person and the full work list live on /work. */}
         {/* Hero, after the elevenlabs.io homepage: the headline left, its line right, then one big stage. */}
         <Band>
           <div className="grid gap-6 px-5 pb-10 pt-14 sm:px-8 lg:grid-cols-2 lg:items-start lg:gap-12 lg:pb-12 lg:pt-24">
@@ -263,106 +208,15 @@ export default function HomePage() {
           </Cells>
         </Band>
 
-        {/* Work */}
+        {/* Work: the three websites; the rest lives on /work. */}
         <Band id="work">
           <BandHead title="Recent websites" intro="Live sites, designed and built by me. Open any of them." />
-          <Cells>
-            {caseStudies.map((c, i) => (
-              <Reveal key={c.url} delay={i * 80}>
-                <a href={c.url} target="_blank" rel="noopener noreferrer" className="group block p-3 sm:p-4">
-                  <span className="block overflow-hidden rounded-3xl bg-stone p-4 pb-0 ring-[0.5px] ring-ink/10 sm:p-6 sm:pb-0">
-                    <span className="theme-light block overflow-hidden rounded-t-xl bg-white shadow-[0_0_0_0.5px_rgba(0,0,0,0.12),0_12px_32px_rgba(30,20,10,0.12)] transition duration-500 group-hover:-translate-y-1">
-                      <span className="flex items-center gap-1.5 border-b border-black/5 px-3 py-2">
-                        <span className="h-2 w-2 rounded-full bg-[#e5e5e5]" />
-                        <span className="h-2 w-2 rounded-full bg-[#e5e5e5]" />
-                        <span className="h-2 w-2 rounded-full bg-[#e5e5e5]" />
-                        <span className="ml-2 truncate font-mono text-[10px] text-[#777169]">{c.domain}</span>
-                      </span>
-                      <Image src={c.image} alt={`${c.name} homepage`} width={1440} height={900} sizes="(min-width: 768px) 360px, 100vw" className="w-full" />
-                    </span>
-                  </span>
-                  <span className="block px-2 pb-4 pt-5">
-                    <span className="flex h-6 items-center gap-2 overflow-hidden text-[13px] text-muted">
-                      <span className="whitespace-nowrap">{c.sector}</span>
-                      {"own" in c && c.own && <span className="whitespace-nowrap rounded-full bg-stone px-2 py-0.5 text-ink">My product</span>}
-                    </span>
-                    <span className="mt-1.5 block whitespace-nowrap text-[17px] group-hover:underline group-hover:underline-offset-4">{c.name}</span>
-                    <span className={`mt-1.5 block ${MUTED}`}>{c.summary}</span>
-                  </span>
-                </a>
-              </Reveal>
-            ))}
-          </Cells>
-          <div className="border-t border-ink/5 px-5 pb-6 pt-14 sm:px-8">
-            <h3 className="text-[17px]">More work and press</h3>
+          <WorkCards />
+          <div className="flex justify-center border-t border-ink/5 px-5 py-8 sm:px-8">
+            <Button href="/work" variant="secondary">
+              See all work and who I am
+            </Button>
           </div>
-          <ul className="border-t border-ink/5">
-            {portfolio.map((w) => (
-              <li key={w.url} className="border-b border-ink/5 last:border-0">
-                <a href={w.url} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-4 px-5 py-4 transition hover:bg-stone/60 sm:px-8">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white ring-[0.5px] ring-black/10">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={w.logo} alt="" loading="lazy" className={`h-full w-full object-contain ${w.pad ? "p-2" : ""}`} />
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block truncate text-[16px]">{w.title}</span>
-                    <span className="block truncate text-[14px] text-muted">
-                      {w.kind} · {w.source}
-                    </span>
-                  </span>
-                  <span aria-hidden="true" className="text-muted transition group-hover:translate-x-0.5 group-hover:text-ink">
-                    ↗
-                  </span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </Band>
-
-        {/* Who you'll work with, after the founder note on designjoy.co */}
-        <Band id="about">
-          <BandHead title="Who you'll work with" intro="One person, start to finish. No account managers, no handovers, no outsourcing." />
-          <Cells cols={2} from="lg">
-            <div className="p-3 sm:p-4">
-              <Image
-                src="/chris-knight.jpg"
-                alt="Chris Knight"
-                width={1518}
-                height={1012}
-                sizes="(min-width: 1024px) 560px, 100vw"
-                className="aspect-[3/2] w-full rounded-3xl object-cover object-top ring-[0.5px] ring-ink/10"
-              />
-            </div>
-            <div className="flex flex-col px-5 py-10 sm:px-8 lg:px-12">
-              <p className={LEAD}>
-                Hi, I&apos;m Chris. I design, build and look after every site myself. I&apos;ve made digital work for Nike,
-                Google, Snapchat and Manchester City, and I build my own products too, like Private Clubs and
-                CreatorBrands. Now I bring that same standard to local businesses, at a fixed price and live in 24 hours.
-              </p>
-              <dl className="mt-8 divide-y divide-ink/5 border-y border-ink/5 text-[15px]">
-                {about.map(([label, items]) => (
-                  <div key={label} className="flex gap-4 py-3">
-                    <dt className="w-24 shrink-0 text-muted">{label}</dt>
-                    <dd className="flex min-w-0 flex-wrap gap-x-3 gap-y-1">
-                      {items.map(([name, url]) => (
-                        <a key={name} href={url} target="_blank" rel="noopener noreferrer" className="whitespace-nowrap hover:text-muted">
-                          {name}
-                        </a>
-                      ))}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Button href={contact.calUrl}>Book a call</Button>
-                {linkedin && (
-                  <Button href={linkedin} variant="secondary">
-                    LinkedIn
-                  </Button>
-                )}
-              </div>
-            </div>
-          </Cells>
         </Band>
 
         {/* The price, as a figure */}

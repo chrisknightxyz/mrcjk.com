@@ -2,5 +2,5 @@ import type { MetadataRoute } from "next";
 import { site } from "@/content/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return ["/", "/privacy"].map((path) => ({ url: `${site.url}${path}` }));
+  return ["/", "/work", "/privacy"].map((path) => ({ url: `${site.url}${path}` }));
 }
