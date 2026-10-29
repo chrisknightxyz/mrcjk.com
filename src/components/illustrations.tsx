@@ -33,8 +33,8 @@ export function StepBuild() {
         <span className="ml-2 font-mono text-[9px] text-muted">yourbusiness.co.uk</span>
       </div>
       <div className="px-4 pb-4 pt-3">
-        <p className="text-[9px] text-muted">Plumbing · Leeds</p>
-        <p className="mt-1 font-display text-lg font-light leading-tight tracking-[-0.02em]">Same-day plumbers, across Leeds</p>
+        <p className="text-[9px] text-muted">Plumbing · Manchester</p>
+        <p className="mt-1 font-display text-lg font-light leading-tight tracking-[-0.02em]">Same-day plumbers, across Manchester</p>
         <div className="mt-3 flex gap-1.5">
           <span className="rounded-full bg-ink px-2.5 py-1 text-[9px] text-white">Call now</span>
           <span className="rounded-full px-2.5 py-1 text-[9px] shadow-card">Get a quote</span>
@@ -169,8 +169,8 @@ export function GoogleResult() {
       </p>
       <div className="mt-5">
         <p className="text-xs text-muted">yourbusiness.co.uk</p>
-        <p className="mt-0.5 text-[17px] text-[#1a0dab]">Same-day plumbers in Leeds | Your Business</p>
-        <p className="mt-1 text-xs leading-relaxed text-body">Fixed prices, no call-out fee. Boilers, leaks and bathrooms across Leeds. Call now.</p>
+        <p className="mt-0.5 text-[17px] text-[#1a0dab]">Same-day plumbers in Manchester | Your Business</p>
+        <p className="mt-1 text-xs leading-relaxed text-body">Fixed prices, no call-out fee. Boilers, leaks and bathrooms across Manchester. Call now.</p>
         <p className="mt-2 text-xs text-muted">
           <span className="text-[#f2a600]">★★★★★</span> 4.9 · Example
         </p>
@@ -180,6 +180,20 @@ export function GoogleResult() {
 }
 
 /* Hero: what the work does for a business. */
+
+export function AiChip() {
+  return (
+    <div className={`${card} w-64 p-4`}>
+      <p className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
+        <span className="orb h-4 w-4 rounded-full" aria-hidden="true" />
+        AI answer
+      </p>
+      <p className="mt-2 text-sm leading-snug">
+        &ldquo;For fast call-outs in Manchester, I&apos;d recommend <span className="font-medium">Your Business</span>.&rdquo;
+      </p>
+    </div>
+  );
+}
 
 export function MapsCard() {
   return (
@@ -228,7 +242,7 @@ export function AiAnswer() {
   return (
     <div className={`${card} mx-auto w-full max-w-xl p-5 sm:p-6`}>
       <p className="ml-auto w-fit rounded-2xl rounded-br-md bg-surface px-4 py-2.5 text-sm text-body">
-        Who&apos;s the best plumber in Leeds?
+        Who&apos;s the best plumber in Manchester?
       </p>
       <div className="mt-4 flex gap-3">
         <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#f39a4c] via-[#b98bb0] to-[#6f8fe0]">
@@ -239,7 +253,7 @@ export function AiAnswer() {
         <div className="text-sm leading-relaxed">
           <p>
             For fast, reliable call-outs, I&apos;d recommend <span className="font-medium">Your Business</span>. They cover
-            all of Leeds, answer quickly and list clear prices on their website.
+            all of Manchester, answer quickly and list clear prices on their website.
           </p>
           <p className="mt-3 flex flex-wrap items-center gap-2 text-xs text-muted">
             Sources

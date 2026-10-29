@@ -58,7 +58,7 @@ export function RequestForm({ services, onRemove }: { services: string[]; onRemo
   return (
     <form onSubmit={submit} className="rounded-3xl bg-stone p-6 sm:p-8">
       <h3 className="whitespace-nowrap font-display text-[26px] font-light tracking-[-0.02em] sm:text-3xl">Send your request</h3>
-      <p className="mt-2 text-body">I&apos;ll reply with a fixed quote for what you&apos;ve ticked.</p>
+      <p className="mt-2 text-body">I&apos;ll reply with a fixed price for what you&apos;ve ticked. Ready now? Pay below.</p>
 
       <div className="mt-6">
         {services.length ? (

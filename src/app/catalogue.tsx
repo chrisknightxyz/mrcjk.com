@@ -71,6 +71,11 @@ export function Catalogue() {
                           )}
                         </span>
                         <span className="mt-0.5 block truncate text-[13px] text-body sm:text-[14px]">{s.body}</span>
+                        {s.logos && (
+                          <span className="mt-2 flex sm:hidden">
+                            <LogoStack ids={s.logos} max={4} />
+                          </span>
+                        )}
                       </span>
                       <span
                         aria-hidden="true"

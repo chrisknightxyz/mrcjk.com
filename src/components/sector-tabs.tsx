@@ -5,9 +5,9 @@ import { useState } from "react";
 // A homepage drawn for each kind of business, after the tabbed workflow demo on elevenlabs.io:
 // the sectors as a list on the left, the matching site in a panel on the right.
 const sectors = [
-  { name: "Trades and home services", tag: "Plumbing · Leeds", title: "Same-day plumbers, across Leeds", ctas: ["Call now", "Get a quote"], tiles: ["Boilers", "Leaks", "Bathrooms"] },
+  { name: "Trades and home services", tag: "Plumbing · Manchester", title: "Same-day plumbers, across Manchester", ctas: ["Call now", "Get a quote"], tiles: ["Boilers", "Leaks", "Bathrooms"] },
   { name: "Restaurants and cafés", tag: "Café · Bristol", title: "Breakfast, brunch and proper coffee", ctas: ["Book a table", "See the menu"], tiles: ["Breakfast", "Lunch", "Coffee"] },
-  { name: "Salons and barbers", tag: "Barber · Manchester", title: "Sharp cuts, walk-ins welcome", ctas: ["Book online", "Prices"], tiles: ["Cuts", "Beards", "Kids"] },
+  { name: "Salons and barbers", tag: "Barber · Liverpool", title: "Sharp cuts, walk-ins welcome", ctas: ["Book online", "Prices"], tiles: ["Cuts", "Beards", "Kids"] },
   { name: "Clinics and health", tag: "Physio · Brighton", title: "Back on your feet, faster", ctas: ["Book now", "Treatments"], tiles: ["Sports", "Back pain", "Rehab"] },
   { name: "Shops", tag: "Florist · York", title: "Fresh flowers, delivered today", ctas: ["Shop now", "Visit us"], tiles: ["Bouquets", "Weddings", "Plants"] },
 ];

@@ -117,7 +117,8 @@ export const plans: Plan[] = [
 ];
 
 // Platform logos (public/logos). Trademarks of their owners; shown to say where the work appears.
-export const logos: Record<string, { name: string; src: string; mono?: boolean }> = {
+type Logo = { name: string; src: string; mono?: boolean };
+const logoList = {
   chatgpt: { name: "ChatGPT", src: "/logos/openai.svg", mono: true },
   claude: { name: "Claude", src: "/logos/claude.svg" },
   gemini: { name: "Gemini", src: "/logos/gemini.svg" },
@@ -128,8 +129,32 @@ export const logos: Record<string, { name: string; src: string; mono?: boolean }
   muse: { name: "Muse", src: "/logos/muse.webp" },
   google: { name: "Google", src: "/logos/google.svg" },
   meta: { name: "Meta", src: "/logos/meta.svg" },
-};
-export type LogoId = "chatgpt" | "claude" | "gemini" | "perplexity" | "copilot" | "grok" | "metaai" | "muse" | "google" | "meta";
+  googlemaps: { name: "Google Maps", src: "/logos/googlemaps.svg" },
+  googleanalytics: { name: "Google Analytics", src: "/logos/googleanalytics.svg" },
+  googleads: { name: "Google Ads", src: "/logos/googleads.svg" },
+  googlecalendar: { name: "Google Calendar", src: "/logos/googlecalendar.svg" },
+  instagram: { name: "Instagram", src: "/logos/instagram.svg" },
+  tiktok: { name: "TikTok", src: "/logos/tiktok.svg", mono: true },
+  youtube: { name: "YouTube", src: "/logos/youtube.svg" },
+  whatsapp: { name: "WhatsApp", src: "/logos/whatsapp.svg" },
+  trustpilot: { name: "Trustpilot", src: "/logos/trustpilot.svg" },
+  tripadvisor: { name: "Tripadvisor", src: "/logos/tripadvisor.svg" },
+  figma: { name: "Figma", src: "/logos/figma.svg" },
+  mailchimp: { name: "Mailchimp", src: "/logos/mailchimp.svg", mono: true },
+  zapier: { name: "Zapier", src: "/logos/zapier.svg" },
+  shopify: { name: "Shopify", src: "/integrations/shopify.png" },
+  fresha: { name: "Fresha", src: "/integrations/fresha.png" },
+  booksy: { name: "Booksy", src: "/integrations/booksy.png" },
+  opentable: { name: "OpenTable", src: "/integrations/opentable.png" },
+  stripe: { name: "Stripe", src: "/integrations/stripe.png" },
+  square: { name: "Square", src: "/integrations/square.svg" },
+  sumup: { name: "SumUp", src: "/integrations/sumup.png" },
+  deliveroo: { name: "Deliveroo", src: "/integrations/deliveroo.png" },
+  ubereats: { name: "Uber Eats", src: "/integrations/ubereats.png" },
+  justeat: { name: "Just Eat", src: "/integrations/just-eat.png" },
+} satisfies Record<string, Logo>;
+export type LogoId = keyof typeof logoList;
+export const logos: Record<LogoId, Logo> = logoList;
 
 // Where AEO gets you recommended.
 export const aiAssistants: LogoId[] = ["chatgpt", "claude", "gemini", "perplexity", "copilot", "grok", "metaai", "muse"];
@@ -138,27 +163,27 @@ export const aiAssistants: LogoId[] = ["chatgpt", "claude", "gemini", "perplexit
 export type Service = { title: string; body: string; category: string; logos?: LogoId[] };
 
 export const services: Service[] = [
-  { title: "Local SEO", body: "Top of Google and Maps, nearby", category: "Search", logos: ["google"] },
-  { title: "Google Business Profile", body: "Right details, photos and hours", category: "Search", logos: ["google"] },
-  { title: "Analytics and tracking", body: "Track calls, forms and sales", category: "Search", logos: ["google"] },
+  { title: "Local SEO", body: "Top of Google and Maps, nearby", category: "Search", logos: ["google", "googlemaps"] },
+  { title: "Google Business Profile", body: "Right details, photos and hours", category: "Search", logos: ["google", "googlemaps"] },
+  { title: "Analytics and tracking", body: "Track calls, forms and sales", category: "Search", logos: ["googleanalytics"] },
   { title: "AEO", body: "Recommended by AI assistants", category: "AI search", logos: aiAssistants },
   { title: "Google AI Overviews", body: "In Google AI answers and AI Mode", category: "AI search", logos: ["google", "gemini"] },
   { title: "AI visibility check", body: "What AI says about you", category: "AI search", logos: aiAssistants },
-  { title: "Google Ads", body: "Ads for people ready to buy", category: "Marketing", logos: ["google"] },
-  { title: "Meta Ads", body: "Facebook and Instagram ads", category: "Marketing", logos: ["meta"] },
-  { title: "Reviews and reputation", body: "More reviews, better replies", category: "Marketing", logos: ["google"] },
-  { title: "Branding and identity", body: "Logo, colours and tone of voice", category: "Marketing" },
-  { title: "Social media management", body: "Posts and replies, handled", category: "Content", logos: ["meta"] },
-  { title: "Photo and video", body: "Shot at your business", category: "Content" },
-  { title: "Email newsletters", body: "Emails that bring customers back", category: "Content" },
-  { title: "Shopify store", body: "Your storefront, products and checkout", category: "Integrations" },
-  { title: "Online booking", body: "Fresha, Booksy, OpenTable and more", category: "Integrations" },
-  { title: "Online payments", body: "Stripe, Square, SumUp and more", category: "Integrations" },
-  { title: "Online ordering", body: "Deliveroo, Uber Eats and Just Eat", category: "Integrations" },
-  { title: "AI receptionist", body: "Answers calls and books, 24/7", category: "AI tools" },
+  { title: "Google Ads", body: "Ads for people ready to buy", category: "Marketing", logos: ["googleads"] },
+  { title: "Meta Ads", body: "Facebook and Instagram ads", category: "Marketing", logos: ["meta", "instagram"] },
+  { title: "Reviews and reputation", body: "More reviews, better replies", category: "Marketing", logos: ["google", "trustpilot", "tripadvisor"] },
+  { title: "Branding and identity", body: "Logo, colours and tone of voice", category: "Marketing", logos: ["figma"] },
+  { title: "Social media management", body: "Posts and replies, handled", category: "Content", logos: ["instagram", "meta", "tiktok"] },
+  { title: "Photo and video", body: "Shot at your business", category: "Content", logos: ["instagram", "tiktok", "youtube"] },
+  { title: "Email newsletters", body: "Emails that bring customers back", category: "Content", logos: ["mailchimp"] },
+  { title: "Shopify store", body: "Your storefront, products and checkout", category: "Integrations", logos: ["shopify"] },
+  { title: "Online booking", body: "Fresha, Booksy, OpenTable and more", category: "Integrations", logos: ["fresha", "booksy", "opentable"] },
+  { title: "Online payments", body: "Stripe, Square, SumUp and more", category: "Integrations", logos: ["stripe", "square", "sumup"] },
+  { title: "Online ordering", body: "Deliveroo, Uber Eats and Just Eat", category: "Integrations", logos: ["deliveroo", "ubereats", "justeat"] },
+  { title: "AI receptionist", body: "Answers calls and books, 24/7", category: "AI tools", logos: ["chatgpt", "whatsapp", "googlecalendar"] },
   { title: "AI website assistant", body: "Answers questions on your site", category: "AI tools", logos: ["chatgpt", "claude", "gemini"] },
   { title: "Custom AI assistants", body: "Trained on your business", category: "AI tools", logos: ["chatgpt", "claude", "gemini", "grok"] },
-  { title: "AI automation", body: "Automated follow-ups", category: "AI tools" },
+  { title: "AI automation", body: "Automated follow-ups", category: "AI tools", logos: ["zapier", "googlecalendar", "whatsapp"] },
 ];
 
 // Booking, ordering and payment tools that local businesses already use, by kind of business.
@@ -245,33 +270,38 @@ export const clients: { name: string; logo: string; mono?: boolean; url: string 
 ];
 
 // More work and press, listed under the case studies. Titles come from each link.
-export const portfolio = [
-  { title: "HackHouse", kind: "Venture", source: "hackhouse.xyz", url: "https://www.hackhouse.xyz/" },
+export const portfolio: { title: string; kind: string; source: string; url: string; logo: string; pad?: boolean; mono?: boolean }[] = [
+  { title: "HackHouse", kind: "Venture", source: "hackhouse.xyz", url: "https://www.hackhouse.xyz/", logo: "/press/hackhouse.png" },
   {
     title: "Creator economy startup Superjoi raises $2.5 million",
     kind: "Press",
     source: "Business Insider · 2022",
+    logo: "/press/businessinsider.png",
     url: "https://www.businessinsider.com/exclusive-creator-economy-startup-superjoi-raises-25-million-2022-4",
   },
   {
     title: "Manchester City and Fantom",
     kind: "Press",
     source: "The Guardian · 2018",
+    logo: "/press/theguardian.png",
     url: "https://www.theguardian.com/sport/2018/aug/19/manchester-city-fantom",
   },
   {
     title: "Pepsi Max among first UK brands to use Snapchat Sponsored Lenses",
     kind: "Press",
     source: "The Drum",
+    logo: "/press/thedrum.png",
     url: "https://www.thedrum.com/news/pepsi-max-among-first-uk-brands-embrace-snapchat-sponsored-lenses-chelfie-valentines",
   },
-  { title: "Google", kind: "Case study", source: "Forever Beta", url: "https://forever-beta.com/case-study/google/" },
-  { title: "Nike", kind: "Brand", source: "nike.com", url: "https://www.nike.com/" },
-  { title: "Rafahia", kind: "Website", source: "Built in Framer", url: "https://rafahia.framer.ai/" },
+  { title: "Google", kind: "Case study", source: "Forever Beta", url: "https://forever-beta.com/case-study/google/", logo: "/logos/google.svg", pad: true },
+  { title: "Nike", kind: "Brand", source: "nike.com", url: "https://www.nike.com/", logo: "/clients/nike.svg", pad: true, mono: true },
+  { title: "Rafahia", kind: "Website", source: "Built in Framer", url: "https://rafahia.framer.ai/", logo: "/press/framer.png" },
   {
     title: "Clokka",
     kind: "Product design",
     source: "Figma prototype",
+    logo: "/logos/figma.svg",
+    pad: true,
     url: "https://www.figma.com/proto/rtYaAoxFtYONCArs3OPVf1/Clokka?node-id=7114-547&t=1zVbBk0EcFZ4t2SN-1",
   },
 ];

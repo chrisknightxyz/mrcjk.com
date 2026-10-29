@@ -7,7 +7,7 @@ import { CalModal } from "@/components/cal-modal";
 import { CountUp } from "@/components/count-up";
 import { Footer } from "@/components/footer";
 import { GradientArt, type GradientVariant } from "@/components/gradient-art";
-import { HeroDemo } from "@/components/hero-demo";
+import { AiChip, MapsCard } from "@/components/illustrations";
 import { HowIWork } from "@/components/how-i-work";
 import { IntegrationTabs } from "@/components/integration-tabs";
 import { PlatformTabs } from "@/components/platform-tabs";
@@ -19,14 +19,6 @@ import { Wordmark } from "@/components/wordmark";
 import { Catalogue } from "./catalogue";
 
 const planVariant: GradientVariant[] = ["dusk", "ocean", "ember"];
-const kindVariant: Record<string, GradientVariant> = {
-  Venture: "dusk",
-  Press: "ocean",
-  "Case study": "forest",
-  Brand: "ember",
-  Website: "rose",
-  "Product design": "dusk",
-};
 
 const [build, care] = plans;
 const gbp = (n: number) => `£${n.toLocaleString("en-GB")}`;
@@ -129,6 +121,7 @@ const about: [string, [string, string][]][] = [
 const linkedin = social.find((s) => s.name === "LinkedIn")?.url;
 
 export default function HomePage() {
+  const [featured] = caseStudies;
   const whatsapp = `https://wa.me/${contact.whatsapp}`;
 
   return (
@@ -140,9 +133,9 @@ export default function HomePage() {
           <div className="flex items-center gap-10">
             <Wordmark />
             <div className="hidden items-center gap-7 text-[15px] lg:flex">
-              <a href="#pricing" className="hover:text-muted">Pricing</a>
-              <a href="#services" className="hover:text-muted">Services</a>
               <a href="#work" className="hover:text-muted">Work</a>
+              <a href="#services" className="hover:text-muted">Services</a>
+              <a href="#pricing" className="hover:text-muted">Pricing</a>
               <a href="#faq" className="hover:text-muted">FAQ</a>
             </div>
           </div>
@@ -161,24 +154,63 @@ export default function HomePage() {
       </header>
 
       <main>
-        {/* Hero: the words bottom left, the demo panel on the right. */}
-        <Band className="grid grid-cols-[minmax(0,1fr)] lg:grid-cols-2">
-          <div className="flex flex-col justify-end px-5 pb-12 pt-14 sm:px-8 lg:min-h-[36rem] lg:px-12 lg:pb-14">
-            <h1 className="rise max-w-lg font-display text-[36px] font-light leading-[42px] tracking-[-0.01em] sm:text-[48px] sm:leading-[54px]">
-              Websites that make you money
-            </h1>
-            <p className={`rise mt-4 max-w-md [animation-delay:120ms] ${LEAD}`}>
-              Your new website, live in 24 hours. Designed and built for your business, found on Google and recommended by
-              AI. From {gbp(build.price!)}, then {gbp(care.price!)} a month.
-            </p>
-            <div className="rise mt-8 flex flex-wrap gap-3 [animation-delay:240ms]">
-              <Button href="/start">Start now</Button>
-              <Button href="#pricing" variant="secondary">
-                See pricing
-              </Button>
+        {/* The page tells one story: the promise, proof, the person, how it works for them,
+            then choose services, send the request, and pay. */}
+        {/* Hero, after the elevenlabs.io homepage: the headline left, its line right, then one big stage. */}
+        <Band>
+          <div className="grid gap-6 px-5 pb-10 pt-14 sm:px-8 lg:grid-cols-2 lg:items-end lg:gap-12 lg:pb-12 lg:pt-24">
+            <div>
+              <h1 className="rise font-display text-[36px] font-light leading-[42px] tracking-[-0.02em] sm:text-[48px] sm:leading-[52px]">
+                Websites that
+                <br />
+                make you money
+              </h1>
+              <div className="rise mt-8 flex flex-wrap gap-3 [animation-delay:240ms] max-lg:hidden">
+                <Button href="/start">Start now</Button>
+                <Button href="#pricing" variant="secondary">
+                  See pricing
+                </Button>
+              </div>
+            </div>
+            <div>
+              <p className={`rise max-w-md [animation-delay:120ms] ${LEAD} sm:text-[18px] sm:leading-7`}>
+                Your new website, live in 24 hours. Designed for your business, found on Google and recommended by AI. From{" "}
+                {gbp(build.price!)}, then {gbp(care.price!)} a month.
+              </p>
+              <div className="rise mt-6 flex flex-wrap gap-3 [animation-delay:240ms] lg:hidden">
+                <Button href="/start">Start now</Button>
+                <Button href="#pricing" variant="secondary">
+                  See pricing
+                </Button>
+              </div>
             </div>
           </div>
-          <HeroDemo />
+          <div className="px-3 pb-3 sm:px-4 sm:pb-4">
+            <GradientArt variant="dusk" lines animate className="rise rounded-3xl px-4 pt-10 [animation-delay:360ms] sm:px-16 sm:pt-16 lg:px-24">
+              <div className="absolute left-6 top-[45%] z-10 hidden xl:block">
+                <MapsCard />
+              </div>
+              <div className="absolute bottom-12 right-6 z-10 hidden lg:block">
+                <div className="float">
+                  <AiChip />
+                </div>
+              </div>
+              <a
+                href={featured.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="theme-light mx-auto block max-w-4xl overflow-hidden rounded-t-2xl bg-white shadow-[0_0_0_0.5px_rgba(0,0,0,0.12),0_24px_60px_rgba(40,20,10,0.25)]"
+              >
+                <span className="flex items-center gap-1.5 border-b border-black/5 px-4 py-2.5">
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#e5e5e5]" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#e5e5e5]" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#e5e5e5]" />
+                  <span className="ml-3 truncate font-mono text-xs text-[#777169]">{featured.domain}</span>
+                </span>
+                <Image src={featured.image} alt={`${featured.name} website`} width={1440} height={900} priority sizes="(min-width: 1024px) 896px, 100vw" className="w-full" />
+              </a>
+            </GradientArt>
+          </div>
         </Band>
 
         {/* Brands */}
@@ -242,113 +274,6 @@ export default function HomePage() {
           </div>
         </Band>
 
-        {/* Sectors */}
-        <Band>
-          <BandHead
-            title="A website for every kind of local business"
-            intro="Calls for trades, bookings for salons, menus for cafés. Each site is built around how your customers choose."
-          />
-          <SectorTabs />
-        </Band>
-
-        {/* Integrations */}
-        <Band id="integrations">
-          <BandHead
-            title="Works with the tools you already use"
-            intro="Bookings, orders, storefronts and payments, connected to your new site. Pick your kind of business to see what I set up."
-          />
-          <IntegrationTabs />
-        </Band>
-
-        {/* The price, as a figure */}
-        <Band>
-          <Reveal className="relative flex flex-col items-center px-5 py-20 text-center sm:py-28">
-            <p
-              aria-hidden="true"
-              className="select-none bg-gradient-to-b from-ink/[0.09] to-ink/[0.02] bg-clip-text font-display text-[120px] font-light leading-none tracking-[-0.04em] text-transparent sm:text-[220px]"
-            >
-              <CountUp to={24} duration={900} />
-            </p>
-            <p className={`-mt-10 sm:-mt-20 ${H2}`}>
-              Hours from first message
-              <br />
-              to a live website
-            </p>
-            <p className={`mt-3 ${LEAD} text-muted`}>
-              From {gbp(build.price!)}, then {gbp(care.price!)} a month.
-            </p>
-          </Reveal>
-        </Band>
-
-        {/* Platforms */}
-        <Band id="platforms">
-          <BandHead
-            title="Found on Google, Maps and AI assistants"
-            intro="More customers ask ChatGPT or Google's AI before they call. I set your business up to be the answer."
-          />
-          <PlatformTabs />
-        </Band>
-
-        <HowIWork />
-
-        {/* Pricing */}
-        <Band id="pricing">
-          <BandHead
-            title={
-              <>
-                {gbp(build.price!)} to build.
-                <br />
-                {gbp(care.price!)} a month to run.
-              </>
-            }
-            intro="Your price is agreed before any work starts. Cancel hosting any time."
-          />
-          <Cells from="lg">
-            {plans.map((plan, i) => (
-              <Reveal key={plan.id} delay={i * 80} className="flex flex-col px-5 py-10 sm:px-8 lg:px-10">
-                <div className="flex items-center gap-3">
-                  <GradientArt variant={planVariant[i]} className="h-9 w-9 shrink-0 rounded-lg" />
-                  <h3 className="whitespace-nowrap text-[17px]">{plan.name}</h3>
-                </div>
-                <p className="mt-8 flex items-baseline gap-x-2 whitespace-nowrap">
-                  {plan.price === null ? (
-                    <span className="font-display text-[36px] font-light leading-[48px]">Quoted for you</span>
-                  ) : (
-                    <>
-                      {plan.prefix && <span className="text-[15px] text-muted">{plan.prefix}</span>}
-                      <span className="font-display text-[48px] font-light leading-[48px] tracking-[-0.02em]">{gbp(plan.price)}</span>
-                      <span className="text-[15px] text-muted">{plan.period}</span>
-                    </>
-                  )}
-                </p>
-                <p className={`mt-3 ${MUTED}`}>{plan.blurb}</p>
-                <ul className="mt-8 space-y-2.5 border-t border-ink/5 pt-8 text-[15px]">
-                  {plan.features.map((f) => (
-                    <li key={f} className="flex gap-3 whitespace-nowrap">
-                      <Check />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-auto flex items-center justify-between gap-4 pt-10">
-                  <p className="min-w-0 truncate text-[15px] text-muted">{plan.note}</p>
-                  <Button href={planHref(plan)} variant={plan.price === null ? "secondary" : "primary"}>
-                    {plan.cta}
-                  </Button>
-                </div>
-              </Reveal>
-            ))}
-          </Cells>
-        </Band>
-
-        {/* Services */}
-        <Band id="services">
-          <BandHead title="Add what you need" intro="Tick what you want, then send one request. Each service is quoted for you." />
-          <div className="border-t border-ink/5 px-5 py-12 sm:px-8 lg:py-16">
-            <Catalogue />
-          </div>
-        </Band>
-
         {/* Work */}
         <Band id="work">
           <BandHead title="Recent websites" intro="Live sites, designed and built by me. Open any of them." />
@@ -382,7 +307,10 @@ export default function HomePage() {
             {portfolio.map((w) => (
               <li key={w.url} className="border-b border-ink/5 last:border-0">
                 <a href={w.url} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-4 px-5 py-4 transition hover:bg-stone/60 sm:px-8">
-                  <GradientArt variant={kindVariant[w.kind] ?? "dusk"} className="h-10 w-10 shrink-0 rounded-lg" />
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white ring-[0.5px] ring-black/10">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={w.logo} alt="" loading="lazy" className={`h-full w-full object-contain ${w.pad ? "p-2" : ""}`} />
+                  </span>
                   <span className="min-w-0 flex-1">
                     <span className="block truncate text-[16px]">{w.title}</span>
                     <span className="block truncate text-[14px] text-muted">
@@ -444,35 +372,110 @@ export default function HomePage() {
           </Cells>
         </Band>
 
-        {/* Getting started */}
+        {/* The price, as a figure */}
         <Band>
-          <BandHead center title="Start your website today" />
-          <Cells cols={2}>
-            <div className="px-5 py-10 sm:px-8 lg:px-12 lg:pb-20">
-              <h3 className="text-[17px]">Start online</h3>
-              <p className={`mt-1.5 max-w-sm ${MUTED}`}>Answer five quick questions, then message me on WhatsApp or book a call. Live in 24 hours.</p>
-              <div className="mt-6">
-                <Button href="/start">Start now</Button>
-              </div>
-            </div>
-            <div className="p-3 sm:p-4">
-              <div className="flex h-full flex-col rounded-3xl bg-stone p-6 ring-[0.5px] ring-ink/10 sm:p-8">
-                <div className="flex items-center gap-4">
-                  <span className="orb h-12 w-12 shrink-0 rounded-full" aria-hidden="true" />
-                  <div className="min-w-0">
-                    <h3 className="truncate text-[17px]">Book an intro call</h3>
-                    <p className="truncate text-[14px] text-muted">30 minutes on Google Meet</p>
-                  </div>
+          <Reveal className="relative flex flex-col items-center px-5 py-20 text-center sm:py-28">
+            <p
+              aria-hidden="true"
+              className="select-none bg-gradient-to-b from-ink/[0.09] to-ink/[0.02] bg-clip-text font-display text-[120px] font-light leading-none tracking-[-0.04em] text-transparent sm:text-[220px]"
+            >
+              <CountUp to={24} duration={900} />
+            </p>
+            <p className={`-mt-10 sm:-mt-20 ${H2}`}>
+              Hours from first message
+              <br />
+              to a live website
+            </p>
+            <p className={`mt-3 ${LEAD} text-muted`}>
+              From {gbp(build.price!)}, then {gbp(care.price!)} a month.
+            </p>
+          </Reveal>
+        </Band>
+
+        {/* Platforms */}
+        <Band id="platforms">
+          <BandHead
+            title="Found on Google, Maps and AI assistants"
+            intro="More customers ask ChatGPT or Google's AI before they call. I set your business up to be the answer."
+          />
+          <PlatformTabs />
+        </Band>
+
+        {/* Sectors */}
+        <Band>
+          <BandHead
+            title="A website for every kind of local business"
+            intro="Calls for trades, bookings for salons, menus for cafés. Each site is built around how your customers choose."
+          />
+          <SectorTabs />
+        </Band>
+
+        {/* Integrations */}
+        <Band id="integrations">
+          <BandHead
+            title="Works with the tools you already use"
+            intro="Bookings, orders, storefronts and payments, connected to your new site. Pick your kind of business to see what I set up."
+          />
+          <IntegrationTabs />
+        </Band>
+
+        <HowIWork />
+
+        {/* Services */}
+        <Band id="services">
+          <BandHead title="Choose your services" intro="Tick what you want, then send your request. I'll reply with a fixed price for each one." />
+          <div className="border-t border-ink/5 px-5 py-12 sm:px-8 lg:py-16">
+            <Catalogue />
+          </div>
+        </Band>
+
+        {/* Pricing */}
+        <Band id="pricing">
+          <BandHead
+            title={
+              <>
+                {gbp(build.price!)} to build.
+                <br />
+                {gbp(care.price!)} a month to run.
+              </>
+            }
+            intro="Ready to start? Pay online and I begin on your site. Anything quoted is invoiced separately."
+          />
+          <Cells from="lg">
+            {plans.map((plan, i) => (
+              <Reveal key={plan.id} delay={i * 80} className="flex flex-col px-5 py-10 sm:px-8 lg:px-10">
+                <div className="flex items-center gap-3">
+                  <GradientArt variant={planVariant[i]} className="h-9 w-9 shrink-0 rounded-lg" />
+                  <h3 className="whitespace-nowrap text-[17px]">{plan.name}</h3>
                 </div>
-                <p className={`mt-6 max-w-sm ${MUTED}`}>See if we&apos;re a fit, talk through your business and get a price. Pick a time that suits you.</p>
-                <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
-                  <Button href={contact.calUrl}>Book a call</Button>
-                  <a href={mailto("Hello")} className="whitespace-nowrap text-[15px] text-muted underline decoration-ink/20 underline-offset-4 hover:text-ink">
-                    Prefer to email? {site.email}
-                  </a>
+                <p className="mt-8 flex items-baseline gap-x-2 whitespace-nowrap">
+                  {plan.price === null ? (
+                    <span className="font-display text-[36px] font-light leading-[48px]">Quoted for you</span>
+                  ) : (
+                    <>
+                      {plan.prefix && <span className="text-[15px] text-muted">{plan.prefix}</span>}
+                      <span className="font-display text-[48px] font-light leading-[48px] tracking-[-0.02em]">{gbp(plan.price)}</span>
+                      <span className="text-[15px] text-muted">{plan.period}</span>
+                    </>
+                  )}
+                </p>
+                <p className={`mt-3 ${MUTED}`}>{plan.blurb}</p>
+                <ul className="mt-8 space-y-2.5 border-t border-ink/5 pt-8 text-[15px]">
+                  {plan.features.map((f) => (
+                    <li key={f} className="flex gap-3 whitespace-nowrap">
+                      <Check />
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-auto flex items-center justify-between gap-4 pt-10">
+                  <p className="min-w-0 truncate text-[15px] text-muted">{plan.note}</p>
+                  <Button href={planHref(plan)} variant={plan.price === null ? "secondary" : "primary"}>
+                    {plan.cta}
+                  </Button>
                 </div>
-              </div>
-            </div>
+              </Reveal>
+            ))}
           </Cells>
         </Band>
 
@@ -506,6 +509,38 @@ export default function HomePage() {
           </div>
         </Band>
 
+        {/* Getting started */}
+        <Band>
+          <BandHead center title="Start your website today" />
+          <Cells cols={2}>
+            <div className="px-5 py-10 sm:px-8 lg:px-12 lg:pb-20">
+              <h3 className="text-[17px]">Start online</h3>
+              <p className={`mt-1.5 max-w-sm ${MUTED}`}>Answer five quick questions, then message me on WhatsApp or book a call. Live in 24 hours.</p>
+              <div className="mt-6">
+                <Button href="/start">Start now</Button>
+              </div>
+            </div>
+            <div className="p-3 sm:p-4">
+              <div className="flex h-full flex-col rounded-3xl bg-stone p-6 ring-[0.5px] ring-ink/10 sm:p-8">
+                <div className="flex items-center gap-4">
+                  <span className="orb h-12 w-12 shrink-0 rounded-full" aria-hidden="true" />
+                  <div className="min-w-0">
+                    <h3 className="truncate text-[17px]">Book an intro call</h3>
+                    <p className="truncate text-[14px] text-muted">30 minutes on Google Meet</p>
+                  </div>
+                </div>
+                <p className={`mt-6 max-w-sm ${MUTED}`}>See if we&apos;re a fit, talk through your business and get a price. Pick a time that suits you.</p>
+                <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
+                  <Button href={contact.calUrl}>Book a call</Button>
+                  <a href={mailto("Hello")} className="whitespace-nowrap text-[15px] text-muted underline decoration-ink/20 underline-offset-4 hover:text-ink">
+                    Prefer to email? {site.email}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </Cells>
+        </Band>
+
         {/* Final call to action */}
         <Band className="flex flex-col gap-6 px-5 py-12 sm:px-8 md:flex-row md:items-center md:justify-between">
           <h2 className="font-display text-[28px] font-light leading-9 sm:text-[32px]">Websites that make you money</h2>
@@ -516,6 +551,7 @@ export default function HomePage() {
             <Button href="/start">Start now</Button>
           </div>
         </Band>
+
       </main>
 
       <Footer />
