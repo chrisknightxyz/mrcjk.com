@@ -164,7 +164,7 @@ const logoList = {
   booksy: { name: "Booksy", src: "/integrations/booksy.png" },
   opentable: { name: "OpenTable", src: "/integrations/opentable.png" },
   stripe: { name: "Stripe", src: "/integrations/stripe.png" },
-  square: { name: "Square", src: "/integrations/square.svg" },
+  square: { name: "Square", src: "/integrations/square.svg", mono: true },
   sumup: { name: "SumUp", src: "/integrations/sumup.png" },
   deliveroo: { name: "Deliveroo", src: "/integrations/deliveroo.png" },
   ubereats: { name: "Uber Eats", src: "/integrations/ubereats.png" },
@@ -372,7 +372,7 @@ export const steps = [
   },
   {
     title: "Approve and pay",
-    body: "Happy with the direction? You get one fixed price up front. Pay online and I build the rest.",
+    body: "Happy with the draft? You get one fixed price, pay online, and I finish the rest.",
   },
   {
     title: "Connect your tools",

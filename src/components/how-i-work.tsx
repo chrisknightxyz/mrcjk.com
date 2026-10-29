@@ -114,7 +114,7 @@ export function HowIWork() {
                   <h3 className="whitespace-nowrap text-[17px] leading-6">{s.title}</h3>
                   <p className={`mt-1.5 ${MUTED}`}>{s.body}</p>
                   {i === 0 && (
-                    <Button href="/start" className="mt-4">
+                    <Button href="#services" className="mt-4">
                       Start now
                     </Button>
                   )}

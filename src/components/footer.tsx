@@ -30,6 +30,7 @@ export function Footer() {
         { label: "Services", href: "/#services" },
         { label: "Pricing", href: "/#pricing" },
         { label: "Start now", href: "/start" },
+        { label: "Privacy", href: "/privacy" },
       ],
     },
   ].filter((c) => c.links.length);

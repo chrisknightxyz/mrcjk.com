@@ -180,7 +180,7 @@ function Question({
         </p>
       )}
 
-      <div className={`mt-8 grid gap-2.5 ${question.options.length > 4 ? "sm:grid-cols-2" : ""}`}>
+      <div className={`mt-8 grid gap-2.5 ${question.options.length > 4 && question.options.every((o) => o.length <= 20) ? "sm:grid-cols-2" : ""}`}>
         {question.options.map((o) => {
           const on = selected.includes(o);
           return (
@@ -196,7 +196,7 @@ function Question({
               {o}
               <span
                 aria-hidden="true"
-                className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[11px] ${on ? "bg-canvas text-ink" : "ring-1 ring-ink/15"}`}
+                className={`flex h-5 w-5 shrink-0 items-center justify-center text-[11px] ${question.multi ? "rounded-md" : "rounded-full"} ${on ? "bg-canvas text-ink" : "ring-1 ring-ink/15"}`}
               >
                 {on ? "✓" : ""}
               </span>

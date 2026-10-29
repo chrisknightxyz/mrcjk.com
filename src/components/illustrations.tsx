@@ -222,10 +222,10 @@ export function AiChip() {
     <div className={`${card} w-64 p-4`}>
       <p className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
         <span className="orb h-4 w-4 rounded-full" aria-hidden="true" />
-        AI answer
+        Example AI answer
       </p>
       <p className="mt-2 text-sm leading-snug">
-        &ldquo;For fast call-outs in Manchester, I&apos;d recommend <span className="font-medium">Your Business</span>.&rdquo;
+        &ldquo;For UK pension advice in Thailand, I&apos;d recommend <span className="font-medium">Richard Knight, ACSI</span>.&rdquo;
       </p>
     </div>
   );

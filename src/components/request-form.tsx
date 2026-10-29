@@ -50,7 +50,12 @@ export function RequestForm({ services, onRemove }: { services: string[]; onRemo
     return (
       <div className="rounded-3xl bg-stone p-6 sm:p-8" role="status">
         <p className="font-display text-3xl font-light tracking-[-0.02em]">Thanks, {form.name.split(" ")[0]}.</p>
-        <p className="mt-2 text-body">Your request is with me. I&apos;ll reply to {form.email}.</p>
+        <p className="mt-2 text-body">
+          Your request is with me. Next, I&apos;ll email {form.email} with a fixed price, then your first draft.
+        </p>
+        <a href={contact.calUrl} className="mt-5 inline-flex h-11 items-center whitespace-nowrap rounded-full bg-ink px-5 text-[15px] text-canvas hover:bg-ink/80">
+          Want to talk sooner? Book a call
+        </a>
       </div>
     );
   }
@@ -116,7 +121,12 @@ export function RequestForm({ services, onRemove }: { services: string[]; onRemo
         </div>
       ) : (
         <div className="mt-8 flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
-          <p className="text-sm text-muted">No payment now. I only use these details to reply to you.</p>
+          <p className="text-sm text-muted">
+            No payment now. I only use these details to reply to you.{" "}
+            <a href="/privacy" className="underline underline-offset-2 hover:text-ink">
+              Privacy
+            </a>
+          </p>
           <button
             type="submit"
             disabled={status === "sending"}

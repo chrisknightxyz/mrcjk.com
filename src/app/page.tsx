@@ -228,10 +228,10 @@ export default function HomePage() {
 
         {/* Brands */}
         <Band>
-          <p className="sr-only">Brands I&apos;ve worked with</p>
+          <p className="pt-8 text-center text-[15px] text-muted">Brands I&apos;ve worked with</p>
           <ul className="grid grid-cols-2 sm:grid-cols-4">
             {clients.map((c) => (
-              <li key={c.name} className="flex justify-center py-8 opacity-50 grayscale transition hover:opacity-100 hover:grayscale-0 sm:py-10">
+              <li key={c.name} className="flex justify-center pb-8 pt-6 opacity-50 grayscale transition hover:opacity-100 hover:grayscale-0 sm:pb-10">
                 <a href={c.url} target="_blank" rel="noopener noreferrer" aria-label={c.name}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={c.logo} alt={c.name} className={`h-10 w-16 object-contain ${c.mono ? "dark:invert" : ""}`} />
@@ -282,7 +282,7 @@ export default function HomePage() {
                     </span>
                   </span>
                   <span className="block px-2 pb-4 pt-5">
-                    <span className="flex flex-wrap items-center gap-2 text-[13px] text-muted">
+                    <span className="flex min-h-6 flex-wrap items-center gap-2 text-[13px] text-muted">
                       <span className="whitespace-nowrap">{c.sector}</span>
                       {"own" in c && c.own && <span className="whitespace-nowrap rounded-full bg-stone px-2 py-0.5 text-ink">My product</span>}
                     </span>
@@ -374,7 +374,7 @@ export default function HomePage() {
             >
               <CountUp to={24} duration={900} />
             </p>
-            <p className={`-mt-10 sm:-mt-20 ${H2}`}>
+            <p className={`-mt-10 text-balance sm:-mt-20 ${H2}`}>
               Hours from first message <br className="hidden sm:block" />
               to a live website
             </p>

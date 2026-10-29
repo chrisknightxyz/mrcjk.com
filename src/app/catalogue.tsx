@@ -44,9 +44,10 @@ export function Catalogue() {
 
   return (
     <>
-      <div className="grid grid-cols-[minmax(0,1fr)] gap-x-8 gap-y-10 lg:grid-cols-2">
+      <div>
+        <div className="gap-8 lg:columns-2">
         {groups.map((g) => (
-          <section key={g.category} aria-labelledby={`cat-${g.category}`}>
+          <section key={g.category} aria-labelledby={`cat-${g.category}`} className="mb-10 break-inside-avoid">
             <div className="flex items-center gap-3 px-1">
               <GradientArt variant={categoryVariant[g.category]} className="h-6 w-6 shrink-0 rounded-lg" />
               <h3 id={`cat-${g.category}`} className="whitespace-nowrap text-[15px] font-medium">
@@ -105,7 +106,8 @@ export function Catalogue() {
             </ul>
           </section>
         ))}
-        <div id="request" ref={request} className="scroll-mt-24 lg:col-span-2">
+        </div>
+        <div id="request" ref={request} className="scroll-mt-24">
           <RequestForm services={selected} onRemove={toggle} />
         </div>
       </div>

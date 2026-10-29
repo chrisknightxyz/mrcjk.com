@@ -26,6 +26,7 @@ function ToolTile({ tool }: { tool: Tool }) {
 // The booking and ordering tools each kind of business already uses, then the payment providers.
 export function IntegrationTabs() {
   const [active, setActive] = useState(0);
+  const [all, setAll] = useState(false);
   const group = bookingTools[active];
 
   return (
@@ -36,7 +37,10 @@ export function IntegrationTabs() {
             key={g.sector}
             role="tab"
             aria-selected={i === active}
-            onClick={() => setActive(i)}
+            onClick={() => {
+              setActive(i);
+              setAll(false);
+            }}
             className={`h-9 shrink-0 whitespace-nowrap rounded-full px-4 text-[15px] transition ${
               i === active ? "bg-ink text-canvas" : "bg-stone text-body hover:text-ink"
             }`}
@@ -46,11 +50,18 @@ export function IntegrationTabs() {
         ))}
       </div>
       <ul key={active} className="rise grid grid-cols-1 gap-2 px-5 pb-10 pt-6 sm:grid-cols-2 sm:px-8 lg:grid-cols-4">
-        {group.tools.map((tool) => (
-          <li key={tool.name}>
+        {group.tools.map((tool, i) => (
+          <li key={tool.name} className={!all && i >= 6 ? "max-sm:hidden" : ""}>
             <ToolTile tool={tool} />
           </li>
         ))}
+        {!all && group.tools.length > 6 && (
+          <li className="sm:hidden">
+            <button type="button" onClick={() => setAll(true)} className="h-11 w-full rounded-2xl bg-stone text-[15px] text-body">
+              Show all {group.tools.length}
+            </button>
+          </li>
+        )}
       </ul>
 
       <div className="border-t border-ink/5 px-5 pb-10 pt-8 sm:px-8">
