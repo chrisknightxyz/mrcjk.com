@@ -100,7 +100,7 @@ export const plans: Plan[] = [
       "SSL included",
       "Updates and fixes",
       "Monthly SEO and AEO report",
-      "Cancel any time",
+      "Pay monthly, quarterly or yearly",
     ],
     cta: "Subscribe",
     note: "Renews until you cancel",
@@ -363,8 +363,8 @@ export const caseStudies = [
 // How I work: seven steps, from first message to monthly care. Titles stay on one line.
 export const steps = [
   {
-    title: "Tell me what you need",
-    body: "Five quick questions, about a minute. Then message me on WhatsApp or book a call.",
+    title: "Choose and send your request",
+    body: "Tick your services below and send one request. It takes about a minute.",
   },
   {
     title: "See a first draft",

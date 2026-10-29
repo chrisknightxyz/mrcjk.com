@@ -22,7 +22,7 @@ export function StartFlow({ need, services, onClose }: { need: string | null; se
   const [details, setDetails] = useState<Details>({ name: "", company: "", town: "" });
 
   const total = questions.length + 1;
-  const progress = Math.min(step, total) / total;
+  const progress = (Math.min(step, total) + 1) / (total + 1);
 
   function choose(q: (typeof questions)[number], option: string) {
     const current = answers[q.id] ?? [];
@@ -80,7 +80,7 @@ export function StartFlow({ need, services, onClose }: { need: string | null; se
               setStep(DONE);
             }}
           >
-            <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted">Last step</p>
+            <p className="text-[14px] text-muted">Last step</p>
             <h2 className="mt-3 text-balance font-display text-3xl font-light leading-[1.1] tracking-[-0.03em] sm:text-4xl">Who should I talk to?</h2>
             <div className="mt-10 space-y-4">
               <Field label="Your name" value={details.name} onChange={(name) => setDetails({ ...details, name })} required autoComplete="name" />
@@ -98,7 +98,7 @@ export function StartFlow({ need, services, onClose }: { need: string | null; se
 
         {step === DONE && (
           <div key="done" className="rise">
-            <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted">Almost done</p>
+            <p className="text-[14px] text-muted">Almost done</p>
             <h2 className="mt-3 text-balance font-display text-3xl font-light leading-[1.1] tracking-[-0.03em] sm:text-4xl">
               Thanks, {details.name.split(" ")[0]}. How would you like to talk?
             </h2>
@@ -168,7 +168,7 @@ function Question({
 }) {
   return (
     <fieldset className="rise">
-      <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted">
+      <p className="text-[14px] text-muted">
         Question {index + 1} of {questions.length}
       </p>
       <legend className="sr-only">{question.title}</legend>

@@ -4,11 +4,14 @@ import { useState } from "react";
 
 // A homepage drawn for each kind of business, after the tabbed workflow demo on elevenlabs.io:
 // the sectors as a list on the left, the matching site in a panel on the right.
+// The same seven kinds of business, in the same order, as the integrations below.
 const sectors = [
-  { name: "Trades and home services", tag: "Plumbing · Manchester", title: "Same-day plumbers, across Manchester", ctas: ["Call now", "Get a quote"], tiles: ["Boilers", "Leaks", "Bathrooms"] },
   { name: "Restaurants and cafés", tag: "Café · Bristol", title: "Breakfast, brunch and proper coffee", ctas: ["Book a table", "See the menu"], tiles: ["Breakfast", "Lunch", "Coffee"] },
-  { name: "Salons and barbers", tag: "Barber · Liverpool", title: "Sharp cuts, walk-ins welcome", ctas: ["Book online", "Prices"], tiles: ["Cuts", "Beards", "Kids"] },
+  { name: "Gyms and studios", tag: "Gym · Manchester", title: "Classes that fit your week", ctas: ["Book a class", "Timetable"], tiles: ["Strength", "Yoga", "Spin"] },
+  { name: "Nails and beauty", tag: "Nail salon · London", title: "Nails, brows and lashes, done right", ctas: ["Book online", "Prices"], tiles: ["Gel nails", "Brows", "Lashes"] },
+  { name: "Barbers", tag: "Barber · Liverpool", title: "Sharp cuts, walk-ins welcome", ctas: ["Book online", "Prices"], tiles: ["Cuts", "Beards", "Kids"] },
   { name: "Clinics and health", tag: "Physio · Brighton", title: "Back on your feet, faster", ctas: ["Book now", "Treatments"], tiles: ["Sports", "Back pain", "Rehab"] },
+  { name: "Trades", tag: "Plumbing · Manchester", title: "Same-day plumbers, across Manchester", ctas: ["Call now", "Get a quote"], tiles: ["Boilers", "Leaks", "Bathrooms"] },
   { name: "Shops", tag: "Florist · York", title: "Fresh flowers, delivered today", ctas: ["Shop now", "Visit us"], tiles: ["Bouquets", "Weddings", "Plants"] },
 ];
 
@@ -59,7 +62,7 @@ export function SectorTabs() {
             </div>
           </div>
         </div>
-        <p className="mt-3 px-2 text-center font-mono text-[10px] uppercase tracking-[0.14em] text-muted">Example homepage</p>
+        <p className="mt-3 px-2 text-center text-[11px] text-muted">Example homepage</p>
       </div>
     </div>
   );

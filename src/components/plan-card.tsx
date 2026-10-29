@@ -69,11 +69,11 @@ export function PlanCard({ plan, href, variant, delay }: { plan: Plan; href: str
           </li>
         ))}
       </ul>
-      <div className="mt-auto flex flex-wrap items-center justify-between gap-x-4 gap-y-3 pt-10">
-        <p className="whitespace-nowrap text-[15px] text-muted">{plan.note}</p>
-        <Button href={option?.link || href} pick={plan.pick} variant={price === null ? "secondary" : "primary"} className="ml-auto">
+      <div className="mt-auto pt-10">
+        <Button href={option?.link || href} pick={plan.pick} variant={price === null ? "secondary" : "primary"} className="w-full">
           {plan.cta}
         </Button>
+        <p className="mt-3 text-center text-[14px] text-muted">{plan.note}</p>
       </div>
     </Reveal>
   );

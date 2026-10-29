@@ -23,14 +23,14 @@ export function Band({ id, children, className = "" }: { id?: string; children: 
 export function BandHead({ eyebrow, title, intro, center }: { eyebrow?: string; title: React.ReactNode; intro?: string; center?: boolean }) {
   if (center) {
     return (
-      <Reveal className="px-5 py-20 text-center sm:px-8 lg:py-24">
+      <Reveal className="px-5 py-20 text-center sm:px-8 lg:py-[120px]">
         <h2 className={`mx-auto max-w-xl text-balance ${H2}`}>{title}</h2>
         {intro && <p className={`mx-auto mt-4 max-w-md ${LEAD}`}>{intro}</p>}
       </Reveal>
     );
   }
   return (
-    <Reveal className="grid gap-5 px-5 pb-12 pt-20 sm:px-8 lg:grid-cols-2 lg:items-end lg:gap-12 lg:pb-14 lg:pt-28">
+    <Reveal className="grid gap-5 px-5 pb-12 pt-20 sm:px-8 lg:grid-cols-2 lg:items-end lg:gap-12 lg:pb-14 lg:pt-[120px]">
       <div>
         {eyebrow && <p className="mb-3 text-[15px] text-muted">{eyebrow}</p>}
         <h2 className={`max-w-[34rem] text-balance ${H2}`}>{title}</h2>

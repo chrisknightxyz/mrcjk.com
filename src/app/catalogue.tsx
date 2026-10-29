@@ -15,6 +15,9 @@ const groups = Array.from(new Set(services.map((s) => s.category))).map((categor
 export function Catalogue() {
   const [selected, setSelected] = useState<string[]>(["Website build"]);
   const [touched, setTouched] = useState(false);
+  // On phones the groups fold away, except Website and hosting; on desktop they're always open.
+  const [open, setOpen] = useState<string[]>([groups[0].category]);
+  const fold = (category: string) => setOpen((cur) => (cur.includes(category) ? cur.filter((c) => c !== category) : [...cur, category]));
   const toggle = (title: string) => {
     setTouched(true);
     setSelected((cur) => (cur.includes(title) ? cur.filter((t) => t !== title) : [...cur, title]));
@@ -47,15 +50,26 @@ export function Catalogue() {
       <div>
         <div className="gap-8 lg:columns-2">
         {groups.map((g) => (
-          <section key={g.category} aria-labelledby={`cat-${g.category}`} className="mb-10 break-inside-avoid">
-            <div className="flex items-center gap-3 px-1">
+          <section key={g.category} aria-labelledby={`cat-${g.category}`} className="mb-6 break-inside-avoid lg:mb-10">
+            <button
+              type="button"
+              onClick={() => fold(g.category)}
+              aria-expanded={open.includes(g.category)}
+              className="flex w-full items-center gap-3 px-1 text-left lg:pointer-events-none"
+            >
               <GradientArt variant={categoryVariant[g.category]} className="h-6 w-6 shrink-0 rounded-lg" />
               <h3 id={`cat-${g.category}`} className="whitespace-nowrap text-[15px] font-medium">
                 {g.category}
               </h3>
-              <span className="whitespace-nowrap text-sm text-muted">{g.items.length}</span>
-            </div>
-            <ul className="mt-3 divide-y divide-ink/[0.06] overflow-hidden rounded-3xl bg-card ring-1 ring-ink/[0.06]">
+              <span className="whitespace-nowrap text-sm text-muted">
+                {g.items.filter((s) => selected.includes(s.title)).length || g.items.length}
+                {g.items.some((s) => selected.includes(s.title)) ? " ticked" : ""}
+              </span>
+              <svg viewBox="0 0 16 16" aria-hidden="true" className={`ml-auto h-4 w-4 text-muted transition lg:hidden ${open.includes(g.category) ? "rotate-180" : ""}`}>
+                <path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+            <ul className={`mt-3 divide-y divide-ink/[0.06] overflow-hidden rounded-3xl bg-card ring-1 ring-ink/[0.06] ${open.includes(g.category) ? "" : "max-lg:hidden"}`}>
               {g.items.map((s) => {
                 const on = selected.includes(s.title);
                 return (

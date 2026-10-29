@@ -10,7 +10,7 @@ const card = "theme-light rounded-2xl bg-white/95 shadow-[0_0_0_1px_rgba(0,0,0,0
 export function StepTalk() {
   return (
     <div className={`${card} w-full max-w-[17rem] p-4`}>
-      <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">Question 2 of 5</p>
+      <p className="text-[11px] text-muted">Question 2 of 5</p>
       <p className="mt-2 text-sm font-medium">What kind of business do you run?</p>
       <div className="mt-3 grid gap-1.5 text-xs">
         <span className="flex items-center justify-between rounded-xl bg-ink px-3 py-2 text-white">
@@ -52,7 +52,7 @@ export function StepGrow() {
   ];
   return (
     <div className={`${card} w-full max-w-[17rem] p-4`}>
-      <p className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
+      <p className="flex items-center justify-between text-[11px] text-muted">
         Monthly report <span className="rounded-full bg-surface px-2 py-0.5 normal-case tracking-normal">Example</span>
       </p>
       <ul className="mt-3 divide-y divide-black/5 text-xs">
@@ -72,7 +72,7 @@ export function StepGrow() {
 export function StepPay() {
   return (
     <div className={`${card} w-full max-w-[17rem] p-4`}>
-      <p className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
+      <p className="flex items-center justify-between text-[11px] text-muted">
         Invoice <span className="rounded-full bg-surface px-2 py-0.5 normal-case tracking-normal">Example</span>
       </p>
       <p className="mt-3 flex items-center justify-between text-sm">
@@ -91,7 +91,7 @@ export function StepConnect() {
   const tools = ["Online booking", "Card payments", "WhatsApp chat", "Google reviews"];
   return (
     <div className={`${card} w-full max-w-[17rem] p-4`}>
-      <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">Integrations</p>
+      <p className="text-[11px] text-muted">Integrations</p>
       <ul className="mt-2 divide-y divide-black/5 text-xs">
         {tools.map((t) => (
           <li key={t} className="flex items-center justify-between py-2">
@@ -114,7 +114,7 @@ export function StepTune() {
   ] as const;
   return (
     <div className={`${card} w-full max-w-[17rem] p-4`}>
-      <p className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
+      <p className="flex items-center justify-between text-[11px] text-muted">
         Site check <span className="rounded-full bg-surface px-2 py-0.5 normal-case tracking-normal">Example</span>
       </p>
       <div className="mt-3 grid grid-cols-3 gap-2 text-center">
@@ -210,7 +210,7 @@ export function MapsResults() {
           </li>
         ))}
       </ul>
-      <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-muted">Example</p>
+      <p className="mt-2 text-[11px] text-muted">Example</p>
     </div>
   );
 }
@@ -220,7 +220,7 @@ export function MapsResults() {
 export function AiChip() {
   return (
     <div className={`${card} w-64 p-4`}>
-      <p className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
+      <p className="flex items-center gap-2 text-[11px] text-muted">
         <span className="orb h-4 w-4 rounded-full" aria-hidden="true" />
         Example AI answer
       </p>
@@ -234,7 +234,7 @@ export function AiChip() {
 export function MapsCard() {
   return (
     <div className={`${card} w-60 p-4`}>
-      <p className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
+      <p className="flex items-center gap-1.5 text-[11px] text-muted">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/logos/google.svg" alt="" className="h-3 w-3" />
         Local search
@@ -299,7 +299,7 @@ export function AiAnswer() {
         </div>
       </div>
       <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-black/5 pt-4">
-        <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">Example answer</span>
+        <span className="text-[11px] text-muted">Example answer</span>
         <span className="flex items-center gap-1.5" aria-label={`Works across ${aiAssistants.map((id) => logos[id].name).join(", ")}`}>
           {aiAssistants.map((id) => (
             // eslint-disable-next-line @next/next/no-img-element

@@ -131,10 +131,10 @@ export default function HomePage() {
               <a href="#faq" className="hover:text-muted">FAQ</a>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             {/* Phones: the section links and WhatsApp in a small menu. */}
             <details className="group relative lg:hidden">
-              <summary className="flex h-9 cursor-pointer list-none items-center rounded-full px-3 text-[15px] text-body hover:text-ink">Menu</summary>
+              <summary className="flex h-9 cursor-pointer list-none items-center rounded-full bg-card px-3 text-[15px] shadow-[0_0_0_0.5px_rgb(var(--ink)/0.2),0_1px_2px_rgb(var(--ink)/0.06)] sm:px-4">Menu</summary>
               <div className="absolute right-0 top-11 z-30 grid w-48 gap-1 rounded-2xl bg-card p-2 text-[15px] shadow-[0_0_0_0.5px_rgb(var(--ink)/0.15),0_12px_32px_rgba(30,20,10,0.14)]">
                 {[
                   ["Work", "#work"],
@@ -161,7 +161,7 @@ export default function HomePage() {
               href={contact.calUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-9 items-center whitespace-nowrap rounded-full bg-ink px-4 text-[15px] text-canvas hover:bg-ink/80"
+              className="inline-flex h-9 items-center whitespace-nowrap rounded-full bg-ink px-3 text-[15px] text-canvas hover:bg-ink/80 sm:px-4"
             >
               Book a call
             </a>
@@ -189,7 +189,7 @@ export default function HomePage() {
               </div>
             </div>
             <div>
-              <p className={`rise max-w-md [animation-delay:120ms] ${LEAD} sm:text-[18px] sm:leading-7`}>
+              <p className={`rise max-w-md [animation-delay:120ms] ${LEAD}`}>
                 Your new website, live in 24 hours. Designed for your business, found on Google and recommended by AI. From{" "}
                 {gbp(build.price!)}, then {gbp(care.price!)} a month.
               </p>
@@ -426,12 +426,12 @@ export default function HomePage() {
           <BandHead
             title={
               <>
-                {gbp(build.price!)} to build.
+                {gbp(build.price!)} to build,
                 <br />
-                {gbp(care.price!)} a month to run.
+                {gbp(care.price!)} a month to run
               </>
             }
-            intro="You pay for your website after approving the first draft. Hosting starts when you go live. No VAT to add."
+            intro="You pay for your website after approving the first draft, and hosting starts when you go live. AI for your business is scoped on a call. No VAT to add."
           />
           <Cells from="lg">
             {plans.map((plan, i) => (
@@ -441,7 +441,7 @@ export default function HomePage() {
         </Band>
 
         {/* FAQ */}
-        <Band id="faq" className="grid gap-8 px-5 py-20 sm:px-8 lg:grid-cols-[1fr_2fr] lg:gap-12 lg:py-24">
+        <Band id="faq" className="grid gap-8 px-5 py-20 sm:px-8 lg:grid-cols-[1fr_2fr] lg:gap-12 lg:py-[120px]">
           <div>
             <h2 className={H2}>
               Frequently
@@ -458,7 +458,7 @@ export default function HomePage() {
           <div>
             {faqs.map((f) => (
               <details key={f.q} className="group border-b border-dashed border-ink/15">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-4 text-[17px]">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-4 text-[18px]">
                   {f.q}
                   <svg viewBox="0 0 16 16" aria-hidden="true" className="h-4 w-4 shrink-0 text-muted transition group-open:rotate-180">
                     <path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -487,7 +487,7 @@ export default function HomePage() {
                   <span className="orb h-12 w-12 shrink-0 rounded-full" aria-hidden="true" />
                   <div className="min-w-0">
                     <h3 className="truncate text-[17px]">Book an intro call</h3>
-                    <p className="truncate text-[14px] text-muted">30 minutes on Google Meet</p>
+                    <p className="truncate text-[14px] text-muted">A video call on Google Meet</p>
                   </div>
                 </div>
                 <p className={`mt-6 max-w-sm ${MUTED}`}>See if we&apos;re a fit, talk through your business and get a price. Pick a time that suits you.</p>

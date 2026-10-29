@@ -70,7 +70,7 @@ export function HowIWork() {
   return (
     <Band id="how-it-works">
       <BandHead
-        title="Seven steps from hello to live"
+        title="Live in 24 hours, then looked after"
         intro="Live in 24 hours. You see a first draft before you pay anything, then one fixed price, one person from start to finish, and one monthly fee once you're live."
       />
       <div className="grid grid-cols-[minmax(0,1fr)] border-t border-ink/5 lg:grid-cols-2 lg:divide-x lg:divide-ink/5">
@@ -115,7 +115,7 @@ export function HowIWork() {
                   <p className={`mt-1.5 ${MUTED}`}>{s.body}</p>
                   {i === 0 && (
                     <Button href="#services" className="mt-4">
-                      Start now
+                      Choose your services
                     </Button>
                   )}
                 </div>

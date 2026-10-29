@@ -37,6 +37,10 @@ html {
   color: rgb(var(--ink));
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
 body {
   @apply bg-canvas font-sans tracking-body text-ink antialiased transition-colors duration-300;
 }
