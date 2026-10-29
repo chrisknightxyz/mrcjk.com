@@ -20,7 +20,21 @@ export function Band({ id, children, className = "" }: { id?: string; children: 
 }
 
 // A section head: the title on the left, its line on the right, both on the column's grid.
-export function BandHead({ eyebrow, title, intro, center }: { eyebrow?: string; title: React.ReactNode; intro?: string; center?: boolean }) {
+export function BandHead({
+  eyebrow,
+  title,
+  intro,
+  center,
+  h1,
+}: {
+  eyebrow?: string;
+  title: React.ReactNode;
+  intro?: string;
+  center?: boolean;
+  // The page's main heading (the first head on /services and /work).
+  h1?: boolean;
+}) {
+  const Heading = h1 ? "h1" : "h2";
   if (center) {
     return (
       <Reveal className="px-5 py-20 text-center sm:px-8 lg:py-[120px]">
@@ -33,7 +47,7 @@ export function BandHead({ eyebrow, title, intro, center }: { eyebrow?: string; 
     <Reveal className="grid gap-5 px-5 pb-12 pt-20 sm:px-8 lg:grid-cols-2 lg:items-end lg:gap-12 lg:pb-14 lg:pt-[120px]">
       <div>
         {eyebrow && <p className="mb-3 text-[15px] text-muted">{eyebrow}</p>}
-        <h2 className={`max-w-[34rem] text-balance ${H2}`}>{title}</h2>
+        <Heading className={`max-w-[34rem] text-balance ${H2}`}>{title}</Heading>
       </div>
       {intro && <p className={`max-w-lg ${LEAD}`}>{intro}</p>}
     </Reveal>

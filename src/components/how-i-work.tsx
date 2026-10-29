@@ -70,7 +70,7 @@ export function HowIWork() {
   return (
     <Band id="how-it-works">
       <BandHead
-        title="Live in 24 hours, then looked after"
+        title="Draft in 24 hours, then built and looked after"
         intro="You see a first draft before you pay anything. Then one fixed price, one person from start to finish, and one monthly fee once you're live."
       />
       <div className="grid grid-cols-[minmax(0,1fr)] border-t border-ink/5 lg:grid-cols-2 lg:divide-x lg:divide-ink/5">

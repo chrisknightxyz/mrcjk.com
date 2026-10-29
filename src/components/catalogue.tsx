@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { GradientArt, categoryVariant } from "@/components/gradient-art";
 import { LogoStack } from "@/components/logos";
-import { RequestForm } from "@/components/request-form";
 import { services } from "@/content/site";
 
 const groups = Array.from(new Set(services.map((s) => s.category))).map((category) => ({
@@ -11,7 +10,8 @@ const groups = Array.from(new Set(services.map((s) => s.category))).map((categor
   items: services.filter((s) => s.category === category),
 }));
 
-// A checklist, one service per row on every screen: tick what you want, then send the request below.
+// A checklist, one service per row on every screen: tick what you want, then continue into the
+// same Build my website flow as the rest of the site, with these services already chosen.
 export function Catalogue() {
   const [selected, setSelected] = useState<string[]>(["Website build"]);
   const [touched, setTouched] = useState(false);
@@ -33,7 +33,9 @@ export function Catalogue() {
     return () => document.removeEventListener("click", onClick);
   }, []);
 
-  // The floating bar steps aside once the form itself is on screen.
+  const next = `/start?services=${encodeURIComponent(selected.join("|"))}`;
+
+  // The floating bar steps aside once the Continue button below the list is on screen.
   const request = useRef<HTMLDivElement>(null);
   const [atForm, setAtForm] = useState(false);
   useEffect(() => {
@@ -121,8 +123,13 @@ export function Catalogue() {
           </section>
         ))}
         </div>
-        <div id="request" ref={request} className="mx-auto max-w-3xl scroll-mt-24">
-          <RequestForm services={selected} onRemove={toggle} />
+        <div id="request" ref={request} className="mx-auto flex max-w-3xl items-center justify-between gap-4 rounded-3xl bg-stone p-6 sm:p-8">
+          <p className="text-[15px] text-body">
+            <span className="text-ink">{selected.length}</span> selected. Next, a few quick questions and your free draft.
+          </p>
+          <a href={next} className="inline-flex h-11 shrink-0 items-center whitespace-nowrap rounded-full bg-ink px-5 text-[15px] text-canvas hover:bg-ink/80">
+            Continue
+          </a>
         </div>
       </div>
 
@@ -139,7 +146,7 @@ export function Catalogue() {
               Clear
             </button>
           </p>
-          <a href="#request" tabIndex={showBar ? 0 : -1} className="inline-flex h-10 items-center whitespace-nowrap rounded-full bg-ink px-5 text-sm font-medium text-canvas hover:bg-ink/80">
+          <a href={next} tabIndex={showBar ? 0 : -1} className="inline-flex h-10 items-center whitespace-nowrap rounded-full bg-ink px-5 text-sm font-medium text-canvas hover:bg-ink/80">
             Continue
           </a>
         </div>

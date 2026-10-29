@@ -12,7 +12,7 @@ const DETAILS = questions.length;
 function preselect(need: string | null, services: string[]): Answers {
   const picked = [need, ...services.map((s) => serviceNeeds[s] ?? "Something else")];
   const needs = Array.from(new Set(picked.filter((n): n is string => !!n && questions[0].options.includes(n))));
-  return needs.length ? { needs } : {};
+  return { needs: needs.length ? needs : ["New website"] };
 }
 
 export function StartFlow({ need, services, onClose }: { need: string | null; services: string[]; onClose: () => void }) {

@@ -19,7 +19,7 @@ export default function WorkPage() {
       <SiteHeader />
       <main>
         <Band>
-          <BandHead title="Work" intro="Live websites I've designed and built, past work for global brands, and the press about it." />
+          <BandHead h1 title="Work" intro="Live websites I've designed and built, past work for global brands, and the press about it." />
           <WorkCards />
         </Band>
 

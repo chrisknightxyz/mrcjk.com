@@ -91,7 +91,7 @@ export function About() {
           <p className={LEAD}>
             Hi, I&apos;m Chris. I design, build and look after every site myself. I&apos;ve made digital work for Nike,
             Google, Snapchat and Manchester City, and I build my own products too, like Private Clubs and
-            CreatorBrands. Now I bring that same standard to local businesses, at a fixed price and live in 24 hours.
+            CreatorBrands. Now I bring that same standard to local businesses, at a fixed price, with your homepage draft in 24 hours.
           </p>
           <dl className="mt-8 divide-y divide-ink/5 border-y border-ink/5 text-[15px]">
             {about.map(([label, items]) => (

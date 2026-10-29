@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { clients, contact, faqs, plans, services, site, social, stripeLinks, type Plan } from "@/content/site";
+import { clients, contact, faqs, plans, services, servicesFaq, site, social, stripeLinks, type Plan } from "@/content/site";
 import { Band, BandHead, Cells, H2, LEAD, MUTED } from "@/components/band";
 import { Button } from "@/components/button";
 import { Footer } from "@/components/footer";
@@ -8,6 +8,7 @@ import { type GradientVariant } from "@/components/gradient-art";
 import { PlanCard } from "@/components/plan-card";
 import { Reveal } from "@/components/reveal";
 import { SiteHeader } from "@/components/site-header";
+import { SectorTabs } from "@/components/sector-tabs";
 import { WorkCards } from "@/components/work";
 
 const [build, care] = plans;
@@ -15,14 +16,14 @@ const gbp = (n: number) => `£${n.toLocaleString("en-GB")}`;
 
 export const metadata: Metadata = {
   title: "Websites for UK local businesses",
-  description: `See your new website before you pay. Designed and built for your business, live in 24 hours. ${gbp(build.price!)}, then ${gbp(care.price!)} a month.`,
+  description: `Your new homepage, free, within 24 hours. Like it? From ${gbp(build.price!)} to finish and launch, then ${gbp(care.price!)} a month. Don't? You owe nothing.`,
   alternates: { canonical: "/" },
   twitter: { card: "summary_large_image", title: "Websites that make you money", images: ["/og.jpg"] },
   openGraph: {
     siteName: site.name,
     locale: "en_GB",
     title: "Websites that make you money",
-    description: `Your new website, live in 24 hours. Found on Google, recommended by AI. From ${gbp(build.price!)}, then ${gbp(care.price!)} a month.`,
+    description: `Your new homepage, free, within 24 hours. From ${gbp(build.price!)}, then ${gbp(care.price!)} a month. You only pay if you like it.`,
     url: "/",
     type: "website",
     images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "Chris Knight: websites that make you money" }],
@@ -92,13 +93,13 @@ export default function HomePage() {
         {/* Hero: the offer on the left, the person behind it on the right. */}
         <Band className="grid grid-cols-[minmax(0,1fr)] lg:grid-cols-2">
           <div className="flex flex-col justify-center px-5 pb-12 pt-14 sm:px-8 lg:px-12 lg:py-20">
-            <h1 className="rise text-[14px] text-muted sm:text-[15px]">Websites for UK local businesses</h1>
+            <h1 className="rise text-[14px] text-muted sm:text-[15px]">Websites for UK trades, salons, cafés and shops</h1>
             <p className="rise mt-3 font-display text-[36px] font-light leading-[42px] tracking-[-0.02em] sm:text-[48px] sm:leading-[52px]">
-              See your new website before you pay
+              Your new homepage, free, within 24 hours
             </p>
             <p className={`rise mt-5 max-w-md [animation-delay:120ms] ${LEAD}`}>
-              I&apos;m Chris. I design and build websites for local businesses, live in 24 hours. {gbp(build.price!)}, then{" "}
-              {gbp(care.price!)} a month to keep it running.
+              I&apos;m Chris. Tell me about your business and I&apos;ll design your homepage within 24 hours, free. Like it? It&apos;s
+              from {gbp(build.price!)} to finish and launch, then {gbp(care.price!)} a month. Don&apos;t? You owe nothing.
             </p>
             <div className="rise mt-8 flex flex-wrap gap-3 [animation-delay:240ms]">
               <Button href="/start">Build my website</Button>
@@ -141,9 +142,35 @@ export default function HomePage() {
           </div>
         </Band>
 
+        {/* How it works, in three steps. */}
+        <Band id="how-it-works">
+          <BandHead title="How it works" intro="You see your website before you pay a penny. If you don't like it, you don't pay." />
+          <Cells>
+            {howItWorks.map((s, i) => (
+              <Reveal key={s.title} delay={i * 80} className="px-5 py-10 sm:px-8 lg:px-12">
+                <p className="font-display text-[40px] font-light leading-none text-muted">{i + 1}</p>
+                <h3 className="mt-6 text-[17px] leading-6">{s.title}</h3>
+                <p className={`mt-1.5 ${MUTED}`}>{s.body}</p>
+              </Reveal>
+            ))}
+          </Cells>
+          <div className="flex justify-center border-t border-ink/5 px-5 py-8 sm:px-8">
+            <Button href="/start">Build my website</Button>
+          </div>
+        </Band>
+
+        {/* What the free draft looks like: an example homepage for each kind of business. */}
+        <Band>
+          <BandHead
+            title="What your free draft looks like"
+            intro="A homepage written for your trade, your town and your customers. These are examples; yours is written for your business."
+          />
+          <SectorTabs />
+        </Band>
+
         {/* Brands */}
         <Band>
-          <p className="pt-8 text-center text-[15px] text-muted">Brands I&apos;ve worked with</p>
+          <p className="pt-8 text-center text-[15px] text-muted">Before this, I made digital work for</p>
           <ul className="grid grid-cols-2 sm:grid-cols-4">
             {clients.map((c) => (
               <li key={c.name} className="flex justify-center pb-8 pt-6 opacity-60 grayscale transition hover:opacity-100 hover:grayscale-0 sm:pb-10">
@@ -164,23 +191,6 @@ export default function HomePage() {
             <Button href="/work" variant="secondary">
               See all my work
             </Button>
-          </div>
-        </Band>
-
-        {/* How it works, in three steps. */}
-        <Band id="how-it-works">
-          <BandHead title="How it works" intro="You see your website before you pay a penny. If you don't like it, you don't pay." />
-          <Cells>
-            {howItWorks.map((s, i) => (
-              <Reveal key={s.title} delay={i * 80} className="px-5 py-10 sm:px-8 lg:px-12">
-                <p className="font-display text-[40px] font-light leading-none text-muted">{i + 1}</p>
-                <h3 className="mt-6 text-[17px] leading-6">{s.title}</h3>
-                <p className={`mt-1.5 ${MUTED}`}>{s.body}</p>
-              </Reveal>
-            ))}
-          </Cells>
-          <div className="flex justify-center border-t border-ink/5 px-5 py-8 sm:px-8">
-            <Button href="/start">Build my website</Button>
           </div>
         </Band>
 
@@ -221,7 +231,7 @@ export default function HomePage() {
             </h2>
           </div>
           <div>
-            {faqs.map((f) => (
+            {faqs.filter((f) => !servicesFaq(f.q)).map((f) => (
               <details key={f.q} className="group border-b border-dashed border-ink/15">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-4 text-[18px]">
                   {f.q}
@@ -237,7 +247,7 @@ export default function HomePage() {
 
         {/* Closing band */}
         <Band className="flex flex-col gap-6 px-5 py-12 sm:px-8 md:flex-row md:items-center md:justify-between">
-          <h2 className="font-display text-[28px] font-light leading-9 sm:text-[32px]">Websites that make you money</h2>
+          <h2 className="font-display text-[28px] font-light leading-9 sm:text-[32px]">Your free draft is two minutes away</h2>
           <div className="flex flex-wrap gap-3">
             <Button href={contact.calUrl} variant="secondary">
               Book a call

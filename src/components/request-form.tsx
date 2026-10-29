@@ -138,7 +138,7 @@ export function RequestForm({
         <Field label="Your name" value={form.name} onChange={set("name")} autoComplete="name" required />
         <Field label="Email" type="email" value={form.email} onChange={set("email")} autoComplete="email" required />
         <PhoneField code={form.code} onCode={(code) => setForm({ ...form, code })} value={form.phone} onChange={set("phone")} />
-        <Field label="Website" type="url" value={form.website} onChange={set("website")} autoComplete="url" />
+        <Field label="Your website or Facebook page" value={form.website} onChange={set("website")} autoComplete="url" />
       </div>
       {/* Hidden from people; bots fill it in and are dropped. */}
       <input type="text" name="company" value={form.company} onChange={set("company")} tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />

@@ -15,7 +15,7 @@ const sections: [string, string[]][] = [
     "What I collect",
     [
       "When you send a request: your name, email, and, if you add them, your phone number, website and the services you ticked.",
-      "When you answer the five questions, your answers go to me only if you send them, by WhatsApp, email or a booking.",
+      "When you answer the few quick questions, your answers go to me only if you send them, by WhatsApp, email or a booking.",
       "Bookings are handled by Cal.com, and payments by Stripe. I never see your card details. Request emails are delivered by Resend.",
     ],
   ],

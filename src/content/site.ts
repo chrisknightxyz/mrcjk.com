@@ -74,7 +74,7 @@ export const plans: Plan[] = [
     period: "one-off",
     blurb: "A custom website that turns visitors into calls, bookings and enquiries.",
     features: [
-      "Live in 24 hours",
+      "Homepage draft in 24 hours",
       "Custom, not a template",
       "Built for every phone",
       "Loads fast",
@@ -96,10 +96,10 @@ export const plans: Plan[] = [
     blurb: "Everything that keeps your site online, safe and working. Handled for you.",
     features: [
       "Fast, secure hosting",
-      "SSL included",
+      "Secure padlock (https)",
       "Updates and fixes",
-      "Monthly SEO and AEO report",
-      "Pay monthly, quarterly or yearly",
+      "Monthly results report",
+      "Monthly, quarterly or yearly",
     ],
     cta: "Subscribe",
     note: "Renews until you cancel",
@@ -179,12 +179,12 @@ export const aiAssistants: LogoId[] = ["chatgpt", "claude", "gemini", "perplexit
 export type Service = { title: string; body: string; category: string; logos?: LogoId[] };
 
 export const services: Service[] = [
-  { title: "Website build", body: "Designed for you, live in 24 hours", category: "Website and hosting", logos: ["figma", "google"] },
+  { title: "Website build", body: "Your homepage draft in 24 hours", category: "Website and hosting", logos: ["figma", "google"] },
   { title: "Hosting and care", body: "£99 a month, renews until you cancel", category: "Website and hosting", logos: ["vercel", "google"] },
-  { title: "Local SEO", body: "Top of Google and Maps, nearby", category: "Search", logos: ["google", "googlemaps"] },
+  { title: "Local SEO", body: "Show up on Google and Maps near you", category: "Search", logos: ["google", "googlemaps"] },
   { title: "Google Business Profile", body: "Right details, photos and hours", category: "Search", logos: ["google", "googlemaps"] },
   { title: "Analytics and tracking", body: "Track calls, forms and sales", category: "Search", logos: ["googleanalytics"] },
-  { title: "AEO", body: "Recommended by AI assistants", category: "AI search", logos: aiAssistants },
+  { title: "AEO", body: "Help ChatGPT and others suggest you", category: "AI search", logos: aiAssistants },
   { title: "Google AI Overviews", body: "In Google AI answers and AI Mode", category: "AI search", logos: ["google", "gemini"] },
   { title: "AI visibility check", body: "What AI says about you", category: "AI search", logos: aiAssistants },
   { title: "Google Ads", body: "Ads for people ready to buy", category: "Marketing", logos: ["googleads"] },
@@ -363,7 +363,7 @@ export const caseStudies = [
 export const steps = [
   {
     title: "Send your request",
-    body: "Tick your services below and send one request. It takes about a minute.",
+    body: "Tick your services below and send one request. It takes about two minutes.",
   },
   {
     title: "See a first draft",
@@ -402,6 +402,9 @@ export const audiences = [
   "Hotels and B&Bs",
 ];
 
+// Questions about the extra services; the homepage leaves these to /services.
+export const servicesFaq = (q: string) => /AEO|SEO|other services/.test(q);
+
 export const faqs = [
   {
     q: "Is the first draft really free?",
@@ -413,7 +416,7 @@ export const faqs = [
   },
   {
     q: "How fast is it?",
-    a: "From your first message to a live website in 24 hours. Bigger sites, with extra pages, online booking or a shop, take longer, and you'll get the timeline with your fixed price.",
+    a: "Your homepage draft arrives within 24 hours. Once you approve it, you get a go-live date with your fixed price. Bigger sites, with extra pages, online booking or a shop, take longer.",
   },
   {
     q: "Why does it say “from £999”?",
@@ -476,12 +479,6 @@ export const questions: Question[] = [
     options: [...bookingTools.map((b) => b.sector), "Something else"],
   },
   {
-    id: "website",
-    label: "Has a website",
-    title: "Do you have a website now?",
-    options: ["Yes", "No"],
-  },
-  {
     id: "timing",
     label: "Start",
     title: "When would you like to start?",
@@ -491,6 +488,12 @@ export const questions: Question[] = [
 
 // Maps a service picked in the basket to the matching /start answer.
 export const serviceNeeds: Record<string, string> = {
+  "Website build": "New website",
+  "Hosting and care": "Hosting and care",
+  "AI receptionist": "AI for my business",
+  "AI website assistant": "AI for my business",
+  "Custom AI assistants": "AI for my business",
+  "AI automation": "AI for my business",
   "Local SEO": "Get found on Google",
   "Google Business Profile": "Get found on Google",
   AEO: "Get recommended by AI",

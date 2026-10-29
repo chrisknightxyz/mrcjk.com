@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import { Band, BandHead, Cells, MUTED } from "@/components/band";
 import { Button } from "@/components/button";
 import { Footer } from "@/components/footer";
-import { LogoRow } from "@/components/logos";
 import { PlanCard } from "@/components/plan-card";
 import { Reveal } from "@/components/reveal";
 import { SiteHeader } from "@/components/site-header";
-import { aiAssistants, contact, plans } from "@/content/site";
+import { contact, plans, projects } from "@/content/site";
 
 const ai = plans.find((p) => p.id === "ai")!;
+const privateClubs = projects.find((p) => p.name === "Private Clubs")?.url ?? "https://www.theprivateclubs.com";
 const gbp = (n: number) => `£${n.toLocaleString("en-GB")}`;
 
 export const metadata: Metadata = {
@@ -33,7 +33,7 @@ export default function AiPage() {
           <div>
             <h1 className="rise text-[14px] text-muted sm:text-[15px]">AI for your business</h1>
             <p className="rise mt-3 font-display text-[36px] font-light leading-[42px] tracking-[-0.02em] sm:text-[48px] sm:leading-[52px]">
-              Get more done with the team you have
+              Stop missing calls and chasing follow-ups
             </p>
           </div>
           <div>
@@ -61,9 +61,14 @@ export default function AiPage() {
         </Band>
 
         <Band>
-          <BandHead title="Works with the AI you already know" />
-          <div className="border-t border-ink/5 px-5 py-10 sm:px-8">
-            <LogoRow ids={aiAssistants} />
+          <div className="flex flex-col gap-3 px-5 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+            <p className="text-[16px] leading-6">
+              See it working: the AI assistant I built for{" "}
+              <a href={privateClubs} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">
+                Private Clubs
+              </a>
+              , which answers members&apos; questions and recommends clubs.
+            </p>
           </div>
         </Band>
 
@@ -72,6 +77,10 @@ export default function AiPage() {
           <div className="mx-auto grid max-w-xl border-t border-ink/5">
             <PlanCard plan={ai} href={contact.calUrl} variant="ember" delay={0} />
           </div>
+        </Band>
+        <Band className="flex flex-col gap-6 px-5 py-12 sm:px-8 md:flex-row md:items-center md:justify-between">
+          <h2 className="font-display text-[28px] font-light leading-9 sm:text-[32px]">Just need a website?</h2>
+          <Button href="/start">Build my website</Button>
         </Band>
       </main>
       <Footer />
