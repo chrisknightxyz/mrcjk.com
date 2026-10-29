@@ -18,8 +18,9 @@ export const contact = {
 
 // Footer links. A link with an empty url is hidden until it's filled in.
 export const social = [
-  { name: "LinkedIn", url: "" },
-  { name: "X", url: "" },
+  { name: "LinkedIn", url: "https://www.linkedin.com/in/chrisknightxyz" },
+  { name: "X", url: "https://x.com/chrisknightxyz" },
+  { name: "Instagram", url: "https://www.instagram.com/chrisknightxyz" },
   { name: "GitHub", url: "https://github.com/chrisknightxyz" },
 ];
 

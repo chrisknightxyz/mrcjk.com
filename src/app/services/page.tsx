@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { aiAssistants, audiences, caseStudies, clients, faqs, mailto, plans, services, site, steps, type LogoId, type Plan } from "@/content/site";
+import { aiAssistants, audiences, caseStudies, clients, faqs, mailto, plans, services, site, social, steps, type LogoId, type Plan } from "@/content/site";
 import { LogoTile } from "@/components/logos";
 import { Footer } from "@/components/footer";
 import { GradientField } from "@/components/gradient-field";
@@ -37,6 +37,7 @@ const jsonLd = {
       name: site.name,
       url: `${site.url}/services`,
       email: site.email,
+      sameAs: social.filter((s) => s.url).map((s) => s.url),
       areaServed: { "@type": "Country", name: site.location },
       knowsAbout: ["Web design", "Search engine optimisation", "Answer engine optimisation"],
       hasOfferCatalog: {
