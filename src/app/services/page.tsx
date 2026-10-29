@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   description: `Custom websites for UK local businesses, from ${gbp(build.price!)}. Then ${gbp(care.price!)} a month for hosting and care. Built to be found on Google and recommended by AI.`,
   alternates: { canonical: "/services" },
   openGraph: {
-    title: "Websites that bring in work",
+    title: "Websites that make you money",
     description: `Custom websites for local businesses, from ${gbp(build.price!)}. Hosting and care, ${gbp(care.price!)} a month.`,
     url: "/services",
     type: "website",
@@ -142,7 +142,7 @@ export default function ServicesPage() {
               Websites, SEO and AEO for UK local businesses
             </p>
             <h1 className="rise mt-7 text-balance font-display text-[2.75rem] font-light leading-[1.05] tracking-[-0.035em] [animation-delay:120ms] sm:text-7xl">
-              Websites that bring in work
+              Websites that make you money
             </h1>
             <p className="rise mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-body [animation-delay:240ms]">
               I design, build and look after websites for local businesses, so more people find you on Google and in AI
