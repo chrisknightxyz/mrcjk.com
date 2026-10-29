@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { MUTED } from "@/components/band";
-import { AiAnswer, GoogleResult, MapsCard } from "@/components/illustrations";
+import { AiAnswer, GoogleResult, MapsResults } from "@/components/illustrations";
 import { LogoStack } from "@/components/logos";
 import { aiAssistants, type LogoId } from "@/content/site";
 
 const items: { title: string; body: string; Scene: () => React.JSX.Element; logos: LogoId[] }[] = [
   { title: "Google search", body: "Pages built to rank for what your customers type.", Scene: GoogleResult, logos: ["google"] },
-  { title: "Google Maps", body: "A complete Business Profile, so you show up nearby.", Scene: MapsCard, logos: ["googlemaps", "google"] },
+  { title: "Google Maps", body: "A complete Business Profile, so you show up nearby.", Scene: MapsResults, logos: ["googlemaps", "google"] },
   { title: "AI assistants", body: "Clear answers every AI assistant can quote.", Scene: AiAnswer, logos: aiAssistants },
 ];
 const STEP_MS = 6000;

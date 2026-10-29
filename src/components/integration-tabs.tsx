@@ -45,7 +45,7 @@ export function IntegrationTabs() {
           </button>
         ))}
       </div>
-      <ul key={active} className="rise grid grid-cols-2 gap-2 px-5 pb-10 pt-6 sm:px-8 lg:grid-cols-4">
+      <ul key={active} className="rise grid grid-cols-1 gap-2 px-5 pb-10 pt-6 sm:grid-cols-2 sm:px-8 lg:grid-cols-4">
         {group.tools.map((tool) => (
           <li key={tool.name}>
             <ToolTile tool={tool} />
@@ -56,7 +56,7 @@ export function IntegrationTabs() {
       <div className="border-t border-ink/5 px-5 pb-10 pt-8 sm:px-8">
         <h3 className="text-[17px]">Payments</h3>
         <p className="mt-1.5 text-[15px] text-muted">Take cards, wallets and direct debits on your site, in person and by link.</p>
-        <ul className="mt-6 grid grid-cols-2 gap-2 lg:grid-cols-5">
+        <ul className="mt-6 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-5">
           {paymentTools.map((tool) => (
             <li key={tool.name}>
               <ToolTile tool={tool} />

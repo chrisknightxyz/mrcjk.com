@@ -58,7 +58,7 @@ export function RequestForm({ services, onRemove }: { services: string[]; onRemo
   return (
     <form onSubmit={submit} className="rounded-3xl bg-stone p-6 sm:p-8">
       <h3 className="whitespace-nowrap font-display text-[26px] font-light tracking-[-0.02em] sm:text-3xl">Send your request</h3>
-      <p className="mt-2 text-body">I&apos;ll reply with a fixed price for what you&apos;ve ticked. Ready now? Pay below.</p>
+      <p className="mt-2 text-body">I&apos;ll reply with a fixed price and your first draft. You pay once you&apos;re happy with it.</p>
 
       <div className="mt-6">
         {services.length ? (
@@ -115,12 +115,12 @@ export function RequestForm({ services, onRemove }: { services: string[]; onRemo
           </div>
         </div>
       ) : (
-        <div className="mt-8 flex items-center justify-between gap-4">
-          <p className="min-w-0 truncate text-sm text-muted">No payment now</p>
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
+          <p className="text-sm text-muted">No payment now. I only use these details to reply to you.</p>
           <button
             type="submit"
             disabled={status === "sending"}
-            className="inline-flex h-11 shrink-0 items-center whitespace-nowrap rounded-full bg-ink px-5 text-[15px] font-medium text-canvas transition hover:bg-ink/80 disabled:opacity-50"
+            className="ml-auto inline-flex h-11 shrink-0 items-center whitespace-nowrap rounded-full bg-ink px-5 text-[15px] font-medium text-canvas transition hover:bg-ink/80 disabled:opacity-50"
           >
             {status === "sending" ? "Sending…" : "Send request"}
           </button>

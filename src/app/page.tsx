@@ -7,7 +7,7 @@ import { CalModal } from "@/components/cal-modal";
 import { CountUp } from "@/components/count-up";
 import { Footer } from "@/components/footer";
 import { GradientArt, type GradientVariant } from "@/components/gradient-art";
-import { AiChip, MapsCard } from "@/components/illustrations";
+import { AiChip } from "@/components/illustrations";
 import { HowIWork } from "@/components/how-i-work";
 import { IntegrationTabs } from "@/components/integration-tabs";
 import { PlanCard } from "@/components/plan-card";
@@ -81,11 +81,6 @@ const jsonLd = {
 };
 
 const icon = { fill: "none", stroke: "currentColor", strokeWidth: 1.5, strokeLinecap: "round", strokeLinejoin: "round" } as const;
-const promises = [
-  { title: "Live in 24 hours", body: "From your first message to a live website in a day, for a standard build." },
-  { title: "Fixed price, agreed first", body: "You see a first draft before you pay, then one price. No hourly bills." },
-  { title: "Yours to keep", body: "Your website, your domain and your content. Cancel care any time." },
-];
 const benefits = [
   {
     title: "Turn visitors into enquiries",
@@ -137,7 +132,31 @@ export default function HomePage() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <ThemeToggle />
+            {/* Phones: the section links and WhatsApp in a small menu. */}
+            <details className="group relative lg:hidden">
+              <summary className="flex h-9 cursor-pointer list-none items-center rounded-full px-3 text-[15px] text-body hover:text-ink">Menu</summary>
+              <div className="absolute right-0 top-11 z-30 grid w-48 gap-1 rounded-2xl bg-card p-2 text-[15px] shadow-[0_0_0_0.5px_rgb(var(--ink)/0.15),0_12px_32px_rgba(30,20,10,0.14)]">
+                {[
+                  ["Work", "#work"],
+                  ["Services", "#services"],
+                  ["Pricing", "#pricing"],
+                  ["FAQ", "#faq"],
+                ].map(([label, href]) => (
+                  <a key={href} href={href} className="rounded-xl px-3 py-2 hover:bg-surface">
+                    {label}
+                  </a>
+                ))}
+                <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="rounded-xl px-3 py-2 hover:bg-surface">
+                  WhatsApp
+                </a>
+                <span className="flex items-center justify-between rounded-xl px-3 py-1 sm:hidden">
+                  Theme <ThemeToggle />
+                </span>
+              </div>
+            </details>
+            <span className="hidden sm:inline-flex">
+              <ThemeToggle />
+            </span>
             <a
               href={contact.calUrl}
               target="_blank"
@@ -163,7 +182,7 @@ export default function HomePage() {
                 make you money
               </h1>
               <div className="rise mt-8 flex flex-wrap gap-3 [animation-delay:240ms] max-lg:hidden">
-                <Button href="/start">Start now</Button>
+                <Button href="#services">Start now</Button>
                 <Button href="#pricing" variant="secondary">
                   See pricing
                 </Button>
@@ -175,7 +194,7 @@ export default function HomePage() {
                 {gbp(build.price!)}, then {gbp(care.price!)} a month.
               </p>
               <div className="rise mt-6 flex flex-wrap gap-3 [animation-delay:240ms] lg:hidden">
-                <Button href="/start">Start now</Button>
+                <Button href="#services">Start now</Button>
                 <Button href="#pricing" variant="secondary">
                   See pricing
                 </Button>
@@ -184,9 +203,6 @@ export default function HomePage() {
           </div>
           <div className="px-3 pb-3 sm:px-4 sm:pb-4">
             <GradientArt variant="dusk" lines animate className="rise rounded-3xl px-4 pt-10 [animation-delay:360ms] sm:px-16 sm:pt-16 lg:px-24">
-              <div className="absolute left-6 top-[45%] z-10 hidden xl:block">
-                <MapsCard />
-              </div>
               <div className="absolute bottom-12 right-6 z-10 hidden lg:block">
                 <div className="float">
                   <AiChip />
@@ -245,30 +261,6 @@ export default function HomePage() {
               </Reveal>
             ))}
           </Cells>
-          <Cells>
-            {promises.map((p, i) => (
-              <Reveal key={p.title} delay={i * 80} className="px-5 py-10 sm:px-8 lg:px-12">
-                <p className="font-display text-[28px] font-light leading-8 text-muted">{String(i + 1).padStart(2, "0")}</p>
-                <h3 className="mt-6 whitespace-nowrap text-[17px] leading-6">{p.title}</h3>
-                <p className={`mt-1.5 ${MUTED}`}>{p.body}</p>
-              </Reveal>
-            ))}
-          </Cells>
-        </Band>
-
-        {/* Everything on offer, after the scope strip on designjoy.co */}
-        <Band className="overflow-hidden py-5">
-          <div className="marquee flex w-max gap-2" aria-label="Services">
-            {[...services, ...services].map((s, i) => (
-              <span
-                key={i}
-                aria-hidden={i >= services.length}
-                className="whitespace-nowrap rounded-full bg-stone px-4 py-2 text-[14px] text-body"
-              >
-                {s.title}
-              </span>
-            ))}
-          </div>
         </Band>
 
         {/* Work */}
@@ -290,7 +282,11 @@ export default function HomePage() {
                     </span>
                   </span>
                   <span className="block px-2 pb-4 pt-5">
-                    <span className="block whitespace-nowrap text-[17px] group-hover:underline group-hover:underline-offset-4">{c.name}</span>
+                    <span className="flex flex-wrap items-center gap-2 text-[13px] text-muted">
+                      <span className="whitespace-nowrap">{c.sector}</span>
+                      {"own" in c && c.own && <span className="whitespace-nowrap rounded-full bg-stone px-2 py-0.5 text-ink">My product</span>}
+                    </span>
+                    <span className="mt-1.5 block whitespace-nowrap text-[17px] group-hover:underline group-hover:underline-offset-4">{c.name}</span>
                     <span className={`mt-1.5 block ${MUTED}`}>{c.summary}</span>
                   </span>
                 </a>
@@ -379,8 +375,7 @@ export default function HomePage() {
               <CountUp to={24} duration={900} />
             </p>
             <p className={`-mt-10 sm:-mt-20 ${H2}`}>
-              Hours from first message
-              <br />
+              Hours from first message <br className="hidden sm:block" />
               to a live website
             </p>
             <p className={`mt-3 ${LEAD} text-muted`}>
@@ -420,7 +415,7 @@ export default function HomePage() {
 
         {/* Services */}
         <Band id="services">
-          <BandHead title="Choose your services" intro="Tick what you want, then send your request. I'll reply with a fixed price for each one." />
+          <BandHead title="Choose your services" intro="Your website is ticked already. Add anything else, then send your request." />
           <div className="border-t border-ink/5 px-5 py-12 sm:px-8 lg:py-16">
             <Catalogue />
           </div>
@@ -436,7 +431,7 @@ export default function HomePage() {
                 {gbp(care.price!)} a month to run.
               </>
             }
-            intro="Ready to start? Pay online and I begin on your site. Anything quoted is invoiced separately."
+            intro="You pay for your website after approving the first draft. Hosting starts when you go live. No VAT to add."
           />
           <Cells from="lg">
             {plans.map((plan, i) => (
@@ -480,10 +475,10 @@ export default function HomePage() {
           <BandHead center title="Start your website today" />
           <Cells cols={2}>
             <div className="px-5 py-10 sm:px-8 lg:px-12 lg:pb-20">
-              <h3 className="text-[17px]">Start online</h3>
-              <p className={`mt-1.5 max-w-sm ${MUTED}`}>Answer five quick questions, then message me on WhatsApp or book a call. Live in 24 hours.</p>
+              <h3 className="text-[17px]">Not sure what you need?</h3>
+              <p className={`mt-1.5 max-w-sm ${MUTED}`}>Answer five quick questions and I&apos;ll point you to the right website and services.</p>
               <div className="mt-6">
-                <Button href="/start">Start now</Button>
+                <Button href="/start">Answer 5 questions</Button>
               </div>
             </div>
             <div className="p-3 sm:p-4">
@@ -505,17 +500,6 @@ export default function HomePage() {
               </div>
             </div>
           </Cells>
-        </Band>
-
-        {/* Final call to action */}
-        <Band className="flex flex-col gap-6 px-5 py-12 sm:px-8 md:flex-row md:items-center md:justify-between">
-          <h2 className="font-display text-[28px] font-light leading-9 sm:text-[32px]">Websites that make you money</h2>
-          <div className="flex flex-wrap gap-3">
-            <Button href={contact.calUrl} variant="secondary">
-              Book a call
-            </Button>
-            <Button href="/start">Start now</Button>
-          </div>
         </Band>
 
       </main>

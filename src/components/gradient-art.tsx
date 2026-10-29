@@ -108,6 +108,7 @@ export function GradientArt({
 
 // Gradient for each service category, so cards and icons share a colour language.
 export const categoryVariant: Record<string, GradientVariant> = {
+  "Website and hosting": "dusk",
   Search: "ocean",
   "AI search": "dusk",
   Marketing: "rose",

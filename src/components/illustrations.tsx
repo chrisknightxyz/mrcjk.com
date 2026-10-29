@@ -161,7 +161,7 @@ export function StepLive() {
 
 export function GoogleResult() {
   return (
-    <div className={`${card} mx-auto w-full max-w-md p-5`}>
+    <div className={`${card} mx-auto w-full max-w-xl p-5`}>
       <p className="flex items-center gap-2 rounded-full px-4 py-2 text-sm shadow-[0_0_0_1px_rgba(0,0,0,0.08)]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/logos/google.svg" alt="" className="h-4 w-4" />
@@ -175,6 +175,42 @@ export function GoogleResult() {
           <span className="text-[#f2a600]">★★★★★</span> 4.9 · Example
         </p>
       </div>
+    </div>
+  );
+}
+
+export function MapsResults() {
+  const rows = [
+    ["Your Business", "4.9", "Open now · Plumber", true],
+    ["Northern Plumbing", "4.4", "Closes 5pm · Plumber", false],
+    ["City Boilers", "4.2", "Open now · Heating", false],
+  ] as const;
+  return (
+    <div className={`${card} mx-auto w-full max-w-xl p-5`}>
+      <p className="flex items-center gap-2 rounded-full px-4 py-2 text-sm shadow-[0_0_0_1px_rgba(0,0,0,0.08)]">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/logos/googlemaps.svg" alt="" className="h-4 w-4" />
+        plumbers near me
+      </p>
+      <ul className="mt-4 divide-y divide-black/5">
+        {rows.map(([name, rating, meta, yours]) => (
+          <li key={name} className="flex items-center gap-3 py-3">
+            <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${yours ? "bg-ink text-white" : "bg-surface text-muted"}`}>
+              <svg viewBox="0 0 16 16" className="h-4 w-4" aria-hidden="true">
+                <path d="M8 1.5a4.5 4.5 0 0 1 4.5 4.5c0 3.5-4.5 8.5-4.5 8.5S3.5 9.5 3.5 6A4.5 4.5 0 0 1 8 1.5Z" fill="currentColor" />
+              </svg>
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className={`block text-sm ${yours ? "font-medium" : "text-body"}`}>{name}</span>
+              <span className="block text-xs text-muted">
+                <span className="text-[#f2a600]">★</span> {rating} · {meta}
+              </span>
+            </span>
+            {yours && <span className="whitespace-nowrap rounded-full bg-[#e7f5ec] px-2 py-0.5 text-[11px] font-medium text-[#1d7a3e]">Top result</span>}
+          </li>
+        ))}
+      </ul>
+      <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-muted">Example</p>
     </div>
   );
 }

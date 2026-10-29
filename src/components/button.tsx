@@ -5,11 +5,14 @@ export function Button({
   children,
   variant = "primary",
   className = "",
+  pick,
 }: {
   href: string;
   children: React.ReactNode;
   variant?: "primary" | "secondary";
   className?: string;
+  // A service to tick in the checklist when clicked (read by the Catalogue).
+  pick?: string;
 }) {
   const styles = {
     primary: "bg-ink text-canvas hover:bg-ink/80",
@@ -19,6 +22,7 @@ export function Button({
   return (
     <a
       href={href}
+      {...(pick && { "data-pick": pick })}
       {...(external && { target: "_blank", rel: "noopener noreferrer" })}
       className={`inline-flex h-11 shrink-0 items-center justify-center whitespace-nowrap rounded-full px-5 text-[16px] transition ${styles} ${className}`}
     >

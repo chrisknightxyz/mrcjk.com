@@ -33,8 +33,8 @@ export const projects = [
 export const mailto = (subject: string, body = "") =>
   `mailto:${site.email}?subject=${encodeURIComponent(subject)}${body ? `&body=${encodeURIComponent(body)}` : ""}`;
 
-// Stripe Payment Links, one per plan (Stripe Dashboard > Payment Links). While a link is empty,
-// its Buy button opens the start flow instead.
+// Stripe Payment Links (Stripe Dashboard > Payment Links). The website is paid for after the first
+// draft is approved, so its link is sent by hand, not shown on the page; hosting is subscribed online.
 // Test mode for now: swap in the live links (buy.stripe.com/...) before taking real payments.
 export const stripeLinks = {
   build: "https://buy.stripe.com/test_5kQ28t4C8eRrbAyd3hfbq00",
@@ -59,6 +59,8 @@ export type Plan = {
   need: string;
   // Where the button goes when it isn't a payment link (the AI work is scoped on a call).
   href?: string;
+  // The service the button ticks in the checklist before jumping to the request form.
+  pick?: string;
   // Billing choices on one card. Hosting and care: the same £99 a month whichever you pick, renewing until cancelled.
   billing?: { label: string; price: number; period: string; link: string }[];
 };
@@ -80,9 +82,11 @@ export const plans: Plan[] = [
       "Click-to-call and forms",
       "Yours to keep",
     ],
-    cta: "Buy now",
-    note: "One-off payment",
+    cta: "Choose website",
+    note: "Pay after your first draft",
     need: "New website",
+    href: "#request",
+    pick: "Website build",
   },
   {
     id: "care",
@@ -142,6 +146,7 @@ const logoList = {
   google: { name: "Google", src: "/logos/google.svg" },
   meta: { name: "Meta", src: "/logos/meta.svg" },
   googlemaps: { name: "Google Maps", src: "/logos/googlemaps.svg" },
+  vercel: { name: "Vercel", src: "/logos/vercel.svg", mono: true },
   googleanalytics: { name: "Google Analytics", src: "/logos/googleanalytics.svg" },
   googleads: { name: "Google Ads", src: "/logos/googleads.svg" },
   googlecalendar: { name: "Google Calendar", src: "/logos/googlecalendar.svg" },
@@ -175,6 +180,8 @@ export const aiAssistants: LogoId[] = ["chatgpt", "claude", "gemini", "perplexit
 export type Service = { title: string; body: string; category: string; logos?: LogoId[] };
 
 export const services: Service[] = [
+  { title: "Website build", body: "Designed for you, live in 24 hours", category: "Website and hosting", logos: ["figma", "google"] },
+  { title: "Hosting and care", body: "£99 a month, renews until you cancel", category: "Website and hosting", logos: ["vercel", "google"] },
   { title: "Local SEO", body: "Top of Google and Maps, nearby", category: "Search", logos: ["google", "googlemaps"] },
   { title: "Google Business Profile", body: "Right details, photos and hours", category: "Search", logos: ["google", "googlemaps"] },
   { title: "Analytics and tracking", body: "Track calls, forms and sales", category: "Search", logos: ["googleanalytics"] },
@@ -333,6 +340,7 @@ export const caseStudies = [
     name: "Private Clubs",
     url: "https://www.theprivateclubs.com",
     domain: "theprivateclubs.com",
+    own: true,
     image: "/work/theprivateclubs.jpg",
     variant: "forest",
     sector: "Membership directory",
@@ -343,6 +351,7 @@ export const caseStudies = [
     name: "CreatorBrands",
     url: "https://creatorbrands.xyz",
     domain: "creatorbrands.xyz",
+    own: true,
     image: "/work/creatorbrands.jpg",
     variant: "ember",
     sector: "Creator brand directory",
@@ -395,6 +404,10 @@ export const audiences = [
 ];
 
 export const faqs = [
+  {
+    q: "When do I pay?",
+    a: "After you've approved your first draft. Hosting and care starts when your site goes live and renews monthly, quarterly or yearly until you cancel. No VAT to add.",
+  },
   {
     q: "How fast is it?",
     a: "From your first message to a live website in 24 hours. Bigger sites, with extra pages, online booking or a shop, take longer, and you'll get the timeline with your fixed price.",

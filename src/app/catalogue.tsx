@@ -13,9 +13,22 @@ const groups = Array.from(new Set(services.map((s) => s.category))).map((categor
 
 // A checklist, one service per row on every screen: tick what you want, then send the request below.
 export function Catalogue() {
-  const [selected, setSelected] = useState<string[]>([]);
-  const toggle = (title: string) =>
+  const [selected, setSelected] = useState<string[]>(["Website build"]);
+  const [touched, setTouched] = useState(false);
+  const toggle = (title: string) => {
+    setTouched(true);
     setSelected((cur) => (cur.includes(title) ? cur.filter((t) => t !== title) : [...cur, title]));
+  };
+
+  // "Choose website" and similar buttons tick their service, then their link scrolls to the form.
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      const pick = (e.target as Element | null)?.closest?.("[data-pick]")?.getAttribute("data-pick");
+      if (pick) setSelected((cur) => (cur.includes(pick) ? cur : [...cur, pick]));
+    };
+    document.addEventListener("click", onClick);
+    return () => document.removeEventListener("click", onClick);
+  }, []);
 
   // The floating bar steps aside once the form itself is on screen.
   const request = useRef<HTMLDivElement>(null);
@@ -27,11 +40,11 @@ export function Catalogue() {
     io.observe(el);
     return () => io.disconnect();
   }, []);
-  const showBar = selected.length > 0 && !atForm;
+  const showBar = touched && selected.length > 0 && !atForm;
 
   return (
     <>
-      <div className="mx-auto max-w-3xl space-y-10">
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-x-8 gap-y-10 lg:grid-cols-2">
         {groups.map((g) => (
           <section key={g.category} aria-labelledby={`cat-${g.category}`}>
             <div className="flex items-center gap-3 px-1">
@@ -92,7 +105,7 @@ export function Catalogue() {
             </ul>
           </section>
         ))}
-        <div id="request" ref={request} className="scroll-mt-24">
+        <div id="request" ref={request} className="scroll-mt-24 lg:col-span-2">
           <RequestForm services={selected} onRemove={toggle} />
         </div>
       </div>
