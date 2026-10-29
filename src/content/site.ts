@@ -11,9 +11,9 @@ export const site = {
 // Where qualified leads go. Until these are set, /start offers email instead.
 export const contact = {
   // WhatsApp number in international format, digits only, e.g. "447700900123".
-  whatsapp: "",
+  whatsapp: "14244662230",
   // Cal.com booking link, e.g. "https://cal.com/mrcjk/intro".
-  calUrl: "",
+  calUrl: "https://cal.com/chrisknightxyz/meeting",
 };
 
 export const mailto = (subject: string, body = "") =>
