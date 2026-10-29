@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { caseStudies, clients, contact, faqs, mailto, plans, portfolio, services, site, social, stripeLinks, type Plan } from "@/content/site";
+import { caseStudies, clients, contact, faqs, mailto, plans, portfolio, projects, services, site, social, stripeLinks, type Plan } from "@/content/site";
 import { Band, BandHead, Cells, H2, IconTile, LEAD, MUTED } from "@/components/band";
 import { Button } from "@/components/button";
 import { CalModal } from "@/components/cal-modal";
@@ -119,6 +119,14 @@ const benefits = [
     svg: <path {...icon} d="M10 3c.5 3.6 2.4 5.5 7 7-4.6 1.5-6.5 3.4-7 7-.5-3.6-2.4-5.5-7-7 4.6-1.5 6.5-3.4 7-7Z" />,
   },
 ];
+
+// The proof under the bio: each name links to the work or the press about it.
+const about: [string, [string, string][]][] = [
+  ["Brands", clients.map((c) => [c.name, c.url])],
+  ["Press", portfolio.filter((w) => w.kind === "Press").map((w) => [w.source.split(" · ")[0], w.url])],
+  ["Products", projects.map((p) => [p.name, p.url])],
+];
+const linkedin = social.find((s) => s.name === "LinkedIn")?.url;
 
 export default function HomePage() {
   const whatsapp = `https://wa.me/${contact.whatsapp}`;
@@ -388,6 +396,52 @@ export default function HomePage() {
               </li>
             ))}
           </ul>
+        </Band>
+
+        {/* Who you'll work with, after the founder note on designjoy.co */}
+        <Band id="about">
+          <BandHead title="Who you'll work with" intro="One person, start to finish. No account managers, no handovers, no outsourcing." />
+          <Cells cols={2} from="lg">
+            <div className="p-3 sm:p-4">
+              <Image
+                src="/chris-knight.jpg"
+                alt="Chris Knight"
+                width={1518}
+                height={1012}
+                sizes="(min-width: 1024px) 560px, 100vw"
+                className="aspect-[3/2] w-full rounded-3xl object-cover object-top ring-[0.5px] ring-ink/10"
+              />
+            </div>
+            <div className="flex flex-col px-5 py-10 sm:px-8 lg:px-12">
+              <p className={LEAD}>
+                Hi, I&apos;m Chris. I design, build and look after every site myself. I&apos;ve made digital work for Nike,
+                Google, Snapchat and Manchester City, and I build my own products too, like The Private Clubs and
+                CreatorBrands. Now I bring that same standard to local businesses, at a fixed price and live in 24 hours.
+              </p>
+              <dl className="mt-8 divide-y divide-ink/5 border-y border-ink/5 text-[15px]">
+                {about.map(([label, items]) => (
+                  <div key={label} className="flex gap-4 py-3">
+                    <dt className="w-24 shrink-0 text-muted">{label}</dt>
+                    <dd className="flex min-w-0 flex-wrap gap-x-3 gap-y-1">
+                      {items.map(([name, url]) => (
+                        <a key={name} href={url} target="_blank" rel="noopener noreferrer" className="whitespace-nowrap hover:text-muted">
+                          {name}
+                        </a>
+                      ))}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Button href={contact.calUrl}>Book a call</Button>
+                {linkedin && (
+                  <Button href={linkedin} variant="secondary">
+                    LinkedIn
+                  </Button>
+                )}
+              </div>
+            </div>
+          </Cells>
         </Band>
 
         {/* Getting started */}
