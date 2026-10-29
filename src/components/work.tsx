@@ -109,12 +109,12 @@ export function About() {
       <Cells cols={2} from="lg">
         <div className="p-3 sm:p-4 lg:h-full">
           <Image
-            src="/chris-knight.jpg"
-            alt="Chris Knight"
-            width={1518}
-            height={1012}
+            src="/chris-knight-working.jpg"
+            alt="Chris Knight working on a laptop in a café"
+            width={1600}
+            height={1066}
             sizes="(min-width: 1024px) 560px, 100vw"
-            className="aspect-[3/2] w-full rounded-[20px] object-cover object-[50%_20%] ring-[0.5px] ring-ink/10 lg:aspect-auto lg:h-full"
+            className="aspect-[3/2] w-full rounded-[20px] object-cover object-[62%_40%] ring-[0.5px] ring-ink/10 lg:aspect-auto lg:h-full"
           />
         </div>
         <div className="flex flex-col px-5 py-10 sm:px-8 lg:px-12">
