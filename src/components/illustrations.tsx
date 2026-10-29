@@ -1,4 +1,4 @@
-import { aiAssistants, logos } from "@/content/site";
+import { aiAssistants, logos, plans } from "@/content/site";
 
 // Small product scenes, drawn as real UI rather than clip-art. They sit on
 // gradient art, so every surface is a white card with the site's soft shadow.
@@ -65,6 +65,94 @@ export function StepGrow() {
           </li>
         ))}
       </ul>
+    </div>
+  );
+}
+
+export function StepPay() {
+  return (
+    <div className={`${card} w-full max-w-[17rem] p-4`}>
+      <p className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
+        Invoice <span className="rounded-full bg-surface px-2 py-0.5 normal-case tracking-normal">Example</span>
+      </p>
+      <p className="mt-3 flex items-center justify-between text-sm">
+        <span className="text-body">Website build</span>
+        <span className="font-medium tabular-nums">£{plans[0].price?.toLocaleString("en-GB")}</span>
+      </p>
+      <p className="mt-3 flex items-center justify-between border-t border-black/5 pt-3 text-xs">
+        <span className="text-muted">Fixed price · paid online</span>
+        <span className="rounded-full bg-[#e7f5ec] px-2 py-0.5 font-medium text-[#1d7a3e]">✓ Paid</span>
+      </p>
+    </div>
+  );
+}
+
+export function StepConnect() {
+  const tools = ["Online booking", "Card payments", "WhatsApp chat", "Google reviews"];
+  return (
+    <div className={`${card} w-full max-w-[17rem] p-4`}>
+      <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">Integrations</p>
+      <ul className="mt-2 divide-y divide-black/5 text-xs">
+        {tools.map((t) => (
+          <li key={t} className="flex items-center justify-between py-2">
+            {t}
+            <span className="flex h-4 w-7 items-center justify-end rounded-full bg-ink p-0.5">
+              <span className="h-3 w-3 rounded-full bg-white" />
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export function StepTune() {
+  const scores = [
+    ["Speed", 98],
+    ["SEO", 100],
+    ["AEO", 96],
+  ] as const;
+  return (
+    <div className={`${card} w-full max-w-[17rem] p-4`}>
+      <p className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
+        Site check <span className="rounded-full bg-surface px-2 py-0.5 normal-case tracking-normal">Example</span>
+      </p>
+      <div className="mt-3 grid grid-cols-3 gap-2 text-center">
+        {scores.map(([label, score]) => (
+          <div key={label}>
+            <span className="relative mx-auto flex h-12 w-12 items-center justify-center text-xs font-medium tabular-nums">
+              <svg viewBox="0 0 36 36" className="absolute inset-0 -rotate-90" aria-hidden="true">
+                <circle cx="18" cy="18" r="15" fill="none" stroke="#e8f5ec" strokeWidth="3" />
+                <circle cx="18" cy="18" r="15" fill="none" stroke="#1d9a4a" strokeWidth="3" strokeLinecap="round" strokeDasharray={`${(score / 100) * 94.2} 94.2`} />
+              </svg>
+              {score}
+            </span>
+            <p className="mt-1.5 text-[10px] text-muted">{label}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export function StepLive() {
+  return (
+    <div className={`${card} w-full max-w-[17rem] p-4`}>
+      <p className="flex items-center gap-2 rounded-full bg-surface px-3 py-1.5 font-mono text-[10px] text-body">
+        <svg viewBox="0 0 16 16" className="h-3 w-3" aria-hidden="true">
+          <rect x="3" y="7" width="10" height="7" rx="1.5" fill="currentColor" />
+          <path d="M5 7V5a3 3 0 0 1 6 0v2" fill="none" stroke="currentColor" strokeWidth="1.5" />
+        </svg>
+        yourbusiness.co.uk
+      </p>
+      <p className="mt-4 flex items-center gap-2 text-sm font-medium">
+        <span className="relative flex h-2 w-2">
+          <span className="absolute inset-0 rounded-full bg-[#1d9a4a] opacity-60 motion-safe:animate-ping" />
+          <span className="relative h-2 w-2 rounded-full bg-[#1d9a4a]" />
+        </span>
+        Your site is live
+      </p>
+      <p className="mt-1 text-xs text-muted">SSL on · every page tested</p>
     </div>
   );
 }

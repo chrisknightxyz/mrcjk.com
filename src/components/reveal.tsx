@@ -8,12 +8,13 @@ export function Reveal({
   delay = 0,
   as: Tag = "div",
   className,
+  ...rest
 }: {
   children: React.ReactNode;
   delay?: number;
   as?: "div" | "li" | "section";
   className?: string;
-}) {
+} & Record<`data-${string}`, string>) {
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -34,6 +35,7 @@ export function Reveal({
 
   return (
     <Tag
+      {...rest}
       ref={ref as React.Ref<never>}
       data-reveal=""
       className={className}

@@ -13,13 +13,14 @@ import {
   services,
   site,
   social,
-  steps,
+  stripeLinks,
   type LogoId,
   type Plan,
 } from "@/content/site";
 import { Footer } from "@/components/footer";
 import { GradientArt, type GradientVariant } from "@/components/gradient-art";
-import { AiAnswer, EnquiryCard, MapsCard, StepBuild, StepGrow, StepTalk } from "@/components/illustrations";
+import { HowIWork } from "@/components/how-i-work";
+import { AiAnswer, EnquiryCard, MapsCard } from "@/components/illustrations";
 import { LogoRow } from "@/components/logos";
 import { Reveal } from "@/components/reveal";
 import { StartModal } from "@/components/start-modal";
@@ -27,11 +28,6 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { Wordmark } from "@/components/wordmark";
 import { Catalogue } from "./catalogue";
 
-const stepArt = [
-  { Art: StepTalk, variant: "dusk" },
-  { Art: StepBuild, variant: "ember" },
-  { Art: StepGrow, variant: "forest" },
-] as const;
 const planVariant: GradientVariant[] = ["dusk", "ocean", "ember"];
 const kindVariant: Record<string, GradientVariant> = {
   Venture: "dusk",
@@ -57,7 +53,8 @@ export const metadata: Metadata = {
   },
 };
 
-const planHref = (p: Plan) => `/start?need=${encodeURIComponent(p.need)}`;
+// A plan's Stripe Payment Link once it's set; until then, the start flow.
+const planHref = (p: Plan) => stripeLinks[p.id] || `/start?need=${encodeURIComponent(p.need)}`;
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -107,7 +104,7 @@ function Button({ href, children, variant = "black" }: { href: string; children:
     <a
       href={href}
       {...(external && { target: "_blank", rel: "noopener noreferrer" })}
-      className={`inline-flex h-11 items-center justify-center rounded-full px-5 text-[15px] font-medium tracking-normal transition ${styles}`}
+      className={`inline-flex h-11 shrink-0 items-center justify-center whitespace-nowrap rounded-full px-5 text-[15px] font-medium tracking-normal transition ${styles}`}
     >
       {children}
     </a>
@@ -244,26 +241,7 @@ export default function ServicesPage() {
         </section>
 
         {/* How it works */}
-        <section id="how-it-works" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-28 sm:px-6 sm:py-36">
-          <SectionHead title="One minute to start. I do the rest." />
-          <ol className="mt-14 grid gap-5 md:grid-cols-3">
-            {steps.map((s, i) => {
-              const { Art, variant } = stepArt[i];
-              return (
-                <Reveal as="li" key={s.title} delay={i * 120}>
-                  <GradientArt variant={variant} className="flex aspect-[4/3] items-center justify-center rounded-3xl p-6">
-                    <Art />
-                  </GradientArt>
-                  <div className="px-1 pt-6">
-                    <span className="font-mono text-xs text-muted">0{i + 1}</span>
-                    <h3 className="mt-2 text-xl font-medium">{s.title}</h3>
-                    <p className="mt-2 leading-relaxed text-body">{s.body}</p>
-                  </div>
-                </Reveal>
-              );
-            })}
-          </ol>
-        </section>
+        <HowIWork />
 
         {/* Pricing */}
         <section id="pricing" className="scroll-mt-16 bg-surface px-4 py-28 sm:px-6 sm:py-36">
@@ -278,7 +256,7 @@ export default function ServicesPage() {
                   <GradientArt variant={planVariant[i]} lines={i === 0} className="flex h-36 items-center justify-center">
                     <h3 className="font-display text-3xl font-light tracking-[-0.02em] text-white">{plan.name}</h3>
                   </GradientArt>
-                  <div className="flex flex-1 flex-col p-8">
+                  <div className="flex flex-1 flex-col p-6 sm:p-8">
                     <p className="flex flex-wrap items-baseline gap-x-2">
                       {plan.price === null ? (
                         <span className="font-display text-4xl font-light tracking-[-0.03em]">Quoted for you</span>
@@ -293,20 +271,17 @@ export default function ServicesPage() {
                     <p className="mt-4 leading-relaxed text-body">{plan.blurb}</p>
                     <ul className="mt-8 space-y-3 border-t border-ink/5 pt-8 text-[15px]">
                       {plan.features.map((f) => (
-                        <li key={f} className="flex gap-3">
+                        <li key={f} className="flex gap-3 whitespace-nowrap">
                           <Check />
                           {f}
                         </li>
                       ))}
                     </ul>
-                    <div className="mt-auto pt-10">
-                      {plan.cta ? (
-                        <Button href={planHref(plan)} variant={i === 0 ? "black" : "white"}>
-                          {plan.cta}
-                        </Button>
-                      ) : (
-                        <p className="text-sm text-muted">Starts when your site goes live.</p>
-                      )}
+                    <div className="mt-auto flex items-center justify-between gap-4 pt-10">
+                      <p className="min-w-0 truncate text-sm text-muted">{plan.note}</p>
+                      <Button href={planHref(plan)} variant={plan.price === null ? "white" : "black"}>
+                        {plan.cta}
+                      </Button>
                     </div>
                   </div>
                 </Reveal>
@@ -317,7 +292,7 @@ export default function ServicesPage() {
 
         {/* Services */}
         <section id="services" className="mx-auto max-w-6xl scroll-mt-16 px-4 py-28 sm:px-6 sm:py-36">
-          <SectionHead title="Add what you need" intro="Choose the services you want, then continue. Each one is quoted for your business." />
+          <SectionHead title="Add what you need" intro="Tick what you want. Each one is quoted for you." />
           <div className="mt-14">
             <Catalogue />
           </div>

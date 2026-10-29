@@ -33,7 +33,8 @@ export const projects = [
 export const mailto = (subject: string, body = "") =>
   `mailto:${site.email}?subject=${encodeURIComponent(subject)}${body ? `&body=${encodeURIComponent(body)}` : ""}`;
 
-// Stripe Payment Links for taking payment after the call (Stripe Dashboard > Payment Links).
+// Stripe Payment Links, one per plan (Stripe Dashboard > Payment Links). While a link is empty,
+// its Buy button opens the start flow instead.
 export const stripeLinks = {
   build: "",
   care: "",
@@ -49,7 +50,9 @@ export type Plan = {
   blurb: string;
   features: string[];
   cta: string;
-  // Preselects the matching answer on /start.
+  // One line beside the button, at the foot of the card.
+  note: string;
+  // Preselects the matching answer in the start flow.
   need: string;
 };
 
@@ -62,14 +65,15 @@ export const plans: Plan[] = [
     period: "one-off",
     blurb: "A custom website that turns visitors into calls, bookings and enquiries.",
     features: [
-      "Designed for your business, not a template",
-      "Looks great on every phone",
+      "Custom, not a template",
+      "Built for every phone",
       "Loads fast",
-      "Set up for Google and AI answers",
-      "Click-to-call, contact forms and maps",
+      "Ready for Google and AI",
+      "Click-to-call and forms",
       "Yours to keep",
     ],
-    cta: "Start your website",
+    cta: "Buy now",
+    note: "One-off payment",
     need: "New website",
   },
   {
@@ -81,12 +85,13 @@ export const plans: Plan[] = [
     blurb: "Everything that keeps your site online, safe and working. Handled for you.",
     features: [
       "Fast, secure hosting",
-      "SSL certificate included",
-      "Security updates and fixes",
-      "A monthly SEO and AEO report",
+      "SSL included",
+      "Updates and fixes",
+      "Monthly SEO and AEO report",
       "Cancel any time",
     ],
-    cta: "",
+    cta: "Subscribe",
+    note: "Cancel any time",
     need: "Hosting and care",
   },
   {
@@ -98,12 +103,13 @@ export const plans: Plan[] = [
     period: "a month",
     blurb: "Ongoing work to move you up Google, Google Maps and AI answers.",
     features: [
-      "Google Business Profile, fully optimised",
-      "Local SEO, on the page and behind the scenes",
-      "Content that answers your customers' questions",
-      "Rankings and AI visibility, tracked monthly",
+      "Google Business Profile",
+      "On-page and local SEO",
+      "Content AI can quote",
+      "Rankings tracked monthly",
     ],
     cta: "Get a quote",
+    note: "Cancel any time",
     need: "Get found on Google",
   },
 ];
@@ -130,23 +136,23 @@ export const aiAssistants: LogoId[] = ["chatgpt", "claude", "gemini", "perplexit
 export type Service = { title: string; body: string; category: string; logos?: LogoId[] };
 
 export const services: Service[] = [
-  { title: "Local SEO", body: "Show up on Google and Google Maps when people nearby search for what you do.", category: "Search", logos: ["google"] },
-  { title: "Google Business Profile", body: "The right details, photos and categories, so you stand out on Maps.", category: "Search", logos: ["google"] },
-  { title: "Analytics and tracking", body: "See which calls, forms and sales your marketing brings in.", category: "Search", logos: ["google"] },
-  { title: "AEO", body: "Get recommended when people ask an AI assistant for a business like yours.", category: "AI search", logos: aiAssistants },
-  { title: "Google AI Overviews", body: "Appear in the AI answers at the top of Google, and in AI Mode.", category: "AI search", logos: ["google", "gemini"] },
-  { title: "AI visibility check", body: "See what each AI assistant says about your business, and what to fix.", category: "AI search", logos: aiAssistants },
-  { title: "Google Ads", body: "Search ads that reach people who are ready to buy.", category: "Marketing", logos: ["google"] },
-  { title: "Meta Ads", body: "Facebook and Instagram ads, aimed at your local area.", category: "Marketing", logos: ["meta"] },
-  { title: "Reviews and reputation", body: "More Google reviews, better replies and an eye on what people say.", category: "Marketing", logos: ["google"] },
-  { title: "Branding and identity", body: "A logo, colours and tone of voice that feel like you.", category: "Marketing" },
-  { title: "Social media management", body: "Planning, posting and replies on Facebook and Instagram.", category: "Content", logos: ["meta"] },
-  { title: "Photo and video", body: "Photos and short videos of your business, shot on location.", category: "Content" },
-  { title: "Email newsletters", body: "Regular emails that bring customers back.", category: "Content" },
-  { title: "AI receptionist", body: "Answers your calls, takes messages and books appointments, day and night.", category: "AI tools" },
-  { title: "AI website assistant", body: "A chat assistant on your site that answers customer questions instantly.", category: "AI tools", logos: ["chatgpt", "claude", "gemini"] },
-  { title: "Custom AI assistants", body: "An assistant set up with your business knowledge, for you and your team.", category: "AI tools", logos: ["chatgpt", "claude", "gemini", "grok"] },
-  { title: "AI automation", body: "Takes repetitive admin off your hands, like follow-ups and booking reminders.", category: "AI tools" },
+  { title: "Local SEO", body: "Top of Google and Maps, nearby", category: "Search", logos: ["google"] },
+  { title: "Google Business Profile", body: "Right details, photos and hours", category: "Search", logos: ["google"] },
+  { title: "Analytics and tracking", body: "Track calls, forms and sales", category: "Search", logos: ["google"] },
+  { title: "AEO", body: "Recommended by AI assistants", category: "AI search", logos: aiAssistants },
+  { title: "Google AI Overviews", body: "In Google AI answers and AI Mode", category: "AI search", logos: ["google", "gemini"] },
+  { title: "AI visibility check", body: "What AI says about you", category: "AI search", logos: aiAssistants },
+  { title: "Google Ads", body: "Ads for people ready to buy", category: "Marketing", logos: ["google"] },
+  { title: "Meta Ads", body: "Facebook and Instagram ads", category: "Marketing", logos: ["meta"] },
+  { title: "Reviews and reputation", body: "More reviews, better replies", category: "Marketing", logos: ["google"] },
+  { title: "Branding and identity", body: "Logo, colours and tone of voice", category: "Marketing" },
+  { title: "Social media management", body: "Posts and replies, handled", category: "Content", logos: ["meta"] },
+  { title: "Photo and video", body: "Shot at your business", category: "Content" },
+  { title: "Email newsletters", body: "Emails that bring customers back", category: "Content" },
+  { title: "AI receptionist", body: "Answers calls and books, 24/7", category: "AI tools" },
+  { title: "AI website assistant", body: "Answers questions on your site", category: "AI tools", logos: ["chatgpt", "claude", "gemini"] },
+  { title: "Custom AI assistants", body: "Trained on your business", category: "AI tools", logos: ["chatgpt", "claude", "gemini", "grok"] },
+  { title: "AI automation", body: "Automated follow-ups", category: "AI tools" },
 ];
 
 // Brands Chris has worked with. `mono` marks are single-colour and invert in dark mode.
@@ -167,7 +173,7 @@ export const clients: { name: string; logo: string; mono?: boolean; url: string 
 export const portfolio = [
   { title: "HackHouse", kind: "Venture", source: "hackhouse.xyz", url: "https://www.hackhouse.xyz/" },
   {
-    title: "Creator economy startup Superjoi raises $25 million",
+    title: "Creator economy startup Superjoi raises $2.5 million",
     kind: "Press",
     source: "Business Insider · 2022",
     url: "https://www.businessinsider.com/exclusive-creator-economy-startup-superjoi-raises-25-million-2022-4",
@@ -226,18 +232,35 @@ export const caseStudies = [
   },
 ] as const;
 
+// How I work: seven steps, from first message to monthly care. Titles stay on one line.
 export const steps = [
   {
-    title: "Tell me about your business",
-    body: "Answer a few quick questions, then message me on WhatsApp or book a call. It takes about a minute.",
+    title: "Tell me what you need",
+    body: "Five quick questions, about a minute. Then message me on WhatsApp or book a call.",
   },
   {
-    title: "I design and build it",
-    body: "You get a fixed price before I start. I design, write and build your site, and refine it with you.",
+    title: "See a first draft",
+    body: "I design your homepage, written for your business. You see it before you pay anything.",
   },
   {
-    title: "You go live and grow",
-    body: "Your site launches on fast, secure hosting. Each month, you get a report on how you're doing.",
+    title: "Approve and pay",
+    body: "Happy with the direction? You get one fixed price up front. Pay online and I build the rest.",
+  },
+  {
+    title: "Connect your tools",
+    body: "Bookings, payments, forms, reviews and WhatsApp, wired in so every enquiry reaches you.",
+  },
+  {
+    title: "Tune for Google and AI",
+    body: "Speed, SEO and AEO, checked page by page, so Google and AI assistants know what you do and where.",
+  },
+  {
+    title: "Go live",
+    body: "Your domain connected, SSL switched on and every page tested. Then your site goes live.",
+  },
+  {
+    title: "Looked after, monthly",
+    body: "Hosting, updates, fixes and changes, plus a monthly SEO and AEO report. Cancel any time.",
   },
 ];
 

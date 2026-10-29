@@ -10,6 +10,7 @@ const groups = Array.from(new Set(services.map((s) => s.category))).map((categor
   items: services.filter((s) => s.category === category),
 }));
 
+// A checklist, one service per row on every screen: tick what you want, then continue.
 export function Catalogue() {
   const [selected, setSelected] = useState<string[]>([]);
   const toggle = (title: string) =>
@@ -18,37 +19,54 @@ export function Catalogue() {
 
   return (
     <>
-      <div className="divide-y divide-ink/[0.06] border-y border-ink/[0.06]">
+      <div className="mx-auto max-w-3xl space-y-10">
         {groups.map((g) => (
-          <section key={g.category} className="grid gap-6 py-10 lg:grid-cols-[16rem_1fr] lg:gap-12">
-            <div className="flex items-center gap-4 lg:block">
-              <GradientArt variant={categoryVariant[g.category]} className="h-14 w-14 shrink-0 rounded-2xl lg:h-24 lg:w-24 lg:rounded-3xl" />
-              <h3 className="font-display text-2xl font-light tracking-[-0.02em] lg:mt-5">{g.category}</h3>
+          <section key={g.category} aria-labelledby={`cat-${g.category}`}>
+            <div className="flex items-center gap-3 px-1">
+              <GradientArt variant={categoryVariant[g.category]} className="h-6 w-6 shrink-0 rounded-lg" />
+              <h3 id={`cat-${g.category}`} className="whitespace-nowrap text-[15px] font-medium">
+                {g.category}
+              </h3>
+              <span className="whitespace-nowrap text-sm text-muted">{g.items.length}</span>
             </div>
-            <ul className="grid gap-x-8 sm:grid-cols-2">
+            <ul className="mt-3 divide-y divide-ink/[0.06] overflow-hidden rounded-3xl bg-card ring-1 ring-ink/[0.06]">
               {g.items.map((s) => {
                 const on = selected.includes(s.title);
                 return (
-                  <li key={s.title} className="border-b border-ink/[0.06] last:border-0 sm:[&:nth-last-child(-n+2)]:border-0">
+                  <li key={s.title}>
                     <button
                       type="button"
-                      aria-pressed={on}
+                      role="checkbox"
+                      aria-checked={on}
                       onClick={() => toggle(s.title)}
-                      className="group flex w-full items-start gap-4 py-4 text-left"
+                      className={`flex w-full items-center gap-4 px-4 py-4 text-left transition sm:px-5 ${on ? "bg-stone/70" : "hover:bg-surface"}`}
                     >
-                      <span className="min-w-0 flex-1">
-                        <span className="flex items-center gap-2 text-[17px] font-medium">
-                          {s.title}
-                          {s.logos && <LogoStack ids={s.logos} max={3} />}
-                        </span>
-                        <span className="mt-1 block text-[15px] leading-relaxed text-body">{s.body}</span>
-                      </span>
                       <span
-                        className={`mt-0.5 inline-flex h-8 shrink-0 items-center rounded-full px-3.5 text-[13px] font-medium transition ${
-                          on ? "bg-ink text-canvas" : "bg-surface text-ink group-hover:bg-stone"
+                        aria-hidden="true"
+                        className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[12px] transition ${
+                          on ? "bg-ink text-canvas" : "ring-1 ring-inset ring-ink/20"
                         }`}
                       >
-                        {on ? "✓ Added" : "+ Add"}
+                        {on ? "✓" : ""}
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="flex items-center gap-2">
+                          <span className="truncate text-[16px] font-medium">{s.title}</span>
+                          {s.logos && (
+                            <span className="hidden shrink-0 sm:inline-flex">
+                              <LogoStack ids={s.logos} max={3} />
+                            </span>
+                          )}
+                        </span>
+                        <span className="mt-0.5 block truncate text-[13px] text-body sm:text-[14px]">{s.body}</span>
+                      </span>
+                      <span
+                        aria-hidden="true"
+                        className={`hidden h-8 shrink-0 items-center whitespace-nowrap rounded-full px-3.5 text-[13px] font-medium transition sm:inline-flex ${
+                          on ? "bg-ink text-canvas" : "bg-surface text-ink"
+                        }`}
+                      >
+                        {on ? "Added" : "+ Add"}
                       </span>
                     </button>
                   </li>

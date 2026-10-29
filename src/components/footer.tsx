@@ -5,7 +5,7 @@ import { contact, mailto, projects, site, social } from "@/content/site";
 function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
   const external = href.startsWith("http");
   return (
-    <a href={href} {...(external && { target: "_blank", rel: "noopener noreferrer" })} className="text-body transition hover:text-ink">
+    <a href={href} {...(external && { target: "_blank", rel: "noopener noreferrer" })} className="whitespace-nowrap text-body transition hover:text-ink">
       {children}
     </a>
   );
@@ -36,8 +36,8 @@ export function Footer() {
 
   return (
     <footer className="border-t border-ink/5">
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.4fr_repeat(4,1fr)]">
-        <div>
+      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 grid-cols-2 md:grid-cols-4 lg:grid-cols-[1.4fr_repeat(4,1fr)]">
+        <div className="col-span-2 md:col-span-4 lg:col-span-1">
           <Wordmark />
           <p className="mt-3 max-w-xs text-sm leading-relaxed text-body">
             Websites, SEO and AEO for local businesses across the UK.
