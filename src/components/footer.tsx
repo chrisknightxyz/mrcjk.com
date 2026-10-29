@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AskAi } from "@/components/ask-ai";
 import { contact, mailto, projects, site, social } from "@/content/site";
 
 function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
@@ -57,10 +58,13 @@ export function Footer() {
           </div>
         ))}
       </div>
-      <div className="mx-auto max-w-6xl border-t border-ink/5 px-4 py-6 text-xs text-muted sm:px-6">
-        <p>
-          © {new Date().getFullYear()} {site.name}
-        </p>
+      <div className="mx-auto max-w-6xl border-t border-ink/5 px-4 py-6 text-xs text-muted sm:px-6 sm:pb-24">
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+          <AskAi />
+          <p>
+            © {new Date().getFullYear()} {site.name}
+          </p>
+        </div>
         <p className="mt-2">
           ChatGPT, Claude, Gemini, Perplexity, Copilot, Grok, Meta AI, Muse, Google and Meta are trademarks of their owners.
           Logos show where the work appears and don&apos;t imply any partnership.
