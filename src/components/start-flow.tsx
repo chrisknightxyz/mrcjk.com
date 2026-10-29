@@ -1,13 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { contact, mailto, questions, serviceNeeds } from "@/content/site";
+import { RequestForm } from "@/components/request-form";
+import { questions, serviceNeeds } from "@/content/site";
 
 type Answers = Record<string, string[]>;
-type Details = { name: string; company: string; town: string };
 
 const DETAILS = questions.length;
-const DONE = questions.length + 1;
 
 // Preselect what the visitor clicked: a plan's need, or services from the catalogue.
 function preselect(need: string | null, services: string[]): Answers {
@@ -19,7 +18,6 @@ function preselect(need: string | null, services: string[]): Answers {
 export function StartFlow({ need, services, onClose }: { need: string | null; services: string[]; onClose: () => void }) {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Answers>(() => preselect(need, services));
-  const [details, setDetails] = useState<Details>({ name: "", company: "", town: "" });
 
   const total = questions.length + 1;
   const progress = (Math.min(step, total) + 1) / (total + 1);
@@ -34,17 +32,9 @@ export function StartFlow({ need, services, onClose }: { need: string | null; se
     setTimeout(() => setStep((s) => s + 1), 220);
   }
 
-  const summary = [
-    `Hi Chris, I'm ${details.name}${details.company ? ` from ${details.company}` : ""}${details.town ? ` in ${details.town}` : ""}.`,
-    "",
-    ...questions.map((q) => `${q.label}: ${(answers[q.id] ?? []).join(", ") || "-"}`),
-    ...(services.length ? [`Services: ${services.join(", ")}`] : []),
-  ].join("\n");
-
-  const whatsappHref = contact.whatsapp ? `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(summary)}` : "";
-  const calHref = contact.calUrl
-    ? `${contact.calUrl}?${new URLSearchParams({ name: details.name, notes: summary }).toString()}`
-    : "";
+  // What the answers mean for the request: the needs become services, the rest go along as notes.
+  const notes = questions.filter((q) => q.id !== "needs" && answers[q.id]?.length).map((q) => [q.label, answers[q.id].join(", ")] as [string, string]);
+  const picked = [...(answers.needs ?? []), ...services];
 
   return (
     <div className="flex min-h-full flex-col">
@@ -72,75 +62,16 @@ export function StartFlow({ need, services, onClose }: { need: string | null; se
         )}
 
         {step === DETAILS && (
-          <form
-            key="details"
-            className="rise"
-            onSubmit={(e) => {
-              e.preventDefault();
-              setStep(DONE);
-            }}
-          >
-            <p className="text-[14px] text-muted">Last step</p>
-            <h2 className="mt-3 text-balance font-display text-3xl font-light leading-[1.1] tracking-[-0.03em] sm:text-4xl">Who should I talk to?</h2>
-            <div className="mt-10 space-y-4">
-              <Field label="Your name" value={details.name} onChange={(name) => setDetails({ ...details, name })} required autoComplete="name" />
-              <Field label="Business name" value={details.company} onChange={(company) => setDetails({ ...details, company })} autoComplete="organization" />
-              <Field label="Town or city" value={details.town} onChange={(town) => setDetails({ ...details, town })} autoComplete="address-level2" />
-            </div>
-            <div className="mt-10 flex items-center justify-between">
+          <div key="details" className="rise">
+            <RequestForm
+              draft
+              services={picked}
+              notes={notes}
+              title="Last step: your details"
+              intro="I'll design your homepage and send it within 24 hours. You only pay if you're happy."
+            />
+            <div className="mt-6">
               <BackButton onClick={() => setStep(step - 1)} />
-              <button type="submit" className="inline-flex h-12 items-center rounded-full bg-ink px-7 text-[15px] font-medium text-canvas hover:bg-ink/80">
-                Continue
-              </button>
-            </div>
-          </form>
-        )}
-
-        {step === DONE && (
-          <div key="done" className="rise">
-            <p className="text-[14px] text-muted">Almost done</p>
-            <h2 className="mt-3 text-balance font-display text-3xl font-light leading-[1.1] tracking-[-0.03em] sm:text-4xl">
-              Thanks, {details.name.split(" ")[0]}. How would you like to talk?
-            </h2>
-            <p className="mt-4 text-lg leading-relaxed text-body">Nothing&apos;s sent yet. Pick an option and your answers go with it.</p>
-
-            <div className="mt-10 grid gap-3">
-              {whatsappHref && (
-                <ContactOption
-                  href={whatsappHref}
-                  title="Message me on WhatsApp"
-                  body="Send your answers in one tap and chat when it suits you."
-                  icon={<WhatsAppIcon />}
-                  primary
-                />
-              )}
-              {calHref && (
-                <ContactOption
-                  href={calHref}
-                  title="Book a call"
-                  body="Choose a time in my calendar. Your answers are added to the booking."
-                  icon={<CalendarIcon />}
-                  primary={!whatsappHref}
-                />
-              )}
-              {(!whatsappHref || !calHref) && (
-                <ContactOption
-                  href={mailto("New website enquiry", summary)}
-                  title="Email me"
-                  body="Your answers are ready to send. I'll reply with next steps."
-                  icon={<MailIcon />}
-                  primary={!whatsappHref && !calHref}
-                />
-              )}
-            </div>
-
-            <details className="mt-8 rounded-2xl bg-surface p-5 text-sm text-body">
-              <summary className="cursor-pointer list-none font-medium text-ink">Your answers</summary>
-              <pre className="mt-3 whitespace-pre-wrap font-sans leading-relaxed">{summary}</pre>
-            </details>
-
-            <div className="mt-8">
-              <BackButton onClick={() => setStep(DETAILS)} />
             </div>
           </div>
         )}
@@ -222,86 +153,10 @@ function Question({
   );
 }
 
-function Field({
-  label,
-  value,
-  onChange,
-  required,
-  autoComplete,
-}: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  required?: boolean;
-  autoComplete?: string;
-}) {
-  return (
-    <input
-      aria-label={label}
-      placeholder={required ? label : `${label} (optional)`}
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      required={required}
-      autoComplete={autoComplete}
-      className="h-12 w-full rounded-2xl bg-stone px-4 text-[16px] ring-1 ring-inset ring-ink/[0.06] outline-none transition placeholder:text-muted focus:ring-2 focus:ring-ink"
-    />
-  );
-}
-
 function BackButton({ onClick }: { onClick: () => void }) {
   return (
     <button type="button" onClick={onClick} className="inline-flex h-12 items-center gap-2 rounded-full px-4 text-[15px] font-medium text-body hover:text-ink">
       ← Back
     </button>
-  );
-}
-
-function ContactOption({ href, title, body, icon, primary }: { href: string; title: string; body: string; icon: React.ReactNode; primary?: boolean }) {
-  const external = href.startsWith("http");
-  return (
-    <a
-      href={href}
-      {...(external && { target: "_blank", rel: "noopener noreferrer" })}
-      className={`group flex items-center gap-4 rounded-3xl p-5 transition ${
-        primary ? "bg-ink text-canvas hover:bg-ink/85" : "bg-stone ring-1 ring-inset ring-ink/[0.06] hover:ring-ink/25"
-      }`}
-    >
-      <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${primary ? "bg-canvas/10" : "bg-stone"}`}>{icon}</span>
-      <span className="flex-1">
-        <span className="block text-[17px] font-medium">{title}</span>
-        <span className={`mt-0.5 block text-sm ${primary ? "text-canvas/70" : "text-body"}`}>{body}</span>
-      </span>
-      <span aria-hidden="true" className="text-xl transition group-hover:translate-x-1">→</span>
-    </a>
-  );
-}
-
-function WhatsAppIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-6 w-6" aria-hidden="true">
-      <path
-        fill="currentColor"
-        d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3Z"
-      />
-    </svg>
-  );
-}
-
-function CalendarIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
-      <rect x="3.5" y="5" width="17" height="15" rx="3" />
-      <path d="M3.5 10h17M8 3v4M16 3v4" />
-      <circle cx="12" cy="15" r="1.2" fill="currentColor" />
-    </svg>
-  );
-}
-
-function MailIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-      <rect x="3" y="5.5" width="18" height="13" rx="3" />
-      <path d="m4 7 8 6 8-6" />
-    </svg>
   );
 }

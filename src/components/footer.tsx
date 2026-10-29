@@ -28,9 +28,10 @@ export function Footer() {
       title: "Site",
       links: [
         { label: "Work", href: "/work" },
-        { label: "Services", href: "/#services" },
+        { label: "Services", href: "/services" },
+        { label: "AI for your business", href: "/ai" },
         { label: "Pricing", href: "/#pricing" },
-        { label: "Start now", href: "/start" },
+        { label: "Build my website", href: "/start" },
         { label: "Privacy", href: "/privacy" },
       ],
     },

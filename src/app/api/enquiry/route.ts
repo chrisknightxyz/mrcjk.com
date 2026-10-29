@@ -6,7 +6,7 @@ import { site } from "@/content/site";
 // (for example "MRCJK <enquiries@mrcjk.com>"). Without them it answers 503 and the form
 // offers WhatsApp or email instead, so no request is lost.
 
-type Enquiry = { name?: string; email?: string; phone?: string; website?: string; services?: string[]; company?: string };
+type Enquiry = { name?: string; email?: string; phone?: string; website?: string; services?: string[]; company?: string; business?: string; kind?: string; town?: string; draft?: boolean; notes?: unknown };
 
 const clean = (v: unknown, max = 200) => (typeof v === "string" ? v.trim().slice(0, max) : "");
 const escape = (s: string) => s.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
@@ -26,6 +26,9 @@ export async function POST(req: Request) {
   const email = clean(body.email, 200);
   const phone = clean(body.phone, 40);
   const website = clean(body.website, 200);
+  const business = clean(body.business, 120);
+  const kind = clean(body.kind, 60);
+  const town = clean(body.town, 80);
   const services = Array.isArray(body.services) ? body.services.map((s) => clean(s, 80)).filter(Boolean).slice(0, 30) : [];
   if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return NextResponse.json({ error: "Name and a valid email are required" }, { status: 400 });
@@ -36,11 +39,19 @@ export async function POST(req: Request) {
   if (!key || !from) return NextResponse.json({ error: "Email is not set up" }, { status: 503 });
 
   const rows: [string, string][] = [
+    ...(body.draft ? ([["Free draft for", business || "-"], ["Kind of business", kind || "-"], ["Town", town || "-"]] as [string, string][]) : []),
     ["Name", name],
     ["Email", email],
     ["Phone", phone || "-"],
     ["Website", website || "-"],
     ["Services", services.join(", ") || "-"],
+    // Answers from the qualifying flow.
+    ...(Array.isArray(body.notes)
+      ? body.notes
+          .filter((n): n is [string, string] => Array.isArray(n) && n.length === 2)
+          .slice(0, 10)
+          .map(([k, v]) => [clean(k, 40), clean(v, 200)] as [string, string])
+      : []),
   ];
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
@@ -49,7 +60,7 @@ export async function POST(req: Request) {
       from,
       to: site.email,
       reply_to: email,
-      subject: `New request from ${name}`,
+      subject: body.draft ? `Free draft request: ${business || name}` : `New request from ${name}`,
       text: rows.map(([k, v]) => `${k}: ${v}`).join("\n"),
       html: `<table>${rows.map(([k, v]) => `<tr><td><b>${k}</b></td><td>${escape(v)}</td></tr>`).join("")}</table>`,
     }),

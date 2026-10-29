@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { CalModal } from "@/components/cal-modal";
+import { StartModal } from "@/components/start-modal";
 import { site } from "@/content/site";
 import "./globals.css";
 
@@ -24,7 +26,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        {/* The two dialogs every page can open: the Build my website flow and the booking calendar. */}
+        <StartModal />
+        <CalModal />
+      </body>
     </html>
   );
 }

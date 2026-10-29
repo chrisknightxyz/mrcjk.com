@@ -18,7 +18,7 @@ const assistants: { id: LogoId; url: string }[] = [
 export function AskAi() {
   return (
     <div className="flex flex-wrap items-center gap-3">
-      <ul className="flex gap-2">
+      <ul className="flex flex-wrap gap-2">
         {assistants.map((a) => (
           <li key={a.id}>
             <a

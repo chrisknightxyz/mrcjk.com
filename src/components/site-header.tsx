@@ -12,7 +12,8 @@ export function SiteHeader() {
           <Wordmark />
           <div className="hidden items-center gap-7 text-[15px] lg:flex">
             <a href="/work" className="hover:text-muted">Work</a>
-            <a href="/#services" className="hover:text-muted">Services</a>
+            <a href="/services" className="hover:text-muted">Services</a>
+            <a href="/ai" className="hover:text-muted">AI</a>
             <a href="/#pricing" className="hover:text-muted">Pricing</a>
             <a href="/#faq" className="hover:text-muted">FAQ</a>
           </div>
@@ -24,7 +25,8 @@ export function SiteHeader() {
             <div className="absolute right-0 top-11 z-30 grid w-48 gap-1 rounded-2xl bg-card p-2 text-[15px] shadow-[0_0_0_0.5px_rgb(var(--ink)/0.15),0_12px_32px_rgba(30,20,10,0.14)]">
               {[
                 ["Work", "/work"],
-                ["Services", "/#services"],
+                ["Services", "/services"],
+                ["AI", "/ai"],
                 ["Pricing", "/#pricing"],
                 ["FAQ", "/#faq"],
               ].map(([label, href]) => (

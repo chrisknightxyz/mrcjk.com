@@ -1,32 +1,21 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { caseStudies, clients, contact, faqs, mailto, plans, services, site, social, stripeLinks, type Plan } from "@/content/site";
-import { Band, BandHead, Cells, H2, IconTile, LEAD, MUTED } from "@/components/band";
+import { clients, contact, faqs, plans, services, site, social, stripeLinks, type Plan } from "@/content/site";
+import { Band, BandHead, Cells, H2, LEAD, MUTED } from "@/components/band";
 import { Button } from "@/components/button";
-import { CalModal } from "@/components/cal-modal";
-import { CountUp } from "@/components/count-up";
 import { Footer } from "@/components/footer";
-import { GradientArt, type GradientVariant } from "@/components/gradient-art";
-import { AiChip } from "@/components/illustrations";
-import { HowIWork } from "@/components/how-i-work";
-import { IntegrationTabs } from "@/components/integration-tabs";
+import { type GradientVariant } from "@/components/gradient-art";
 import { PlanCard } from "@/components/plan-card";
-import { PlatformTabs } from "@/components/platform-tabs";
 import { Reveal } from "@/components/reveal";
-import { SectorTabs } from "@/components/sector-tabs";
-import { StartModal } from "@/components/start-modal";
 import { SiteHeader } from "@/components/site-header";
 import { WorkCards } from "@/components/work";
-import { Catalogue } from "./catalogue";
-
-const planVariant: GradientVariant[] = ["dusk", "ocean", "ember"];
 
 const [build, care] = plans;
 const gbp = (n: number) => `£${n.toLocaleString("en-GB")}`;
 
 export const metadata: Metadata = {
-  title: "Websites, SEO and AEO for local businesses",
-  description: `Custom websites for UK local businesses, from ${gbp(build.price!)}. Then ${gbp(care.price!)} a month for hosting and care. Built to be found on Google and recommended by AI.`,
+  title: "Websites for UK local businesses",
+  description: `See your new website before you pay. Designed and built for your business, live in 24 hours. ${gbp(build.price!)}, then ${gbp(care.price!)} a month.`,
   alternates: { canonical: "/" },
   twitter: { card: "summary_large_image", title: "Websites that make you money", images: ["/og.jpg"] },
   openGraph: {
@@ -80,95 +69,75 @@ const jsonLd = {
   ],
 };
 
-const icon = { fill: "none", stroke: "currentColor", strokeWidth: 1.5, strokeLinecap: "round", strokeLinejoin: "round" } as const;
-const benefits = [
-  {
-    title: "Turn visitors into enquiries",
-    body: "Clear pages, click-to-call and simple forms, built so a visit becomes a call, a booking or a quote request.",
-    svg: <path {...icon} d="M5 3h3l1.5 4-2 1.2a9 9 0 0 0 4.3 4.3L13 10.5l4 1.5v3a2 2 0 0 1-2 2A13 13 0 0 1 3 5a2 2 0 0 1 2-2Z" />,
-  },
-  {
-    title: "Get found on Google and Maps",
-    body: "Local SEO and a complete Google Business Profile, so people nearby find you before anyone else.",
-    svg: (
-      <>
-        <path {...icon} d="M10 17s-5.5-5-5.5-9a5.5 5.5 0 0 1 11 0c0 4-5.5 9-5.5 9Z" />
-        <circle {...icon} cx="10" cy="8" r="2" />
-      </>
-    ),
-  },
-  {
-    title: "Recommended by AI assistants",
-    body: "AEO for ChatGPT, Gemini and Google's AI answers, so they name your business when customers ask.",
-    svg: <path {...icon} d="M10 3c.5 3.6 2.4 5.5 7 7-4.6 1.5-6.5 3.4-7 7-.5-3.6-2.4-5.5-7-7 4.6-1.5 6.5-3.4 7-7Z" />,
-  },
+// Three steps, the whole offer in one line each.
+const howItWorks = [
+  { title: "Tell me about your business", body: "A few quick questions, about two minutes. No payment, no call needed." },
+  { title: "See your draft within 24 hours", body: "Your homepage, designed and written for your business. You still haven't paid." },
+  { title: "Pay when you're happy, then go live", body: `One fixed price, from ${gbp(build.price!)}. Then ${gbp(care.price!)} a month keeps it fast, safe and found.` },
 ];
+const sellPlans = plans.filter((p) => p.id !== "ai");
+const planArt: GradientVariant[] = ["dusk", "ocean"];
 
+// The homepage sells one thing to a local business owner: a website they see before they pay.
+// Everything else lives on /services, /ai and /work.
 export default function HomePage() {
-  const [featured] = caseStudies;
   const whatsapp = `https://wa.me/${contact.whatsapp}`;
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-
       <SiteHeader />
 
       <main>
-        {/* The page tells one story: the promise, proof, how it works for your business,
-            then choose services, send the request, and pay. The person and the full work list live on /work. */}
-        {/* Hero, after the elevenlabs.io homepage: the headline left, its line right, then one big stage. */}
-        <Band>
-          <div className="grid gap-6 px-5 pb-10 pt-14 sm:px-8 lg:grid-cols-2 lg:items-start lg:gap-12 lg:pb-12 lg:pt-24">
-            <div>
-              <h1 className="rise text-[14px] text-muted sm:text-[15px]">Websites, SEO and AEO for UK local businesses</h1>
-              <p className="rise mt-3 font-display text-[36px] font-light leading-[42px] tracking-[-0.02em] sm:text-[48px] sm:leading-[52px]">
-                Websites that
-                <br />
-                make you money
-              </p>
-              <div className="rise mt-8 flex flex-wrap gap-3 [animation-delay:240ms] max-lg:hidden">
-                <Button href="#services">Start now</Button>
-                <Button href="#pricing" variant="secondary">
-                  See pricing
-                </Button>
-              </div>
+        {/* Hero: the offer on the left, the person behind it on the right. */}
+        <Band className="grid grid-cols-[minmax(0,1fr)] lg:grid-cols-2">
+          <div className="flex flex-col justify-center px-5 pb-12 pt-14 sm:px-8 lg:px-12 lg:py-20">
+            <h1 className="rise text-[14px] text-muted sm:text-[15px]">Websites for UK local businesses</h1>
+            <p className="rise mt-3 font-display text-[36px] font-light leading-[42px] tracking-[-0.02em] sm:text-[48px] sm:leading-[52px]">
+              See your new website before you pay
+            </p>
+            <p className={`rise mt-5 max-w-md [animation-delay:120ms] ${LEAD}`}>
+              I&apos;m Chris. I design and build websites for local businesses, live in 24 hours. {gbp(build.price!)}, then{" "}
+              {gbp(care.price!)} a month to keep it running.
+            </p>
+            <div className="rise mt-8 flex flex-wrap gap-3 [animation-delay:240ms]">
+              <Button href="/start">Build my website</Button>
+              <Button href={contact.calUrl} variant="secondary">
+                Book a call
+              </Button>
             </div>
-            <div>
-              <p className={`rise max-w-md [animation-delay:120ms] lg:mt-9 ${LEAD}`}>
-                Your new website, live in 24 hours. Designed for your business, found on Google and recommended by AI. From{" "}
-                {gbp(build.price!)}, then {gbp(care.price!)} a month.
-              </p>
-              <div className="rise mt-6 flex flex-wrap gap-3 [animation-delay:240ms] lg:hidden">
-                <Button href="#services">Start now</Button>
-                <Button href="#pricing" variant="secondary">
-                  See pricing
-                </Button>
-              </div>
-            </div>
+            <ul className="rise mt-8 flex flex-wrap gap-x-5 gap-y-2 text-[14px] text-muted [animation-delay:360ms]">
+              {["No payment until you're happy", "Fixed price", "One person, start to finish"].map((t) => (
+                <li key={t} className="flex items-center gap-2 whitespace-nowrap">
+                  <span aria-hidden="true" className="text-ink">
+                    ✓
+                  </span>
+                  {t}
+                </li>
+              ))}
+            </ul>
           </div>
-          <div className="px-3 pb-3 sm:px-4 sm:pb-4">
-            <GradientArt variant="dusk" lines animate className="rise rounded-3xl px-4 pt-10 [animation-delay:360ms] sm:px-16 sm:pt-16 lg:px-24">
-              <div className="absolute bottom-12 right-6 z-10 hidden lg:block">
-                <div className="float">
-                  <AiChip />
-                </div>
-              </div>
-              <a
-                href={featured.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="theme-light mx-auto block max-w-4xl overflow-hidden rounded-t-2xl bg-white shadow-[0_0_0_0.5px_rgba(0,0,0,0.12),0_24px_60px_rgba(40,20,10,0.25)]"
-              >
-                <span className="flex items-center gap-1.5 border-b border-black/5 px-4 py-2.5">
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#e5e5e5]" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#e5e5e5]" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#e5e5e5]" />
-                  <span className="ml-3 truncate font-mono text-xs text-[#777169]">{featured.domain}</span>
+          <div className="p-3 sm:p-4">
+            <div className="relative h-full overflow-hidden rounded-3xl bg-stone ring-[0.5px] ring-ink/10">
+              <Image
+                src="/chris-knight.jpg"
+                alt="Chris Knight"
+                width={1518}
+                height={1012}
+                priority
+                sizes="(min-width: 1024px) 560px, 100vw"
+                className="h-full min-h-[22rem] w-full object-cover object-[50%_20%]"
+              />
+              <div className="theme-light absolute bottom-4 left-4 right-4 flex items-center justify-between gap-3 rounded-2xl bg-white/90 px-4 py-3 text-[#000] shadow-[0_0_0_0.5px_rgba(0,0,0,0.1),0_8px_24px_rgba(30,20,10,0.12)] backdrop-blur sm:left-auto sm:max-w-xs">
+                <span className="min-w-0">
+                  <span className="block text-[15px]">Chris Knight</span>
+                  <span className="block truncate text-[13px] text-[#777169]">Designer and developer</span>
                 </span>
-                <Image src={featured.image} alt={`${featured.name} website`} width={1440} height={900} priority sizes="(min-width: 1024px) 896px, 100vw" className="w-full" />
-              </a>
-            </GradientArt>
+                <a href="/work" className="whitespace-nowrap text-[13px] underline underline-offset-4">
+                  My work
+                </a>
+              </div>
+            </div>
           </div>
         </Band>
 
@@ -187,95 +156,35 @@ export default function HomePage() {
           </ul>
         </Band>
 
-        {/* What the work does */}
-        <Band>
-          <BandHead
-            title="More calls and bookings, from one website"
-            intro="A site designed for your business, found on Google and recommended by AI. Then looked after every month, so it keeps working."
-          />
-          <Cells>
-            {benefits.map((b, i) => (
-              <Reveal key={b.title} delay={i * 80} className="px-5 py-10 sm:px-8 lg:px-12">
-                <IconTile>
-                  <svg viewBox="0 0 20 20" className="h-[18px] w-[18px]" aria-hidden="true">
-                    {b.svg}
-                  </svg>
-                </IconTile>
-                <h3 className="mt-8 whitespace-nowrap text-[17px] leading-6">{b.title}</h3>
-                <p className={`mt-1.5 ${MUTED}`}>{b.body}</p>
-              </Reveal>
-            ))}
-          </Cells>
-        </Band>
-
-        {/* Work: the three websites; the rest lives on /work. */}
+        {/* Proof: three live websites. */}
         <Band id="work">
           <BandHead title="Recent websites" intro="Live sites, designed and built by me. Open any of them." />
           <WorkCards />
           <div className="flex justify-center border-t border-ink/5 px-5 py-8 sm:px-8">
             <Button href="/work" variant="secondary">
-              See all work and who I am
+              See all my work
             </Button>
           </div>
         </Band>
 
-        {/* The price, as a figure */}
-        <Band>
-          <Reveal className="relative flex flex-col items-center px-5 py-20 text-center sm:py-28">
-            <p
-              aria-hidden="true"
-              className="select-none bg-gradient-to-b from-ink/[0.16] to-ink/[0.03] bg-clip-text font-display text-[120px] font-light leading-none tracking-[-0.04em] text-transparent sm:text-[220px]"
-            >
-              <CountUp to={24} duration={900} />
-            </p>
-            <p className={`-mt-10 text-balance sm:-mt-20 ${H2}`}>
-              Hours from first message <br className="hidden sm:block" />
-              to a live website
-            </p>
-            <p className={`mt-3 ${LEAD} text-muted`}>
-              From {gbp(build.price!)}, then {gbp(care.price!)} a month.
-            </p>
-          </Reveal>
-        </Band>
-
-        {/* Platforms */}
-        <Band id="platforms">
-          <BandHead
-            title="Found on Google, Maps and AI assistants"
-            intro="More customers ask ChatGPT or Google's AI before they call. I set your business up to be the answer."
-          />
-          <PlatformTabs />
-        </Band>
-
-        {/* Sectors */}
-        <Band>
-          <BandHead
-            title="A website for every kind of local business"
-            intro="Calls for trades, bookings for salons, menus for cafés. Each site is built around how your customers choose."
-          />
-          <SectorTabs />
-        </Band>
-
-        {/* Integrations */}
-        <Band id="integrations">
-          <BandHead
-            title="Works with the tools you already use"
-            intro="Bookings, orders, storefronts and payments, connected to your new site. Pick your kind of business to see what I set up."
-          />
-          <IntegrationTabs />
-        </Band>
-
-        <HowIWork />
-
-        {/* Services */}
-        <Band id="services">
-          <BandHead title="Choose your services" intro="Your website is ticked already. Add anything else, then send your request." />
-          <div className="border-t border-ink/5 px-5 py-12 sm:px-8 lg:py-16">
-            <Catalogue />
+        {/* How it works, in three steps. */}
+        <Band id="how-it-works">
+          <BandHead title="How it works" intro="You see your website before you pay a penny. If you don't like it, you don't pay." />
+          <Cells>
+            {howItWorks.map((s, i) => (
+              <Reveal key={s.title} delay={i * 80} className="px-5 py-10 sm:px-8 lg:px-12">
+                <p className="font-display text-[40px] font-light leading-none text-muted">{i + 1}</p>
+                <h3 className="mt-6 text-[17px] leading-6">{s.title}</h3>
+                <p className={`mt-1.5 ${MUTED}`}>{s.body}</p>
+              </Reveal>
+            ))}
+          </Cells>
+          <div className="flex justify-center border-t border-ink/5 px-5 py-8 sm:px-8">
+            <Button href="/start">Build my website</Button>
           </div>
         </Band>
 
-        {/* Pricing */}
+        {/* Pricing: the website and its upkeep. */}
         <Band id="pricing">
           <BandHead
             title={
@@ -285,13 +194,21 @@ export default function HomePage() {
                 {gbp(care.price!)} a month to run
               </>
             }
-            intro="You pay for your website after approving the first draft, and hosting starts when you go live. AI for your business is scoped on a call. No VAT to add."
+            intro="You pay for your website after approving the first draft, and hosting starts when you go live. No VAT to add."
           />
-          <Cells from="lg">
-            {plans.map((plan, i) => (
-              <PlanCard key={plan.id} plan={plan} href={planHref(plan)} variant={planVariant[i]} delay={i * 80} />
+          <Cells cols={2}>
+            {sellPlans.map((plan, i) => (
+              <PlanCard key={plan.id} plan={plan} href={planHref(plan)} variant={planArt[i]} delay={i * 80} />
             ))}
           </Cells>
+          <div className="flex flex-col items-center gap-3 border-t border-ink/5 px-5 py-8 text-center text-[15px] text-muted sm:flex-row sm:justify-center sm:gap-6 sm:px-8">
+            <a href="/services" className="underline decoration-ink/20 underline-offset-4 hover:text-ink">
+              Add SEO, ads, booking and more
+            </a>
+            <a href="/ai" className="underline decoration-ink/20 underline-offset-4 hover:text-ink">
+              AI for your business, from £4,999
+            </a>
+          </div>
         </Band>
 
         {/* FAQ */}
@@ -302,12 +219,6 @@ export default function HomePage() {
               <br />
               asked questions
             </h2>
-            <p className={`mt-4 ${MUTED}`}>
-              Something else?{" "}
-              <a href={mailto("Question")} className="text-ink underline decoration-ink/30 underline-offset-4">
-                Email me
-              </a>
-            </p>
           </div>
           <div>
             {faqs.map((f) => (
@@ -324,61 +235,19 @@ export default function HomePage() {
           </div>
         </Band>
 
-        {/* Getting started */}
-        <Band>
-          <BandHead
-            center
-            title={
-              <>
-                Start your website today
-                <span className="block text-muted">or talk it through first</span>
-              </>
-            }
-          />
-          <Cells cols={2}>
-            <div className="p-3 sm:p-4">
-              <div className="flex h-full flex-col rounded-3xl bg-stone p-6 ring-[0.5px] ring-ink/10 sm:p-8">
-                <div className="flex items-center gap-4">
-                  <GradientArt variant="ocean" className="h-12 w-12 shrink-0 rounded-full" />
-                  <div className="min-w-0">
-                    <h3 className="truncate text-[17px]">Not sure what you need?</h3>
-                    <p className="truncate text-[14px] text-muted">Five quick questions</p>
-                  </div>
-                </div>
-                <p className={`mt-6 max-w-sm ${MUTED}`}>Tell me about your business and I&apos;ll point you to the right website and services.</p>
-                <div className="mt-6">
-                  <Button href="/start" variant="secondary">
-                    Answer 5 questions
-                  </Button>
-                </div>
-              </div>
-            </div>
-            <div className="p-3 sm:p-4">
-              <div className="flex h-full flex-col rounded-3xl bg-stone p-6 ring-[0.5px] ring-ink/10 sm:p-8">
-                <div className="flex items-center gap-4">
-                  <span className="orb h-12 w-12 shrink-0 rounded-full" aria-hidden="true" />
-                  <div className="min-w-0">
-                    <h3 className="truncate text-[17px]">Book an intro call</h3>
-                    <p className="truncate text-[14px] text-muted">A video call on Google Meet</p>
-                  </div>
-                </div>
-                <p className={`mt-6 max-w-sm ${MUTED}`}>See if we&apos;re a fit, talk through your business and get a price. Pick a time that suits you.</p>
-                <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
-                  <Button href={contact.calUrl}>Book a call</Button>
-                  <a href={mailto("Hello")} className="whitespace-nowrap text-[15px] text-muted underline decoration-ink/20 underline-offset-4 hover:text-ink">
-                    Prefer to email? {site.email}
-                  </a>
-                </div>
-              </div>
-            </div>
-          </Cells>
+        {/* Closing band */}
+        <Band className="flex flex-col gap-6 px-5 py-12 sm:px-8 md:flex-row md:items-center md:justify-between">
+          <h2 className="font-display text-[28px] font-light leading-9 sm:text-[32px]">Websites that make you money</h2>
+          <div className="flex flex-wrap gap-3">
+            <Button href={contact.calUrl} variant="secondary">
+              Book a call
+            </Button>
+            <Button href="/start">Build my website</Button>
+          </div>
         </Band>
-
       </main>
 
       <Footer />
-      <StartModal />
-      <CalModal />
 
       {/* WhatsApp, after the floating voice-chat button on elevenlabs.io. */}
       <a

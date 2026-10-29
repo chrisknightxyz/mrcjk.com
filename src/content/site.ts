@@ -82,11 +82,10 @@ export const plans: Plan[] = [
       "Click-to-call and forms",
       "Yours to keep",
     ],
-    cta: "Choose website",
+    cta: "Build my website",
     note: "Pay after your first draft",
     need: "New website",
-    href: "#request",
-    pick: "Website build",
+    href: "/start?need=New%20website",
   },
   {
     id: "care",
@@ -363,7 +362,7 @@ export const caseStudies = [
 // How I work: seven steps, from first message to monthly care. Titles stay on one line.
 export const steps = [
   {
-    title: "Choose and send your request",
+    title: "Send your request",
     body: "Tick your services below and send one request. It takes about a minute.",
   },
   {
@@ -404,6 +403,10 @@ export const audiences = [
 ];
 
 export const faqs = [
+  {
+    q: "Is the first draft really free?",
+    a: "Yes. I design your homepage and send it within 24 hours. You only pay if you're happy with it and want to go ahead.",
+  },
   {
     q: "When do I pay?",
     a: "After you've approved your first draft. Hosting and care starts when your site goes live and renews monthly, quarterly or yearly until you cancel. No VAT to add.",
@@ -464,13 +467,13 @@ export const questions: Question[] = [
     title: "What can I help with?",
     hint: "Choose all that apply.",
     multi: true,
-    options: ["New website", "Redesign my website", "Get found on Google", "Get recommended by AI", "Hosting and care", "Something else"],
+    options: ["New website", "Redesign my website", "Get found on Google", "Get recommended by AI", "Hosting and care", "AI for my business", "Something else"],
   },
   {
     id: "business",
     label: "Business",
     title: "What kind of business do you run?",
-    options: [...audiences, "Something else"],
+    options: [...bookingTools.map((b) => b.sector), "Something else"],
   },
   {
     id: "website",
@@ -483,12 +486,6 @@ export const questions: Question[] = [
     label: "Start",
     title: "When would you like to start?",
     options: ["As soon as possible", "In the next month", "In the next few months", "Just exploring"],
-  },
-  {
-    id: "budget",
-    label: "Budget",
-    title: "Websites start at £999, then £99 a month. Does that work for you?",
-    options: ["Yes, that works", "I'd like to talk it through"],
   },
 ];
 

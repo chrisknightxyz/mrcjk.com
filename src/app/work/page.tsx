@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Band, BandHead } from "@/components/band";
 import { Button } from "@/components/button";
-import { CalModal } from "@/components/cal-modal";
 import { Footer } from "@/components/footer";
 import { SiteHeader } from "@/components/site-header";
 import { About, PressList, WorkCards } from "@/components/work";
@@ -37,12 +36,11 @@ export default function WorkPage() {
             <Button href={contact.calUrl} variant="secondary">
               Book a call
             </Button>
-            <Button href="/#services">Choose your services</Button>
+            <Button href="/start">Build my website</Button>
           </div>
         </Band>
       </main>
       <Footer />
-      <CalModal />
     </>
   );
 }
