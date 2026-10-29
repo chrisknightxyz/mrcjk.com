@@ -3,6 +3,7 @@ import Image from "next/image";
 import { caseStudies, clients, contact, faqs, mailto, plans, portfolio, services, site, social, stripeLinks, type Plan } from "@/content/site";
 import { Band, BandHead, Cells, H2, IconTile, LEAD, MUTED } from "@/components/band";
 import { Button } from "@/components/button";
+import { CalModal } from "@/components/cal-modal";
 import { CountUp } from "@/components/count-up";
 import { Footer } from "@/components/footer";
 import { GradientArt, type GradientVariant } from "@/components/gradient-art";
@@ -90,6 +91,11 @@ function Check() {
 }
 
 const icon = { fill: "none", stroke: "currentColor", strokeWidth: 1.5, strokeLinecap: "round", strokeLinejoin: "round" } as const;
+const promises = [
+  { title: "Live in 24 hours", body: "From your first message to a live website in a day, for a standard build." },
+  { title: "Fixed price, agreed first", body: "You see a first draft before you pay, then one price. No hourly bills." },
+  { title: "Yours to keep", body: "Your website, your domain and your content. Cancel care any time." },
+];
 const benefits = [
   {
     title: "Turn visitors into enquiries",
@@ -149,12 +155,12 @@ export default function HomePage() {
         {/* Hero: the words bottom left, the demo panel on the right. */}
         <Band className="grid grid-cols-[minmax(0,1fr)] lg:grid-cols-2">
           <div className="flex flex-col justify-end px-5 pb-12 pt-14 sm:px-8 lg:min-h-[36rem] lg:px-12 lg:pb-14">
-            <h1 className="rise max-w-md font-display text-[34px] font-light leading-[40px] tracking-[-0.01em] sm:text-[40px] sm:leading-[46px]">
+            <h1 className="rise max-w-lg font-display text-[36px] font-light leading-[42px] tracking-[-0.01em] sm:text-[48px] sm:leading-[54px]">
               Websites that make you money
             </h1>
             <p className={`rise mt-4 max-w-md [animation-delay:120ms] ${LEAD}`}>
-              I design, build and look after websites for UK local businesses, so more people find you on Google and in AI
-              answers. From {gbp(build.price!)}, then {gbp(care.price!)} a month.
+              Your new website, live in 24 hours. Designed and built for your business, found on Google and recommended by
+              AI. From {gbp(build.price!)}, then {gbp(care.price!)} a month.
             </p>
             <div className="rise mt-8 flex flex-wrap gap-3 [animation-delay:240ms]">
               <Button href="/start">Start now</Button>
@@ -201,6 +207,30 @@ export default function HomePage() {
               </Reveal>
             ))}
           </Cells>
+          <Cells>
+            {promises.map((p, i) => (
+              <Reveal key={p.title} delay={i * 80} className="px-5 py-10 sm:px-8 lg:px-12">
+                <p className="font-display text-[28px] font-light leading-8 text-muted">{String(i + 1).padStart(2, "0")}</p>
+                <h3 className="mt-6 whitespace-nowrap text-[17px] leading-6">{p.title}</h3>
+                <p className={`mt-1.5 ${MUTED}`}>{p.body}</p>
+              </Reveal>
+            ))}
+          </Cells>
+        </Band>
+
+        {/* Everything on offer, after the scope strip on designjoy.co */}
+        <Band className="overflow-hidden py-5">
+          <div className="marquee flex w-max gap-2" aria-label="Services">
+            {[...services, ...services].map((s, i) => (
+              <span
+                key={i}
+                aria-hidden={i >= services.length}
+                className="whitespace-nowrap rounded-full bg-stone px-4 py-2 text-[14px] text-body"
+              >
+                {s.title}
+              </span>
+            ))}
+          </div>
         </Band>
 
         {/* Sectors */}
@@ -219,10 +249,16 @@ export default function HomePage() {
               aria-hidden="true"
               className="select-none bg-gradient-to-b from-ink/[0.09] to-ink/[0.02] bg-clip-text font-display text-[120px] font-light leading-none tracking-[-0.04em] text-transparent sm:text-[220px]"
             >
-              <CountUp to={build.price!} prefix="£" />
+              <CountUp to={24} duration={900} />
             </p>
-            <p className={`-mt-10 sm:-mt-20 ${H2}`}>To build your website</p>
-            <p className={`mt-3 ${LEAD} text-muted`}>Then {gbp(care.price!)} a month to host and look after it.</p>
+            <p className={`-mt-10 sm:-mt-20 ${H2}`}>
+              Hours from first message
+              <br />
+              to a live website
+            </p>
+            <p className={`mt-3 ${LEAD} text-muted`}>
+              From {gbp(build.price!)}, then {gbp(care.price!)} a month.
+            </p>
           </Reveal>
         </Band>
 
@@ -350,19 +386,27 @@ export default function HomePage() {
           <Cells cols={2}>
             <div className="px-5 py-10 sm:px-8 lg:px-12 lg:pb-20">
               <h3 className="text-[17px]">Start online</h3>
-              <p className={`mt-1.5 max-w-sm ${MUTED}`}>Answer five quick questions, then message me on WhatsApp or book a call.</p>
+              <p className={`mt-1.5 max-w-sm ${MUTED}`}>Answer five quick questions, then message me on WhatsApp or book a call. Live in 24 hours.</p>
               <div className="mt-6">
                 <Button href="/start">Start now</Button>
               </div>
             </div>
-            <div className="px-5 py-10 sm:px-8 lg:px-12 lg:pb-20">
-              <h3 className="text-[17px]">Talk it through</h3>
-              <p className={`mt-1.5 max-w-sm ${MUTED}`}>Pick a time in my calendar, or send me a message. No obligation.</p>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <Button href={contact.calUrl}>Book a call</Button>
-                <Button href={whatsapp} variant="secondary">
-                  WhatsApp
-                </Button>
+            <div className="p-3 sm:p-4">
+              <div className="flex h-full flex-col rounded-3xl bg-stone p-6 ring-[0.5px] ring-ink/10 sm:p-8">
+                <div className="flex items-center gap-4">
+                  <span className="orb h-12 w-12 shrink-0 rounded-full" aria-hidden="true" />
+                  <div className="min-w-0">
+                    <h3 className="truncate text-[17px]">Book an intro call</h3>
+                    <p className="truncate text-[14px] text-muted">30 minutes on Google Meet</p>
+                  </div>
+                </div>
+                <p className={`mt-6 max-w-sm ${MUTED}`}>See if we&apos;re a fit, talk through your business and get a price. Pick a time that suits you.</p>
+                <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
+                  <Button href={contact.calUrl}>Book a call</Button>
+                  <a href={mailto("Hello")} className="whitespace-nowrap text-[15px] text-muted underline decoration-ink/20 underline-offset-4 hover:text-ink">
+                    Prefer to email? {site.email}
+                  </a>
+                </div>
               </div>
             </div>
           </Cells>
@@ -412,6 +456,7 @@ export default function HomePage() {
 
       <Footer />
       <StartModal />
+      <CalModal />
 
       {/* WhatsApp, after the floating voice-chat button on elevenlabs.io. */}
       <a

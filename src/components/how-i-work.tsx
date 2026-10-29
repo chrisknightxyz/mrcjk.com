@@ -71,7 +71,7 @@ export function HowIWork() {
     <Band id="how-it-works">
       <BandHead
         title="Seven steps from hello to live"
-        intro="You see a first draft before you pay anything. One fixed price, one person from start to finish, then one monthly fee once you're live."
+        intro="All done in 24 hours. You see a first draft before you pay anything, then one fixed price, one person from start to finish, and one monthly fee once you're live."
       />
       <div className="grid grid-cols-[minmax(0,1fr)] border-t border-ink/5 lg:grid-cols-2 lg:divide-x lg:divide-ink/5">
         <div className="hidden p-4 lg:block">

@@ -35,9 +35,10 @@ export const mailto = (subject: string, body = "") =>
 
 // Stripe Payment Links, one per plan (Stripe Dashboard > Payment Links). While a link is empty,
 // its Buy button opens the start flow instead.
+// Test mode for now: swap in the live links (buy.stripe.com/...) before taking real payments.
 export const stripeLinks = {
-  build: "",
-  care: "",
+  build: "https://buy.stripe.com/test_5kQ28t4C8eRrbAyd3hfbq00",
+  care: "https://buy.stripe.com/test_3cI6oJfgM38JcEC4wLfbq01",
   growth: "",
 };
 
@@ -65,6 +66,7 @@ export const plans: Plan[] = [
     period: "one-off",
     blurb: "A custom website that turns visitors into calls, bookings and enquiries.",
     features: [
+      "Live in 24 hours",
       "Custom, not a template",
       "Built for every phone",
       "Loads fast",
@@ -278,6 +280,10 @@ export const audiences = [
 ];
 
 export const faqs = [
+  {
+    q: "How fast is it?",
+    a: "From your first message to a live website in 24 hours. Bigger sites, with extra pages, online booking or a shop, take longer, and you'll get the timeline with your fixed price.",
+  },
   {
     q: "Why does it say “from £999”?",
     a: "£999 covers a focused website for most local businesses. If you need more, like extra pages, online booking or a shop, you'll get a fixed price before any work starts.",

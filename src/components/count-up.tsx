@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 // A number that counts up the first time it scrolls into view, after the stat on elevenlabs.io.
-export function CountUp({ to, prefix = "", duration = 1400 }: { to: number; prefix?: string; duration?: number }) {
+export function CountUp({ to, prefix = "", suffix = "", duration = 1400 }: { to: number; prefix?: string; suffix?: string; duration?: number }) {
   const ref = useRef<HTMLSpanElement>(null);
   const [n, setN] = useState(to);
 
@@ -34,6 +34,7 @@ export function CountUp({ to, prefix = "", duration = 1400 }: { to: number; pref
     <span ref={ref} className="tabular-nums">
       {prefix}
       {n.toLocaleString("en-GB")}
+      {suffix}
     </span>
   );
 }
