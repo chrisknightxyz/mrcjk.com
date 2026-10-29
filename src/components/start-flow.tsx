@@ -189,8 +189,8 @@ function Question({
               type="button"
               aria-pressed={on}
               onClick={() => onChoose(o)}
-              className={`flex min-h-14 items-center justify-between gap-3 rounded-2xl px-5 py-3 text-left text-[16px] transition ${
-                on ? "bg-ink text-canvas" : "bg-card ring-1 ring-inset ring-ink/10 hover:ring-ink/25"
+              className={`flex min-h-14 items-center justify-between gap-3 whitespace-nowrap rounded-2xl px-5 py-3 text-left text-[16px] transition ${
+                on ? "bg-ink text-canvas" : "bg-stone ring-1 ring-inset ring-ink/[0.06] hover:ring-ink/25"
               }`}
             >
               {o}
@@ -236,19 +236,15 @@ function Field({
   autoComplete?: string;
 }) {
   return (
-    <label className="block">
-      <span className="text-sm font-medium">
-        {label}
-        {!required && <span className="font-normal text-muted"> (optional)</span>}
-      </span>
-      <input
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        required={required}
-        autoComplete={autoComplete}
-        className="mt-2 h-12 w-full rounded-2xl bg-card px-4 text-[16px] ring-1 ring-inset ring-ink/10 outline-none transition focus:ring-2 focus:ring-ink"
-      />
-    </label>
+    <input
+      aria-label={label}
+      placeholder={required ? label : `${label} (optional)`}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      required={required}
+      autoComplete={autoComplete}
+      className="h-12 w-full rounded-2xl bg-stone px-4 text-[16px] ring-1 ring-inset ring-ink/[0.06] outline-none transition placeholder:text-muted focus:ring-2 focus:ring-ink"
+    />
   );
 }
 
@@ -267,7 +263,7 @@ function ContactOption({ href, title, body, icon, primary }: { href: string; tit
       href={href}
       {...(external && { target: "_blank", rel: "noopener noreferrer" })}
       className={`group flex items-center gap-4 rounded-3xl p-5 transition ${
-        primary ? "bg-ink text-canvas hover:bg-ink/85" : "bg-card ring-1 ring-inset ring-ink/10 hover:ring-ink/25"
+        primary ? "bg-ink text-canvas hover:bg-ink/85" : "bg-stone ring-1 ring-inset ring-ink/[0.06] hover:ring-ink/25"
       }`}
     >
       <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${primary ? "bg-canvas/10" : "bg-stone"}`}>{icon}</span>

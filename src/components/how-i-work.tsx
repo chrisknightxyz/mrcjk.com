@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { GradientArt } from "@/components/gradient-art";
+import { Band, BandHead, MUTED } from "@/components/band";
+import { Button } from "@/components/button";
 import { StepBuild, StepConnect, StepGrow, StepLive, StepPay, StepTalk, StepTune } from "@/components/illustrations";
 import { Reveal } from "@/components/reveal";
 import { steps } from "@/content/site";
@@ -67,39 +68,30 @@ export function HowIWork() {
   }, []);
 
   return (
-    <section id="how-it-works" className="scroll-mt-16 px-4 py-28 sm:px-6 sm:py-36">
-      <div className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)] gap-12 lg:grid-cols-2 lg:gap-20">
-        <div className="lg:sticky lg:top-28 lg:self-start">
-          <Reveal>
-            <h2 className="font-display text-[clamp(1.75rem,9vw,3rem)] font-light leading-[1.1] tracking-[-0.025em]">
-              <span className="block whitespace-nowrap">Seven steps</span>
-              <span className="block whitespace-nowrap text-muted">from hello to live</span>
-            </h2>
-            <p className="mt-5 max-w-md text-lg leading-relaxed text-body">
-              You see a first draft before you pay anything. One fixed price, one person from start to finish, then one
-              monthly fee once you&apos;re live.
-            </p>
-          </Reveal>
-          <Reveal delay={120} className="mt-10 hidden lg:block">
-            <GradientArt variant="dusk" lines animate className="aspect-[4/3] rounded-3xl">
-              <div className="relative aspect-[4/3]">
-                {scenes.map((Scene, i) => (
-                  <div
-                    key={i}
-                    aria-hidden={i !== reached}
-                    className={`absolute inset-0 flex items-center justify-center p-10 transition duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                      i === reached ? "opacity-100" : "pointer-events-none translate-y-3 opacity-0"
-                    }`}
-                  >
-                    <Scene />
-                  </div>
-                ))}
+    <Band id="how-it-works">
+      <BandHead
+        title="Seven steps from hello to live"
+        intro="You see a first draft before you pay anything. One fixed price, one person from start to finish, then one monthly fee once you're live."
+      />
+      <div className="grid grid-cols-[minmax(0,1fr)] border-t border-ink/5 lg:grid-cols-2 lg:divide-x lg:divide-ink/5">
+        <div className="hidden p-4 lg:block">
+          <div className="sticky top-24 aspect-[4/3] overflow-hidden rounded-3xl bg-stone ring-[0.5px] ring-ink/10">
+            <span aria-hidden="true" className="orb absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full opacity-50 blur-3xl" />
+            {scenes.map((Scene, i) => (
+              <div
+                key={i}
+                aria-hidden={i !== reached}
+                className={`absolute inset-0 flex items-center justify-center p-10 transition duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                  i === reached ? "opacity-100" : "pointer-events-none translate-y-3 opacity-0"
+                }`}
+              >
+                <Scene />
               </div>
-            </GradientArt>
-          </Reveal>
+            ))}
+          </div>
         </div>
 
-        <div className="rounded-[28px] bg-surface p-5 sm:p-10">
+        <div className="px-5 py-10 sm:px-8 lg:px-12 lg:py-12">
           <ol ref={list} className="relative">
             {/* The track and its fill, behind the badges. */}
             <div aria-hidden="true" className="absolute bottom-5 left-5 top-5 w-px bg-ink/10">
@@ -112,22 +104,19 @@ export function HowIWork() {
             {steps.map((s, i) => (
               <Reveal as="li" key={s.title} delay={i * 60} className="relative flex gap-5 sm:gap-6" data-step="">
                 <span
-                  className={`pop relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-sm font-medium tabular-nums transition-colors duration-300 ${
-                    i <= reached ? "bg-ink text-canvas" : "bg-card text-muted ring-1 ring-inset ring-ink/10"
+                  className={`pop relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-sm tabular-nums transition-colors duration-300 ${
+                    i <= reached ? "bg-ink text-canvas" : "bg-card text-muted shadow-[0_0_0_0.5px_rgb(var(--ink)/0.2)]"
                   }`}
                 >
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <div className={`min-w-0 pt-2 ${i < steps.length - 1 ? "pb-10 sm:pb-12" : ""}`}>
-                  <h3 className="whitespace-nowrap text-base font-medium sm:text-xl">{s.title}</h3>
-                  <p className="mt-2 leading-relaxed text-body">{s.body}</p>
+                <div className={`min-w-0 pt-2 ${i < steps.length - 1 ? "pb-10" : ""}`}>
+                  <h3 className="whitespace-nowrap text-[17px] leading-6">{s.title}</h3>
+                  <p className={`mt-1.5 ${MUTED}`}>{s.body}</p>
                   {i === 0 && (
-                    <a
-                      href="/start"
-                      className="mt-4 inline-flex h-10 items-center whitespace-nowrap rounded-full bg-ink px-4 text-sm font-medium text-canvas hover:bg-ink/80"
-                    >
+                    <Button href="/start" className="mt-4">
                       Start now
-                    </a>
+                    </Button>
                   )}
                 </div>
               </Reveal>
@@ -135,6 +124,6 @@ export function HowIWork() {
           </ol>
         </div>
       </div>
-    </section>
+    </Band>
   );
 }

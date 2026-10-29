@@ -1,28 +1,16 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
-import {
-  aiAssistants,
-  caseStudies,
-  clients,
-  contact,
-  faqs,
-  mailto,
-  plans,
-  portfolio,
-  services,
-  site,
-  social,
-  stripeLinks,
-  type LogoId,
-  type Plan,
-} from "@/content/site";
+import { caseStudies, clients, contact, faqs, mailto, plans, portfolio, services, site, social, stripeLinks, type Plan } from "@/content/site";
+import { Band, BandHead, Cells, H2, IconTile, LEAD, MUTED } from "@/components/band";
+import { Button } from "@/components/button";
+import { CountUp } from "@/components/count-up";
 import { Footer } from "@/components/footer";
 import { GradientArt, type GradientVariant } from "@/components/gradient-art";
+import { HeroDemo } from "@/components/hero-demo";
 import { HowIWork } from "@/components/how-i-work";
-import { AiAnswer, EnquiryCard, MapsCard } from "@/components/illustrations";
-import { LogoRow } from "@/components/logos";
+import { PlatformTabs } from "@/components/platform-tabs";
 import { Reveal } from "@/components/reveal";
+import { SectorTabs } from "@/components/sector-tabs";
 import { StartModal } from "@/components/start-modal";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Wordmark } from "@/components/wordmark";
@@ -93,313 +81,344 @@ const jsonLd = {
   ],
 };
 
-function Button({ href, children, variant = "black" }: { href: string; children: React.ReactNode; variant?: "black" | "white" | "stone" }) {
-  const styles = {
-    black: "bg-ink text-canvas hover:bg-ink/80",
-    white: "bg-card text-ink shadow-pill hover:bg-surface",
-    stone: "bg-stone/80 text-ink shadow-warm ring-1 ring-ink/[0.04] hover:bg-stone",
-  }[variant];
-  const external = href.startsWith("http");
-  return (
-    <a
-      href={href}
-      {...(external && { target: "_blank", rel: "noopener noreferrer" })}
-      className={`inline-flex h-11 shrink-0 items-center justify-center whitespace-nowrap rounded-full px-5 text-[15px] font-medium tracking-normal transition ${styles}`}
-    >
-      {children}
-    </a>
-  );
-}
-
 function Check() {
   return (
-    <svg viewBox="0 0 16 16" aria-hidden="true" className="mt-[3px] h-4 w-4 shrink-0 text-ink">
+    <svg viewBox="0 0 16 16" aria-hidden="true" className="mt-[4px] h-4 w-4 shrink-0 text-ink">
       <path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
 
-function SectionHead({ title, intro, align = "center" }: { title: string; intro?: string; align?: "center" | "left" }) {
-  return (
-    <Reveal className={align === "center" ? "mx-auto max-w-2xl text-center" : "max-w-xl"}>
-      <h2 className="text-balance font-display text-4xl font-light leading-[1.1] tracking-[-0.025em] sm:text-5xl">{title}</h2>
-      {intro && <p className="mt-5 text-lg leading-relaxed text-body">{intro}</p>}
-    </Reveal>
-  );
-}
+const icon = { fill: "none", stroke: "currentColor", strokeWidth: 1.5, strokeLinecap: "round", strokeLinejoin: "round" } as const;
+const benefits = [
+  {
+    title: "Turn visitors into enquiries",
+    body: "Clear pages, click-to-call and simple forms, built so a visit becomes a call, a booking or a quote request.",
+    svg: <path {...icon} d="M5 3h3l1.5 4-2 1.2a9 9 0 0 0 4.3 4.3L13 10.5l4 1.5v3a2 2 0 0 1-2 2A13 13 0 0 1 3 5a2 2 0 0 1 2-2Z" />,
+  },
+  {
+    title: "Get found on Google and Maps",
+    body: "Local SEO and a complete Google Business Profile, so people nearby find you before anyone else.",
+    svg: (
+      <>
+        <path {...icon} d="M10 17s-5.5-5-5.5-9a5.5 5.5 0 0 1 11 0c0 4-5.5 9-5.5 9Z" />
+        <circle {...icon} cx="10" cy="8" r="2" />
+      </>
+    ),
+  },
+  {
+    title: "Recommended by AI assistants",
+    body: "AEO for ChatGPT, Gemini and Google's AI answers, so they name your business when customers ask.",
+    svg: <path {...icon} d="M10 3c.5 3.6 2.4 5.5 7 7-4.6 1.5-6.5 3.4-7 7-.5-3.6-2.4-5.5-7-7 4.6-1.5 6.5-3.4 7-7Z" />,
+  },
+];
 
-export default function ServicesPage() {
-  const [featured] = caseStudies;
+export default function HomePage() {
   const whatsapp = `https://wa.me/${contact.whatsapp}`;
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      {/* Hairline frame at the content edges, as on the benchmark. */}
-      <div aria-hidden="true" className="pointer-events-none fixed inset-y-0 left-1/2 z-0 hidden w-[calc(72rem+3rem)] -translate-x-1/2 border-x border-ink/[0.05] xl:block" />
-
       <header className="sticky top-0 z-20 border-b border-ink/5 bg-canvas/85 backdrop-blur-md">
-        <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-          <Wordmark />
-          <div className="hidden items-center gap-8 text-[15px] font-medium text-body lg:flex">
-            <a href="#pricing" className="hover:text-ink">Pricing</a>
-            <a href="#services" className="hover:text-ink">Services</a>
-            <a href="#work" className="hover:text-ink">Work</a>
-            <a href="#faq" className="hover:text-ink">FAQ</a>
+        <nav className="mx-auto flex h-16 w-[calc(100%-2.5rem)] max-w-[1178px] items-center justify-between">
+          <div className="flex items-center gap-10">
+            <Wordmark />
+            <div className="hidden items-center gap-7 text-[15px] lg:flex">
+              <a href="#pricing" className="hover:text-muted">Pricing</a>
+              <a href="#services" className="hover:text-muted">Services</a>
+              <a href="#work" className="hover:text-muted">Work</a>
+              <a href="#faq" className="hover:text-muted">FAQ</a>
+            </div>
           </div>
           <div className="flex items-center gap-2">
             <ThemeToggle />
-            <a href={contact.calUrl} target="_blank" rel="noopener noreferrer" className="inline-flex h-9 items-center rounded-full bg-ink px-4 text-sm font-medium text-canvas">
+            <a
+              href={contact.calUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex h-9 items-center whitespace-nowrap rounded-full bg-ink px-4 text-[15px] text-canvas hover:bg-ink/80"
+            >
               Book a call
             </a>
           </div>
         </nav>
       </header>
 
-      <main className="relative">
-        {/* Hero */}
-        <section className="px-4 pt-16 sm:px-6 sm:pt-24">
-          <div className="mx-auto max-w-4xl text-center">
-            <p className="rise inline-flex items-center gap-2 rounded-full bg-card px-3.5 py-1.5 text-[13px] font-medium text-body shadow-pill">
-              <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-br from-[#f39a4c] to-[#6f8fe0]" />
-              Websites, SEO and AEO for UK local businesses
-            </p>
-            <h1 className="rise mt-7 text-balance font-display text-[2.75rem] font-light leading-[1.05] tracking-[-0.035em] [animation-delay:120ms] sm:text-7xl">
+      <main>
+        {/* Hero: the words bottom left, the demo panel on the right. */}
+        <Band className="grid grid-cols-[minmax(0,1fr)] lg:grid-cols-2">
+          <div className="flex flex-col justify-end px-5 pb-12 pt-14 sm:px-8 lg:min-h-[36rem] lg:px-12 lg:pb-14">
+            <h1 className="rise max-w-md font-display text-[34px] font-light leading-[40px] tracking-[-0.01em] sm:text-[40px] sm:leading-[46px]">
               Websites that make you money
             </h1>
-            <p className="rise mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-body [animation-delay:240ms]">
-              I design, build and look after websites for local businesses, so more people find you on Google and in AI
+            <p className={`rise mt-4 max-w-md [animation-delay:120ms] ${LEAD}`}>
+              I design, build and look after websites for UK local businesses, so more people find you on Google and in AI
               answers. From {gbp(build.price!)}, then {gbp(care.price!)} a month.
             </p>
-            <div className="rise mt-9 flex flex-col justify-center gap-3 [animation-delay:360ms] sm:flex-row">
+            <div className="rise mt-8 flex flex-wrap gap-3 [animation-delay:240ms]">
               <Button href="/start">Start now</Button>
-              <Button href="#pricing" variant="stone">See pricing</Button>
+              <Button href="#pricing" variant="secondary">
+                See pricing
+              </Button>
             </div>
           </div>
+          <HeroDemo />
+        </Band>
 
-          <GradientArt variant="dusk" lines className="rise mx-auto mt-16 max-w-6xl rounded-3xl px-4 pt-10 [animation-delay:480ms] sm:px-16 sm:pt-16">
-            <div className="absolute -left-2 bottom-24 z-10 hidden lg:block">
-              <MapsCard />
-            </div>
-            <div className="absolute bottom-10 right-10 z-10 hidden md:block">
-              <div className="float">
-                <EnquiryCard />
-              </div>
-            </div>
-            <a href={featured.url} target="_blank" rel="noopener noreferrer" className="theme-light block overflow-hidden rounded-t-2xl bg-white shadow-[0_24px_60px_rgba(40,20,10,0.25)]">
-              <div className="flex items-center gap-1.5 border-b border-ink/5 px-4 py-3">
-                <span className="h-2.5 w-2.5 rounded-full bg-line" />
-                <span className="h-2.5 w-2.5 rounded-full bg-line" />
-                <span className="h-2.5 w-2.5 rounded-full bg-line" />
-                <span className="ml-3 truncate font-mono text-xs text-muted">{featured.domain}</span>
-              </div>
-              <Image
-                src={featured.image}
-                alt={`${featured.name} website`}
-                width={1440}
-                height={810}
-                priority
-                sizes="(min-width: 1152px) 1024px, 100vw"
-                className="w-full"
-              />
-            </a>
-          </GradientArt>
-          <div className="mt-4 flex justify-center md:hidden">
-            <EnquiryCard />
-          </div>
+        {/* Brands */}
+        <Band>
+          <p className="sr-only">Brands I&apos;ve worked with</p>
+          <ul className="grid grid-cols-2 sm:grid-cols-4">
+            {clients.map((c) => (
+              <li key={c.name} className="flex justify-center py-8 opacity-50 grayscale transition hover:opacity-100 hover:grayscale-0 sm:py-10">
+                <a href={c.url} target="_blank" rel="noopener noreferrer" aria-label={c.name}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={c.logo} alt={c.name} className={`h-10 w-16 object-contain ${c.mono ? "dark:invert" : ""}`} />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </Band>
 
-          <Reveal className="mx-auto mt-16 max-w-4xl">
-            <p className="text-center text-sm text-muted">Brands I&apos;ve worked with</p>
-            <ul className="mt-6 flex flex-wrap items-center justify-center gap-x-12 gap-y-6 sm:gap-x-16">
-              {clients.map((c) => (
-                <li key={c.name} className="opacity-50 grayscale transition hover:opacity-100 hover:grayscale-0">
-                  <a href={c.url} target="_blank" rel="noopener noreferrer" aria-label={c.name} className="block">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={c.logo} alt={c.name} className={`h-10 w-16 object-contain ${c.mono ? "dark:invert" : ""}`} />
-                  </a>
-                </li>
-              ))}
-            </ul>
+        {/* What the work does */}
+        <Band>
+          <BandHead
+            eyebrow="Websites, SEO and AEO for UK local businesses"
+            title="More calls and bookings, from one website"
+            intro="A site designed for your business, found on Google and recommended by AI. Then looked after every month, so it keeps working."
+          />
+          <Cells>
+            {benefits.map((b, i) => (
+              <Reveal key={b.title} delay={i * 80} className="px-5 py-10 sm:px-8 lg:px-12">
+                <IconTile>
+                  <svg viewBox="0 0 20 20" className="h-[18px] w-[18px]" aria-hidden="true">
+                    {b.svg}
+                  </svg>
+                </IconTile>
+                <h3 className="mt-8 whitespace-nowrap text-[17px] leading-6">{b.title}</h3>
+                <p className={`mt-1.5 ${MUTED}`}>{b.body}</p>
+              </Reveal>
+            ))}
+          </Cells>
+        </Band>
+
+        {/* Sectors */}
+        <Band>
+          <BandHead
+            title="A website for every kind of local business"
+            intro="Calls for trades, bookings for salons, menus for cafés. Each site is built around how your customers choose."
+          />
+          <SectorTabs />
+        </Band>
+
+        {/* The price, as a figure */}
+        <Band>
+          <Reveal className="relative flex flex-col items-center px-5 py-20 text-center sm:py-28">
+            <p
+              aria-hidden="true"
+              className="select-none bg-gradient-to-b from-ink/[0.09] to-ink/[0.02] bg-clip-text font-display text-[120px] font-light leading-none tracking-[-0.04em] text-transparent sm:text-[220px]"
+            >
+              <CountUp to={build.price!} prefix="£" />
+            </p>
+            <p className={`-mt-10 sm:-mt-20 ${H2}`}>To build your website</p>
+            <p className={`mt-3 ${LEAD} text-muted`}>Then {gbp(care.price!)} a month to host and look after it.</p>
           </Reveal>
-        </section>
+        </Band>
 
         {/* Platforms */}
-        <section id="platforms" className="mx-auto max-w-6xl scroll-mt-16 px-4 pt-28 sm:px-6 sm:pt-36">
-          <SectionHead
+        <Band id="platforms">
+          <BandHead
             title="Found on Google, Maps and AI assistants"
-            intro="More customers now ask ChatGPT or Google's AI before they call. I set your business up to be the answer."
+            intro="More customers ask ChatGPT or Google's AI before they call. I set your business up to be the answer."
           />
-          <Reveal className="mt-14">
-            <GradientArt variant="ocean" lines className="rounded-3xl px-4 py-14 sm:px-10 sm:py-20">
-              <AiAnswer />
-            </GradientArt>
-          </Reveal>
-          <Reveal className="mt-10">
-            <LogoRow ids={[...aiAssistants, "google", "meta"] as LogoId[]} />
-          </Reveal>
-        </section>
+          <PlatformTabs />
+        </Band>
 
-        {/* How it works */}
         <HowIWork />
 
         {/* Pricing */}
-        <section id="pricing" className="scroll-mt-16 bg-surface px-4 py-28 sm:px-6 sm:py-36">
-          <div className="mx-auto max-w-6xl">
-            <SectionHead
-              title={`${gbp(build.price!)} to build. ${gbp(care.price!)} a month to run.`}
-              intro="Your price is agreed before any work starts. Cancel hosting any time."
-            />
-            <div className="mt-14 grid gap-5 lg:grid-cols-3">
-              {plans.map((plan, i) => (
-                <Reveal key={plan.id} delay={i * 120} className="flex flex-col overflow-hidden rounded-3xl bg-card shadow-card">
-                  <GradientArt variant={planVariant[i]} lines={i === 0} className="flex h-36 items-center justify-center">
-                    <h3 className="font-display text-3xl font-light tracking-[-0.02em] text-white">{plan.name}</h3>
-                  </GradientArt>
-                  <div className="flex flex-1 flex-col p-6 sm:p-8">
-                    <p className="flex flex-wrap items-baseline gap-x-2">
-                      {plan.price === null ? (
-                        <span className="font-display text-4xl font-light tracking-[-0.03em]">Quoted for you</span>
-                      ) : (
-                        <>
-                          {plan.prefix && <span className="text-sm text-muted">{plan.prefix}</span>}
-                          <span className="font-display text-6xl font-light tracking-[-0.04em]">{gbp(plan.price)}</span>
-                          <span className="text-sm text-muted">{plan.period}</span>
-                        </>
-                      )}
-                    </p>
-                    <p className="mt-4 leading-relaxed text-body">{plan.blurb}</p>
-                    <ul className="mt-8 space-y-3 border-t border-ink/5 pt-8 text-[15px]">
-                      {plan.features.map((f) => (
-                        <li key={f} className="flex gap-3 whitespace-nowrap">
-                          <Check />
-                          {f}
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="mt-auto flex items-center justify-between gap-4 pt-10">
-                      <p className="min-w-0 truncate text-sm text-muted">{plan.note}</p>
-                      <Button href={planHref(plan)} variant={plan.price === null ? "white" : "black"}>
-                        {plan.cta}
-                      </Button>
-                    </div>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
+        <Band id="pricing">
+          <BandHead
+            title={
+              <>
+                {gbp(build.price!)} to build.
+                <br />
+                {gbp(care.price!)} a month to run.
+              </>
+            }
+            intro="Your price is agreed before any work starts. Cancel hosting any time."
+          />
+          <Cells from="lg">
+            {plans.map((plan, i) => (
+              <Reveal key={plan.id} delay={i * 80} className="flex flex-col px-5 py-10 sm:px-8 lg:px-10">
+                <div className="flex items-center gap-3">
+                  <GradientArt variant={planVariant[i]} className="h-9 w-9 shrink-0 rounded-lg" />
+                  <h3 className="whitespace-nowrap text-[17px]">{plan.name}</h3>
+                </div>
+                <p className="mt-8 flex items-baseline gap-x-2 whitespace-nowrap">
+                  {plan.price === null ? (
+                    <span className="font-display text-[36px] font-light leading-[48px]">Quoted for you</span>
+                  ) : (
+                    <>
+                      {plan.prefix && <span className="text-[15px] text-muted">{plan.prefix}</span>}
+                      <span className="font-display text-[48px] font-light leading-[48px] tracking-[-0.02em]">{gbp(plan.price)}</span>
+                      <span className="text-[15px] text-muted">{plan.period}</span>
+                    </>
+                  )}
+                </p>
+                <p className={`mt-3 ${MUTED}`}>{plan.blurb}</p>
+                <ul className="mt-8 space-y-2.5 border-t border-ink/5 pt-8 text-[15px]">
+                  {plan.features.map((f) => (
+                    <li key={f} className="flex gap-3 whitespace-nowrap">
+                      <Check />
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-auto flex items-center justify-between gap-4 pt-10">
+                  <p className="min-w-0 truncate text-[15px] text-muted">{plan.note}</p>
+                  <Button href={planHref(plan)} variant={plan.price === null ? "secondary" : "primary"}>
+                    {plan.cta}
+                  </Button>
+                </div>
+              </Reveal>
+            ))}
+          </Cells>
+        </Band>
 
         {/* Services */}
-        <section id="services" className="mx-auto max-w-6xl scroll-mt-16 px-4 py-28 sm:px-6 sm:py-36">
-          <SectionHead title="Add what you need" intro="Tick what you want. Each one is quoted for you." />
-          <div className="mt-14">
+        <Band id="services">
+          <BandHead title="Add what you need" intro="Tick what you want, then send one request. Each service is quoted for you." />
+          <div className="border-t border-ink/5 px-5 py-12 sm:px-8 lg:py-16">
             <Catalogue />
           </div>
-        </section>
+        </Band>
 
         {/* Work */}
-        <section id="work" className="scroll-mt-16 bg-surface px-4 py-28 sm:px-6 sm:py-36">
-          <div className="mx-auto max-w-6xl">
-            <SectionHead title="Recent websites" />
-            <div className="mt-14 grid gap-5 md:grid-cols-3">
-              {caseStudies.map((c, i) => (
-                <Reveal key={c.url} delay={i * 120}>
-                  <a href={c.url} target="_blank" rel="noopener noreferrer" className="group block">
-                    <GradientArt
-                      variant={c.variant}
-                      lines={i === 1}
-                      className="flex aspect-square items-center justify-center rounded-3xl p-8 transition duration-500 group-hover:scale-[0.99]"
-                    >
-                      <p className="text-balance text-center font-display text-4xl font-light leading-tight tracking-[-0.02em] text-white">{c.name}</p>
-                    </GradientArt>
-                    <div className="px-1 pt-5">
-                      <h3 className="text-xl font-medium leading-snug group-hover:underline group-hover:underline-offset-4">{c.summary}</h3>
-                      <p className="mt-2 flex gap-3 text-sm">
-                        <span>{c.sector}</span>
-                        <span className="text-muted">{c.domain}</span>
-                      </p>
-                    </div>
-                  </a>
-                </Reveal>
-              ))}
-            </div>
-
-            <Reveal className="mt-20">
-              <h3 className="text-2xl font-medium">More work and press</h3>
-              <ul className="mt-6 divide-y divide-ink/[0.06] border-y border-ink/[0.06]">
-                {portfolio.map((w) => (
-                  <li key={w.url}>
-                    <a href={w.url} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-5 py-4">
-                      <GradientArt variant={kindVariant[w.kind] ?? "dusk"} className="h-12 w-12 shrink-0 rounded-xl" />
-                      <span className="min-w-0 flex-1">
-                        <span className="block text-[17px] font-medium leading-snug group-hover:underline group-hover:underline-offset-4">{w.title}</span>
-                        <span className="mt-0.5 block text-sm text-muted">
-                          {w.kind} · {w.source}
-                        </span>
+        <Band id="work">
+          <BandHead title="Recent websites" intro="Live sites, designed and built by me. Open any of them." />
+          <Cells>
+            {caseStudies.map((c, i) => (
+              <Reveal key={c.url} delay={i * 80}>
+                <a href={c.url} target="_blank" rel="noopener noreferrer" className="group block p-3 sm:p-4">
+                  <span className="block overflow-hidden rounded-3xl bg-stone p-4 pb-0 ring-[0.5px] ring-ink/10 sm:p-6 sm:pb-0">
+                    <span className="theme-light block overflow-hidden rounded-t-xl bg-white shadow-[0_0_0_0.5px_rgba(0,0,0,0.12),0_12px_32px_rgba(30,20,10,0.12)] transition duration-500 group-hover:-translate-y-1">
+                      <span className="flex items-center gap-1.5 border-b border-black/5 px-3 py-2">
+                        <span className="h-2 w-2 rounded-full bg-[#e5e5e5]" />
+                        <span className="h-2 w-2 rounded-full bg-[#e5e5e5]" />
+                        <span className="h-2 w-2 rounded-full bg-[#e5e5e5]" />
+                        <span className="ml-2 truncate font-mono text-[10px] text-[#777169]">{c.domain}</span>
                       </span>
-                      <span aria-hidden="true" className="text-xl text-muted transition group-hover:translate-x-0.5 group-hover:text-ink">
-                        ↗
-                      </span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
+                      <Image src={c.image} alt={`${c.name} homepage`} width={1440} height={900} sizes="(min-width: 768px) 360px, 100vw" className="w-full" />
+                    </span>
+                  </span>
+                  <span className="block px-2 pb-4 pt-5">
+                    <span className="block whitespace-nowrap text-[17px] group-hover:underline group-hover:underline-offset-4">{c.name}</span>
+                    <span className={`mt-1.5 block ${MUTED}`}>{c.summary}</span>
+                  </span>
+                </a>
+              </Reveal>
+            ))}
+          </Cells>
+          <div className="border-t border-ink/5 px-5 pb-6 pt-14 sm:px-8">
+            <h3 className="text-[17px]">More work and press</h3>
           </div>
-        </section>
+          <ul className="border-t border-ink/5">
+            {portfolio.map((w) => (
+              <li key={w.url} className="border-b border-ink/5 last:border-0">
+                <a href={w.url} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-4 px-5 py-4 transition hover:bg-stone/60 sm:px-8">
+                  <GradientArt variant={kindVariant[w.kind] ?? "dusk"} className="h-10 w-10 shrink-0 rounded-lg" />
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate text-[16px]">{w.title}</span>
+                    <span className="block truncate text-[14px] text-muted">
+                      {w.kind} · {w.source}
+                    </span>
+                  </span>
+                  <span aria-hidden="true" className="text-muted transition group-hover:translate-x-0.5 group-hover:text-ink">
+                    ↗
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </Band>
+
+        {/* Getting started */}
+        <Band>
+          <BandHead center title="Start your website today" />
+          <Cells cols={2}>
+            <div className="px-5 py-10 sm:px-8 lg:px-12 lg:pb-20">
+              <h3 className="text-[17px]">Start online</h3>
+              <p className={`mt-1.5 max-w-sm ${MUTED}`}>Answer five quick questions, then message me on WhatsApp or book a call.</p>
+              <div className="mt-6">
+                <Button href="/start">Start now</Button>
+              </div>
+            </div>
+            <div className="px-5 py-10 sm:px-8 lg:px-12 lg:pb-20">
+              <h3 className="text-[17px]">Talk it through</h3>
+              <p className={`mt-1.5 max-w-sm ${MUTED}`}>Pick a time in my calendar, or send me a message. No obligation.</p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <Button href={contact.calUrl}>Book a call</Button>
+                <Button href={whatsapp} variant="secondary">
+                  WhatsApp
+                </Button>
+              </div>
+            </div>
+          </Cells>
+        </Band>
 
         {/* FAQ */}
-        <section id="faq" className="mx-auto grid max-w-6xl scroll-mt-16 gap-12 px-4 py-28 sm:px-6 sm:py-36 lg:grid-cols-[1fr_1.6fr]">
+        <Band id="faq" className="grid gap-8 px-5 py-20 sm:px-8 lg:grid-cols-[1fr_2fr] lg:gap-12 lg:py-24">
           <div>
-            <SectionHead title="Before you start" align="left" />
-            <p className="mt-5 text-body">
-              Still have a question?{" "}
-              <a href={mailto("Question")} className="text-ink underline decoration-muted underline-offset-4">
+            <h2 className={H2}>
+              Frequently
+              <br />
+              asked questions
+            </h2>
+            <p className={`mt-4 ${MUTED}`}>
+              Something else?{" "}
+              <a href={mailto("Question")} className="text-ink underline decoration-ink/30 underline-offset-4">
                 Email me
               </a>
             </p>
           </div>
-          <div className="divide-y divide-ink/[0.06] border-y border-ink/[0.06]">
+          <div>
             {faqs.map((f) => (
-              <details key={f.q} className="group py-5">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-[17px] font-medium">
+              <details key={f.q} className="group border-b border-dashed border-ink/15">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-4 text-[17px]">
                   {f.q}
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-card text-muted shadow-pill transition group-open:rotate-45">
-                    +
-                  </span>
+                  <svg viewBox="0 0 16 16" aria-hidden="true" className="h-4 w-4 shrink-0 text-muted transition group-open:rotate-180">
+                    <path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
                 </summary>
-                <p className="mt-3 pr-12 leading-relaxed text-body">{f.a}</p>
+                <p className={`pb-5 pr-10 ${MUTED}`}>{f.a}</p>
               </details>
             ))}
           </div>
-        </section>
+        </Band>
 
-        {/* Final CTA */}
-        <section className="px-4 pb-28 sm:px-6">
-          <GradientArt variant="ember" lines className="mx-auto max-w-6xl rounded-3xl px-6 py-24 text-center sm:py-32">
-            <h2 className="mx-auto max-w-3xl text-balance font-display text-4xl font-light leading-[1.1] tracking-[-0.03em] text-white sm:text-6xl">
-              Your new website starts here
-            </h2>
-            <p className="mx-auto mt-5 max-w-xl text-lg text-white/80">
-              A few quick questions, about a minute. Then message me on WhatsApp or book a call.
-            </p>
-            <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
-              <Button href="/start" variant="white">Start now</Button>
-            </div>
-          </GradientArt>
-        </section>
+        {/* Final call to action */}
+        <Band className="flex flex-col gap-6 px-5 py-12 sm:px-8 md:flex-row md:items-center md:justify-between">
+          <h2 className="font-display text-[28px] font-light leading-9 sm:text-[32px]">Websites that make you money</h2>
+          <div className="flex flex-wrap gap-3">
+            <Button href={contact.calUrl} variant="secondary">
+              Book a call
+            </Button>
+            <Button href="/start">Start now</Button>
+          </div>
+        </Band>
       </main>
 
       <Footer />
       <StartModal />
 
-      {/* WhatsApp orb, after the benchmark's floating voice-chat button. */}
+      {/* WhatsApp, after the floating voice-chat button on elevenlabs.io. */}
       <a
         href={whatsapp}
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-5 right-5 z-20 hidden items-center gap-3 rounded-full bg-card py-2 pl-2 pr-5 text-[15px] font-medium shadow-[0_0_0_1px_rgba(0,0,0,0.06),0_12px_32px_rgba(30,20,10,0.16)] transition hover:-translate-y-0.5 sm:flex"
+        className="fixed bottom-5 right-5 z-20 hidden items-center gap-3 rounded-full bg-card py-2 pl-2 pr-5 text-[15px] shadow-[0_0_0_0.5px_rgb(var(--ink)/0.15),0_12px_32px_rgba(30,20,10,0.14)] transition hover:-translate-y-0.5 sm:flex"
       >
         <span className="orb h-9 w-9 rounded-full" />
         Chat on WhatsApp

@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GradientArt, categoryVariant } from "@/components/gradient-art";
 import { LogoStack } from "@/components/logos";
+import { RequestForm } from "@/components/request-form";
 import { services } from "@/content/site";
 
 const groups = Array.from(new Set(services.map((s) => s.category))).map((category) => ({
@@ -10,12 +11,23 @@ const groups = Array.from(new Set(services.map((s) => s.category))).map((categor
   items: services.filter((s) => s.category === category),
 }));
 
-// A checklist, one service per row on every screen: tick what you want, then continue.
+// A checklist, one service per row on every screen: tick what you want, then send the request below.
 export function Catalogue() {
   const [selected, setSelected] = useState<string[]>([]);
   const toggle = (title: string) =>
     setSelected((cur) => (cur.includes(title) ? cur.filter((t) => t !== title) : [...cur, title]));
-  const enquiry = `/start?services=${encodeURIComponent(selected.join("|"))}`;
+
+  // The floating bar steps aside once the form itself is on screen.
+  const request = useRef<HTMLDivElement>(null);
+  const [atForm, setAtForm] = useState(false);
+  useEffect(() => {
+    const el = request.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setAtForm(e.isIntersecting), { rootMargin: "0px 0px -20% 0px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  const showBar = selected.length > 0 && !atForm;
 
   return (
     <>
@@ -75,22 +87,25 @@ export function Catalogue() {
             </ul>
           </section>
         ))}
+        <div id="request" ref={request} className="scroll-mt-24">
+          <RequestForm services={selected} onRemove={toggle} />
+        </div>
       </div>
 
       <div
-        className={`fixed inset-x-0 bottom-0 z-30 p-4 transition-[transform,visibility] duration-300 ${selected.length ? "visible translate-y-0" : "invisible translate-y-[150%]"}`}
-        aria-hidden={!selected.length}
+        className={`fixed inset-x-0 bottom-0 z-30 p-4 transition-[transform,visibility] duration-300 ${showBar ? "visible translate-y-0" : "invisible translate-y-[150%]"}`}
+        aria-hidden={!showBar}
       >
         <div className="mx-auto flex max-w-md items-center justify-between gap-4 rounded-full bg-card/90 py-2 pl-5 pr-2 shadow-[0_0_0_1px_rgba(0,0,0,0.06),0_12px_32px_rgba(78,50,23,0.12)] backdrop-blur-md">
           <p className="flex items-baseline gap-3 whitespace-nowrap text-sm text-body">
             <span>
               <span className="font-medium text-ink">{selected.length}</span> selected
             </span>
-            <button type="button" onClick={() => setSelected([])} className="text-muted underline underline-offset-2 hover:text-ink" tabIndex={selected.length ? 0 : -1}>
+            <button type="button" onClick={() => setSelected([])} className="text-muted underline underline-offset-2 hover:text-ink" tabIndex={showBar ? 0 : -1}>
               Clear
             </button>
           </p>
-          <a href={enquiry} tabIndex={selected.length ? 0 : -1} className="inline-flex h-10 items-center whitespace-nowrap rounded-full bg-ink px-5 text-sm font-medium text-canvas hover:bg-ink/80">
+          <a href="#request" tabIndex={showBar ? 0 : -1} className="inline-flex h-10 items-center whitespace-nowrap rounded-full bg-ink px-5 text-sm font-medium text-canvas hover:bg-ink/80">
             Continue
           </a>
         </div>

@@ -1,4 +1,4 @@
-import { aiAssistants, logos, plans } from "@/content/site";
+import { plans } from "@/content/site";
 
 // Small product scenes, drawn as real UI rather than clip-art. They sit on
 // gradient art, so every surface is a white card with the site's soft shadow.
@@ -157,6 +157,28 @@ export function StepLive() {
   );
 }
 
+/* Platforms: a Google search with the business on top. */
+
+export function GoogleResult() {
+  return (
+    <div className={`${card} mx-auto w-full max-w-md p-5`}>
+      <p className="flex items-center gap-2 rounded-full px-4 py-2 text-sm shadow-[0_0_0_1px_rgba(0,0,0,0.08)]">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/logos/google.svg" alt="" className="h-4 w-4" />
+        plumber near me
+      </p>
+      <div className="mt-5">
+        <p className="text-xs text-muted">yourbusiness.co.uk</p>
+        <p className="mt-0.5 text-[17px] text-[#1a0dab]">Same-day plumbers in Leeds | Your Business</p>
+        <p className="mt-1 text-xs leading-relaxed text-body">Fixed prices, no call-out fee. Boilers, leaks and bathrooms across Leeds. Call now.</p>
+        <p className="mt-2 text-xs text-muted">
+          <span className="text-[#f2a600]">★★★★★</span> 4.9 · Example
+        </p>
+      </div>
+    </div>
+  );
+}
+
 /* Hero: what the work does for a business. */
 
 export function MapsCard() {
@@ -226,17 +248,7 @@ export function AiAnswer() {
           </p>
         </div>
       </div>
-      <div className="mt-5 flex items-center justify-between border-t border-black/5 pt-4">
-        <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">Example answer</span>
-        <span className="flex -space-x-1.5">
-          {aiAssistants.slice(0, 5).map((id) => (
-            <span key={id} className="flex h-6 w-6 items-center justify-center rounded-full bg-white shadow-[0_0_0_1.5px_#fff,0_0_0_2px_rgba(0,0,0,0.06)]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={logos[id].src} alt="" className="h-3.5 w-3.5" />
-            </span>
-          ))}
-        </span>
-      </div>
+      <p className="mt-5 border-t border-black/5 pt-4 font-mono text-[10px] uppercase tracking-[0.14em] text-muted">Example answer</p>
     </div>
   );
 }
