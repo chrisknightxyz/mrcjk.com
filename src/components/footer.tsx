@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { AskAi } from "@/components/ask-ai";
+import { Wordmark } from "@/components/wordmark";
 import { contact, mailto, projects, site, social } from "@/content/site";
 
 function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
@@ -27,8 +27,8 @@ export function Footer() {
     {
       title: "Site",
       links: [
-        { label: "Services", href: "/services" },
-        { label: "Pricing", href: "/services#pricing" },
+        { label: "Services", href: "/#services" },
+        { label: "Pricing", href: "/#pricing" },
         { label: "Start now", href: "/start" },
       ],
     },
@@ -38,9 +38,7 @@ export function Footer() {
     <footer className="border-t border-ink/5">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.4fr_repeat(4,1fr)]">
         <div>
-          <Link href="/services" className="whitespace-nowrap font-display text-[22px] tracking-[-0.03em]">
-            {site.name}
-          </Link>
+          <Wordmark />
           <p className="mt-3 max-w-xs text-sm leading-relaxed text-body">
             Websites, SEO and AEO for local businesses across the UK.
           </p>

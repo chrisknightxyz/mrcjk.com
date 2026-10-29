@@ -1,10 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { contact, mailto, questions, serviceNeeds, site } from "@/content/site";
+import { useState } from "react";
+import { contact, mailto, questions, serviceNeeds } from "@/content/site";
 
 type Answers = Record<string, string[]>;
 type Details = { name: string; company: string; town: string };
@@ -12,19 +9,17 @@ type Details = { name: string; company: string; town: string };
 const DETAILS = questions.length;
 const DONE = questions.length + 1;
 
-export function StartFlow() {
-  const params = useSearchParams();
-  const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState<Answers>({});
-  const [details, setDetails] = useState<Details>({ name: "", company: "", town: "" });
-  const services = useMemo(() => params.get("services")?.split("|").filter(Boolean) ?? [], [params]);
+// Preselect what the visitor clicked: a plan's need, or services from the catalogue.
+function preselect(need: string | null, services: string[]): Answers {
+  const picked = [need, ...services.map((s) => serviceNeeds[s] ?? "Something else")];
+  const needs = Array.from(new Set(picked.filter((n): n is string => !!n && questions[0].options.includes(n))));
+  return needs.length ? { needs } : {};
+}
 
-  // Preselect what the visitor clicked on the services page.
-  useEffect(() => {
-    const picked = [params.get("need"), ...services.map((s) => serviceNeeds[s] ?? "Something else")];
-    const needs = Array.from(new Set(picked.filter((n): n is string => !!n && questions[0].options.includes(n))));
-    if (needs.length) setAnswers((a) => ({ ...a, needs }));
-  }, [params, services]);
+export function StartFlow({ need, services, onClose }: { need: string | null; services: string[]; onClose: () => void }) {
+  const [step, setStep] = useState(0);
+  const [answers, setAnswers] = useState<Answers>(() => preselect(need, services));
+  const [details, setDetails] = useState<Details>({ name: "", company: "", town: "" });
 
   const total = questions.length + 1;
   const progress = Math.min(step, total) / total;
@@ -52,26 +47,17 @@ export function StartFlow() {
     : "";
 
   return (
-    <div className="flex min-h-[100dvh] flex-col bg-card">
-      <header className="mx-auto flex h-16 w-full max-w-3xl items-center justify-between px-4 sm:px-6">
-        <Link href="/services" className="whitespace-nowrap font-display text-[22px] tracking-[-0.03em]">
-          {site.name}
-        </Link>
-        <span className="flex items-center gap-2">
-        <ThemeToggle />
-        <Link href="/services" aria-label="Close and go back to services" className="flex h-9 w-9 items-center justify-center rounded-full bg-card text-muted shadow-pill hover:text-ink">
-          ✕
-        </Link>
-        </span>
-      </header>
-
-      <div className="mx-auto w-full max-w-3xl px-4 sm:px-6">
-        <div className="h-1 overflow-hidden rounded-full bg-surface" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(progress * 100)} aria-label="Progress">
+    <div className="flex min-h-full flex-col">
+      <header className="sticky top-0 z-10 flex items-center gap-4 bg-card px-5 pb-4 pt-5 sm:px-8 sm:pt-6">
+        <div className="h-1 flex-1 overflow-hidden rounded-full bg-surface" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(progress * 100)} aria-label="Progress">
           <div className="h-full rounded-full bg-ink transition-[width] duration-500 ease-out" style={{ width: `${progress * 100}%` }} />
         </div>
-      </div>
+        <button type="button" onClick={onClose} aria-label="Close" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-surface text-muted hover:text-ink">
+          ✕
+        </button>
+      </header>
 
-      <main className="mx-auto flex w-full max-w-xl flex-1 flex-col px-4 pb-16 pt-10 sm:px-6 sm:pt-16">
+      <div className="mx-auto flex w-full max-w-xl flex-1 flex-col px-5 pb-10 pt-6 sm:px-8 sm:pb-12 sm:pt-8">
         {step < DETAILS && (
           <Question
             key={step}
@@ -95,7 +81,7 @@ export function StartFlow() {
             }}
           >
             <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted">Last step</p>
-            <h1 className="mt-3 text-balance font-display text-4xl font-light leading-[1.1] tracking-[-0.03em] sm:text-5xl">Who should I talk to?</h1>
+            <h2 className="mt-3 text-balance font-display text-3xl font-light leading-[1.1] tracking-[-0.03em] sm:text-4xl">Who should I talk to?</h2>
             <div className="mt-10 space-y-4">
               <Field label="Your name" value={details.name} onChange={(name) => setDetails({ ...details, name })} required autoComplete="name" />
               <Field label="Business name" value={details.company} onChange={(company) => setDetails({ ...details, company })} autoComplete="organization" />
@@ -113,9 +99,9 @@ export function StartFlow() {
         {step === DONE && (
           <div key="done" className="rise">
             <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted">Almost done</p>
-            <h1 className="mt-3 text-balance font-display text-4xl font-light leading-[1.1] tracking-[-0.03em] sm:text-5xl">
+            <h2 className="mt-3 text-balance font-display text-3xl font-light leading-[1.1] tracking-[-0.03em] sm:text-4xl">
               Thanks, {details.name.split(" ")[0]}. How would you like to talk?
-            </h1>
+            </h2>
             <p className="mt-4 text-lg leading-relaxed text-body">Nothing&apos;s sent yet. Pick an option and your answers go with it.</p>
 
             <div className="mt-10 grid gap-3">
@@ -158,7 +144,7 @@ export function StartFlow() {
             </div>
           </div>
         )}
-      </main>
+      </div>
     </div>
   );
 }
@@ -186,7 +172,7 @@ function Question({
         Question {index + 1} of {questions.length}
       </p>
       <legend className="sr-only">{question.title}</legend>
-      <h1 className="mt-3 text-balance font-display text-4xl font-light leading-[1.1] tracking-[-0.03em] sm:text-5xl">{question.title}</h1>
+      <h2 className="mt-3 text-balance font-display text-3xl font-light leading-[1.1] tracking-[-0.03em] sm:text-4xl">{question.title}</h2>
       {question.hint && <p className="mt-3 text-body">{question.hint}</p>}
       {services.length > 0 && (
         <p className="mt-4 rounded-2xl bg-stone px-4 py-3 text-sm text-body">
@@ -204,7 +190,7 @@ function Question({
               aria-pressed={on}
               onClick={() => onChoose(o)}
               className={`flex min-h-14 items-center justify-between gap-3 rounded-2xl px-5 py-3 text-left text-[16px] transition ${
-                on ? "bg-ink text-canvas" : "bg-card shadow-card hover:shadow-[0_0_0_1px_rgba(0,0,0,0.16)]"
+                on ? "bg-ink text-canvas" : "bg-card ring-1 ring-inset ring-ink/10 hover:ring-ink/25"
               }`}
             >
               {o}
@@ -260,7 +246,7 @@ function Field({
         onChange={(e) => onChange(e.target.value)}
         required={required}
         autoComplete={autoComplete}
-        className="mt-2 h-12 w-full rounded-2xl bg-card px-4 text-[16px] shadow-card outline-none transition focus:shadow-[0_0_0_1.5px_#000]"
+        className="mt-2 h-12 w-full rounded-2xl bg-card px-4 text-[16px] ring-1 ring-inset ring-ink/10 outline-none transition focus:ring-2 focus:ring-ink"
       />
     </label>
   );
@@ -281,7 +267,7 @@ function ContactOption({ href, title, body, icon, primary }: { href: string; tit
       href={href}
       {...(external && { target: "_blank", rel: "noopener noreferrer" })}
       className={`group flex items-center gap-4 rounded-3xl p-5 transition ${
-        primary ? "bg-ink text-canvas hover:bg-ink/85" : "bg-card shadow-card hover:shadow-[0_0_0_1px_rgba(0,0,0,0.16)]"
+        primary ? "bg-ink text-canvas hover:bg-ink/85" : "bg-card ring-1 ring-inset ring-ink/10 hover:ring-ink/25"
       }`}
     >
       <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${primary ? "bg-canvas/10" : "bg-stone"}`}>{icon}</span>

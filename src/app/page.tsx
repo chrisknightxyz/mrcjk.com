@@ -22,7 +22,9 @@ import { GradientArt, type GradientVariant } from "@/components/gradient-art";
 import { AiAnswer, EnquiryCard, MapsCard, StepBuild, StepGrow, StepTalk } from "@/components/illustrations";
 import { LogoRow } from "@/components/logos";
 import { Reveal } from "@/components/reveal";
+import { StartModal } from "@/components/start-modal";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { Wordmark } from "@/components/wordmark";
 import { Catalogue } from "./catalogue";
 
 const stepArt = [
@@ -46,11 +48,11 @@ const gbp = (n: number) => `£${n.toLocaleString("en-GB")}`;
 export const metadata: Metadata = {
   title: "Websites, SEO and AEO for local businesses",
   description: `Custom websites for UK local businesses, from ${gbp(build.price!)}. Then ${gbp(care.price!)} a month for hosting and care. Built to be found on Google and recommended by AI.`,
-  alternates: { canonical: "/services" },
+  alternates: { canonical: "/" },
   openGraph: {
     title: "Websites that make you money",
     description: `Custom websites for local businesses, from ${gbp(build.price!)}. Hosting and care, ${gbp(care.price!)} a month.`,
-    url: "/services",
+    url: "/",
     type: "website",
   },
 };
@@ -64,7 +66,7 @@ const jsonLd = {
       "@type": "ProfessionalService",
       "@id": `${site.url}/#business`,
       name: site.name,
-      url: `${site.url}/services`,
+      url: `${site.url}/`,
       email: site.email,
       sameAs: social.filter((s) => s.url).map((s) => s.url),
       areaServed: { "@type": "Country", name: site.location },
@@ -142,9 +144,7 @@ export default function ServicesPage() {
 
       <header className="sticky top-0 z-20 border-b border-ink/5 bg-canvas/85 backdrop-blur-md">
         <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-          <Link href="/services" className="whitespace-nowrap font-display text-[22px] tracking-[-0.03em]">
-            {site.name}
-          </Link>
+          <Wordmark />
           <div className="hidden items-center gap-8 text-[15px] font-medium text-body lg:flex">
             <a href="#pricing" className="hover:text-ink">Pricing</a>
             <a href="#services" className="hover:text-ink">Services</a>
@@ -153,11 +153,8 @@ export default function ServicesPage() {
           </div>
           <div className="flex items-center gap-2">
             <ThemeToggle />
-            <a href={mailto("Hello")} className="hidden h-9 items-center rounded-full bg-card px-4 text-sm font-medium shadow-pill sm:inline-flex">
-              Email me
-            </a>
-            <a href="/start" className="inline-flex h-9 items-center rounded-full bg-ink px-4 text-sm font-medium text-canvas">
-              Get started
+            <a href={contact.calUrl} target="_blank" rel="noopener noreferrer" className="inline-flex h-9 items-center rounded-full bg-ink px-4 text-sm font-medium text-canvas">
+              Book a call
             </a>
           </div>
         </nav>
@@ -221,12 +218,8 @@ export default function ServicesPage() {
               {clients.map((c) => (
                 <li key={c.name} className="opacity-50 grayscale transition hover:opacity-100 hover:grayscale-0">
                   <a href={c.url} target="_blank" rel="noopener noreferrer" aria-label={c.name} className="block">
-                    {c.logo ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={c.logo} alt={c.name} className="h-8 w-auto dark:invert" />
-                    ) : (
-                      <span className="whitespace-nowrap text-lg font-semibold uppercase tracking-[0.12em]">{c.name}</span>
-                    )}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={c.logo} alt={c.name} className={`h-10 w-16 object-contain ${c.mono ? "dark:invert" : ""}`} />
                   </a>
                 </li>
               ))}
@@ -424,6 +417,7 @@ export default function ServicesPage() {
       </main>
 
       <Footer />
+      <StartModal />
 
       {/* WhatsApp orb, after the benchmark's floating voice-chat button. */}
       <a

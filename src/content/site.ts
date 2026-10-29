@@ -149,17 +149,18 @@ export const services: Service[] = [
   { title: "AI automation", body: "Takes repetitive admin off your hands, like follow-ups and booking reminders.", category: "AI tools" },
 ];
 
-// Brands Chris has worked with. Without a `logo`, the name shows as a wordmark.
-// Logos: Simple Icons (simpleicons.org). Add a Manchester City crest to public/clients to replace the wordmark.
-export const clients: { name: string; logo?: string; url?: string }[] = [
+// Brands Chris has worked with. `mono` marks are single-colour and invert in dark mode.
+// Logos: Simple Icons (simpleicons.org); the Manchester City crest is the club's current badge.
+export const clients: { name: string; logo: string; mono?: boolean; url: string }[] = [
   {
     name: "Snapchat",
     logo: "/clients/snapchat.svg",
+    mono: true,
     url: "https://www.thedrum.com/news/pepsi-max-among-first-uk-brands-embrace-snapchat-sponsored-lenses-chelfie-valentines",
   },
-  { name: "Nike", logo: "/clients/nike.svg", url: "https://www.nike.com/" },
-  { name: "Google", logo: "/clients/google.svg", url: "https://forever-beta.com/case-study/google/" },
-  { name: "Manchester City", url: "https://www.theguardian.com/sport/2018/aug/19/manchester-city-fantom" },
+  { name: "Nike", logo: "/clients/nike.svg", mono: true, url: "https://www.nike.com/" },
+  { name: "Google", logo: "/clients/google.svg", mono: true, url: "https://forever-beta.com/case-study/google/" },
+  { name: "Manchester City", logo: "/clients/manchester-city.png", url: "https://www.theguardian.com/sport/2018/aug/19/manchester-city-fantom" },
 ];
 
 // More work and press, listed under the case studies. Titles come from each link.

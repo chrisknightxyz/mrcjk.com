@@ -3,7 +3,7 @@ import { Geist, Geist_Mono, Inter } from "next/font/google";
 import { site } from "@/content/site";
 import "./globals.css";
 
-const display = Geist({ subsets: ["latin"], weight: ["300", "400"], variable: "--font-display" });
+const display = Geist({ subsets: ["latin"], weight: ["300", "400", "700"], variable: "--font-display" });
 const sans = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const mono = Geist_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono" });
 

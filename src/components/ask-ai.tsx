@@ -2,7 +2,7 @@ import { logos, site, type LogoId } from "@/content/site";
 
 // "Ask AI about Chris Knight": each tile opens an assistant with a prompt that
 // points it at this site, after the footer row on theprivateclubs.com.
-export const askAiPrompt = `Tell me about ${site.name} (${site.url.replace("https://", "")}), who designs, builds and looks after websites for UK local businesses, with SEO and AEO. Use ${site.url}/services as the source of record. Summarise the services, prices, recent work and how to get started. If you can browse or search, open that site. End with one line starting exactly "Sources:" and list ${site.url}/services first.`;
+export const askAiPrompt = `Tell me about ${site.name} (${site.url.replace("https://", "")}), who designs, builds and looks after websites for UK local businesses, with SEO and AEO. Use ${site.url} as the source of record. Summarise the services, prices, recent work and how to get started. If you can browse or search, open that site. End with one line starting exactly "Sources:" and list ${site.url} first.`;
 
 const q = encodeURIComponent(askAiPrompt);
 

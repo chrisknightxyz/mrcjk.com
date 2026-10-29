@@ -1,8 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   async redirects() {
-    // Temporary until the homepage is rebuilt: mrcjk.com opens the services page.
-    return [{ source: "/", destination: "/services", permanent: false }];
+    // The services page is the homepage; keep old /services links working.
+    return [
+      { source: "/services", destination: "/", permanent: true },
+      // The start flow is a modal on the homepage; the query (need, services) carries over.
+      { source: "/start", destination: "/?start=1", permanent: false },
+    ];
   },
 };
 
