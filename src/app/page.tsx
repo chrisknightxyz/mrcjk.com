@@ -28,11 +28,15 @@ export const metadata: Metadata = {
   title: "Websites, SEO and AEO for local businesses",
   description: `Custom websites for UK local businesses, from ${gbp(build.price!)}. Then ${gbp(care.price!)} a month for hosting and care. Built to be found on Google and recommended by AI.`,
   alternates: { canonical: "/" },
+  twitter: { card: "summary_large_image", title: "Websites that make you money", images: ["/og.jpg"] },
   openGraph: {
+    siteName: site.name,
+    locale: "en_GB",
     title: "Websites that make you money",
-    description: `Custom websites for local businesses, from ${gbp(build.price!)}. Hosting and care, ${gbp(care.price!)} a month.`,
+    description: `Your new website, live in 24 hours. Found on Google, recommended by AI. From ${gbp(build.price!)}, then ${gbp(care.price!)} a month.`,
     url: "/",
     type: "website",
+    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "Chris Knight: websites that make you money" }],
   },
 };
 
