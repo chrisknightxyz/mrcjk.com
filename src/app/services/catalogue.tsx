@@ -1,80 +1,63 @@
 "use client";
 
 import { useState } from "react";
-import { CategoryIcon } from "@/components/illustrations";
+import { GradientArt, categoryVariant } from "@/components/gradient-art";
 import { LogoStack } from "@/components/logos";
-import { Reveal } from "@/components/reveal";
 import { services } from "@/content/site";
 
-const categories = ["All", ...Array.from(new Set(services.map((s) => s.category)))];
+const groups = Array.from(new Set(services.map((s) => s.category))).map((category) => ({
+  category,
+  items: services.filter((s) => s.category === category),
+}));
 
 export function Catalogue() {
-  const [category, setCategory] = useState("All");
   const [selected, setSelected] = useState<string[]>([]);
-
-  const shown = category === "All" ? services : services.filter((s) => s.category === category);
   const toggle = (title: string) =>
     setSelected((cur) => (cur.includes(title) ? cur.filter((t) => t !== title) : [...cur, title]));
-
   const enquiry = `/start?services=${encodeURIComponent(selected.join("|"))}`;
 
   return (
     <>
-      <div className="flex justify-center">
-        <div role="tablist" aria-label="Filter services" className="flex max-w-full gap-1 overflow-x-auto rounded-full bg-surface p-1">
-          {categories.map((c) => (
-            <button
-              key={c}
-              role="tab"
-              aria-selected={category === c}
-              onClick={() => setCategory(c)}
-              className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition ${
-                category === c ? "bg-white text-ink shadow-pill" : "text-body hover:text-ink"
-              }`}
-            >
-              {c}
-            </button>
-          ))}
-        </div>
+      <div className="divide-y divide-black/[0.06] border-y border-black/[0.06]">
+        {groups.map((g) => (
+          <section key={g.category} className="grid gap-6 py-10 lg:grid-cols-[16rem_1fr] lg:gap-12">
+            <div className="flex items-center gap-4 lg:block">
+              <GradientArt variant={categoryVariant[g.category]} className="h-14 w-14 shrink-0 rounded-2xl lg:h-24 lg:w-24 lg:rounded-3xl" />
+              <h3 className="font-display text-2xl font-light tracking-[-0.02em] lg:mt-5">{g.category}</h3>
+            </div>
+            <ul className="grid gap-x-8 sm:grid-cols-2">
+              {g.items.map((s) => {
+                const on = selected.includes(s.title);
+                return (
+                  <li key={s.title} className="border-b border-black/[0.06] last:border-0 sm:[&:nth-last-child(-n+2)]:border-0">
+                    <button
+                      type="button"
+                      aria-pressed={on}
+                      onClick={() => toggle(s.title)}
+                      className="group flex w-full items-start gap-4 py-4 text-left"
+                    >
+                      <span className="min-w-0 flex-1">
+                        <span className="flex items-center gap-2 text-[17px] font-medium">
+                          {s.title}
+                          {s.logos && <LogoStack ids={s.logos} max={3} />}
+                        </span>
+                        <span className="mt-1 block text-[15px] leading-relaxed text-body">{s.body}</span>
+                      </span>
+                      <span
+                        className={`mt-0.5 inline-flex h-8 shrink-0 items-center rounded-full px-3.5 text-[13px] font-medium transition ${
+                          on ? "bg-ink text-white" : "bg-surface text-ink group-hover:bg-stone"
+                        }`}
+                      >
+                        {on ? "✓ Added" : "+ Add"}
+                      </span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        ))}
       </div>
-
-      <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {shown.map((s, i) => {
-          const on = selected.includes(s.title);
-          return (
-            <Reveal as="li" key={`${category}-${s.title}`} delay={(i % 3) * 90}>
-              <button
-                type="button"
-                aria-pressed={on}
-                onClick={() => toggle(s.title)}
-                className={`group flex h-full w-full flex-col rounded-[20px] bg-white p-6 text-left transition hover:-translate-y-0.5 ${
-                  on ? "shadow-[0_0_0_1.5px_#000]" : "shadow-card hover:shadow-[0_0_0_1px_rgba(0,0,0,0.14),0_4px_12px_rgba(0,0,0,0.05)]"
-                }`}
-              >
-                <span className="flex items-start justify-between gap-3">
-                  <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-stone transition-transform duration-500 group-hover:-rotate-3">
-                    <CategoryIcon category={s.category} />
-                  </span>
-                  {s.core && <span className="rounded-full bg-stone px-2.5 py-0.5 text-xs font-medium">Fixed price</span>}
-                </span>
-                <span className="mt-6 font-mono text-xs uppercase tracking-[0.14em] text-muted">{s.category}</span>
-                <span className="mt-2 font-display text-2xl font-light tracking-[-0.02em]">{s.title}</span>
-                <span className="mt-2 flex-1 text-[15px] leading-relaxed text-body">{s.body}</span>
-                <span className="mt-6 flex items-center justify-between gap-3">
-                <span
-                  className={`inline-flex h-8 items-center gap-1.5 rounded-full px-3.5 text-[13px] font-medium transition ${
-                    on ? "bg-ink text-white" : "bg-surface text-ink"
-                  }`}
-                >
-                  {on ? "✓ Added" : "+ Add"}
-                </span>
-                  {s.logos && <LogoStack ids={s.logos} />}
-                </span>
-              </button>
-            </Reveal>
-          );
-        })}
-      </ul>
 
       <div
         className={`fixed inset-x-0 bottom-0 z-30 p-4 transition-[transform,visibility] duration-300 ${selected.length ? "visible translate-y-0" : "invisible translate-y-[150%]"}`}

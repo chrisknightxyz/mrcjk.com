@@ -1,15 +1,43 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { aiAssistants, audiences, caseStudies, clients, faqs, portfolio, mailto, plans, services, site, social, steps, type LogoId, type Plan } from "@/content/site";
-import { LogoTile } from "@/components/logos";
+import {
+  aiAssistants,
+  caseStudies,
+  clients,
+  contact,
+  faqs,
+  mailto,
+  plans,
+  portfolio,
+  services,
+  site,
+  social,
+  steps,
+  type LogoId,
+  type Plan,
+} from "@/content/site";
 import { Footer } from "@/components/footer";
-import { GradientField } from "@/components/gradient-field";
-import { AiCard, EnquiryCard, MapsCard, StepBuild, StepGrow, StepTalk } from "@/components/illustrations";
+import { GradientArt, type GradientVariant } from "@/components/gradient-art";
+import { AiAnswer, EnquiryCard, MapsCard, StepBuild, StepGrow, StepTalk } from "@/components/illustrations";
+import { LogoRow } from "@/components/logos";
 import { Reveal } from "@/components/reveal";
 import { Catalogue } from "./catalogue";
 
-const stepArt = [StepTalk, StepBuild, StepGrow];
+const stepArt = [
+  { Art: StepTalk, variant: "dusk" },
+  { Art: StepBuild, variant: "ember" },
+  { Art: StepGrow, variant: "forest" },
+] as const;
+const planVariant: GradientVariant[] = ["dusk", "ocean", "ember"];
+const kindVariant: Record<string, GradientVariant> = {
+  Venture: "dusk",
+  Press: "ocean",
+  "Case study": "forest",
+  Brand: "ember",
+  Website: "rose",
+  "Product design": "dusk",
+};
 
 const [build, care] = plans;
 const gbp = (n: number) => `£${n.toLocaleString("en-GB")}`;
@@ -54,9 +82,7 @@ const jsonLd = {
                   ? { "@type": "UnitPriceSpecification", price: p.price, priceCurrency: "GBP", unitText: "MONTH" }
                   : { "@type": "PriceSpecification", minPrice: p.price, priceCurrency: "GBP" },
             })),
-          ...services
-            .filter((s) => !s.core)
-            .map((s) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name: s.title, description: s.body } })),
+          ...services.map((s) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name: s.title, description: s.body } })),
         ],
       },
     },
@@ -93,11 +119,10 @@ function Check() {
   );
 }
 
-function SectionHead({ eyebrow, title, intro }: { eyebrow: string; title: string; intro?: string }) {
+function SectionHead({ title, intro, align = "center" }: { title: string; intro?: string; align?: "center" | "left" }) {
   return (
-    <Reveal className="mx-auto max-w-2xl text-center">
-      <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted">{eyebrow}</p>
-      <h2 className="mt-4 text-balance font-display text-4xl font-light leading-[1.12] tracking-[-0.02em] sm:text-5xl">{title}</h2>
+    <Reveal className={align === "center" ? "mx-auto max-w-2xl text-center" : "max-w-xl"}>
+      <h2 className="text-balance font-display text-4xl font-light leading-[1.1] tracking-[-0.025em] sm:text-5xl">{title}</h2>
       {intro && <p className="mt-5 text-lg leading-relaxed text-body">{intro}</p>}
     </Reveal>
   );
@@ -105,14 +130,18 @@ function SectionHead({ eyebrow, title, intro }: { eyebrow: string; title: string
 
 export default function ServicesPage() {
   const [featured] = caseStudies;
+  const whatsapp = `https://wa.me/${contact.whatsapp}`;
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
+      {/* Hairline frame at the content edges, as on the benchmark. */}
+      <div aria-hidden="true" className="pointer-events-none fixed inset-y-0 left-1/2 z-0 hidden w-[calc(72rem+3rem)] -translate-x-1/2 border-x border-black/[0.05] xl:block" />
+
       <header className="sticky top-0 z-20 border-b border-black/5 bg-white/85 backdrop-blur-md">
         <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-          <Link href="/" className="whitespace-nowrap font-display text-[22px] tracking-[-0.03em]">
+          <Link href="/services" className="whitespace-nowrap font-display text-[22px] tracking-[-0.03em]">
             {site.name}
           </Link>
           <div className="hidden items-center gap-8 text-[15px] font-medium text-body lg:flex">
@@ -126,21 +155,18 @@ export default function ServicesPage() {
               Email me
             </a>
             <a href="/start" className="inline-flex h-9 items-center rounded-full bg-ink px-4 text-sm font-medium text-white">
-              Start now
+              Get started
             </a>
           </div>
         </nav>
       </header>
 
-      <main>
+      <main className="relative">
         {/* Hero */}
         <section className="px-4 pt-16 sm:px-6 sm:pt-24">
           <div className="mx-auto max-w-4xl text-center">
             <p className="rise inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-[13px] font-medium text-body shadow-pill">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="pulse-ring absolute inset-0 rounded-full bg-ink" />
-                <span className="relative h-1.5 w-1.5 rounded-full bg-ink" />
-              </span>
+              <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-br from-[#f39a4c] to-[#6f8fe0]" />
               Websites, SEO and AEO for UK local businesses
             </p>
             <h1 className="rise mt-7 text-balance font-display text-[2.75rem] font-light leading-[1.05] tracking-[-0.035em] [animation-delay:120ms] sm:text-7xl">
@@ -156,17 +182,16 @@ export default function ServicesPage() {
             </div>
           </div>
 
-          <GradientField className="rise relative mx-auto mt-16 max-w-6xl rounded-3xl px-4 pt-10 [animation-delay:480ms] sm:px-16 sm:pt-16">
-            <div className="absolute left-6 top-24 z-10 hidden md:block">
-              <div className="float"><MapsCard /></div>
+          <GradientArt variant="dusk" lines className="rise mx-auto mt-16 max-w-6xl rounded-3xl px-4 pt-10 [animation-delay:480ms] sm:px-16 sm:pt-16">
+            <div className="absolute -left-2 bottom-24 z-10 hidden lg:block">
+              <MapsCard />
             </div>
-            <div className="absolute right-6 top-48 z-10 hidden md:block">
-              <div className="float [animation-delay:-2s]"><AiCard /></div>
+            <div className="absolute bottom-10 right-10 z-10 hidden md:block">
+              <div className="float">
+                <EnquiryCard />
+              </div>
             </div>
-            <div className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2 md:bottom-10 md:left-auto md:right-24 md:translate-x-0">
-              <div className="float [animation-delay:-4s]"><EnquiryCard /></div>
-            </div>
-            <a href={featured.url} target="_blank" rel="noopener noreferrer" className="block overflow-hidden rounded-t-2xl bg-white shadow-card">
+            <a href={featured.url} target="_blank" rel="noopener noreferrer" className="block overflow-hidden rounded-t-2xl bg-white shadow-[0_24px_60px_rgba(40,20,10,0.25)]">
               <div className="flex items-center gap-1.5 border-b border-black/5 px-4 py-3">
                 <span className="h-2.5 w-2.5 rounded-full bg-line" />
                 <span className="h-2.5 w-2.5 rounded-full bg-line" />
@@ -183,82 +208,61 @@ export default function ServicesPage() {
                 className="w-full"
               />
             </a>
-          </GradientField>
+          </GradientArt>
+          <div className="mt-4 flex justify-center md:hidden">
+            <EnquiryCard />
+          </div>
 
           <Reveal className="mx-auto mt-16 max-w-4xl">
-            <p className="text-center font-mono text-xs uppercase tracking-[0.14em] text-muted">Brands I&apos;ve worked with</p>
+            <p className="text-center text-sm text-muted">Brands I&apos;ve worked with</p>
             <ul className="mt-6 flex flex-wrap items-center justify-center gap-x-12 gap-y-6 sm:gap-x-16">
               {clients.map((c) => (
-                <li key={c.name} className="opacity-60 grayscale transition hover:opacity-100 hover:grayscale-0">
+                <li key={c.name} className="opacity-50 grayscale transition hover:opacity-100 hover:grayscale-0">
                   <a href={c.url} target="_blank" rel="noopener noreferrer" aria-label={c.name} className="block">
-                  {c.logo ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={c.logo} alt={c.name} className="h-8 w-auto sm:h-9" />
-                  ) : (
-                    <span className="whitespace-nowrap font-display text-xl font-normal uppercase tracking-[0.08em] sm:text-2xl">{c.name}</span>
-                  )}
+                    {c.logo ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={c.logo} alt={c.name} className="h-8 w-auto" />
+                    ) : (
+                      <span className="whitespace-nowrap text-lg font-semibold uppercase tracking-[0.12em]">{c.name}</span>
+                    )}
                   </a>
                 </li>
               ))}
             </ul>
           </Reveal>
-
-          <div className="relative mx-auto mt-10 max-w-6xl overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)]">
-            <ul className="marquee flex w-max gap-10 text-sm text-muted">
-              {[...audiences, ...audiences].map((a, i) => (
-                <li key={i} aria-hidden={i >= audiences.length} className="flex items-center gap-10 whitespace-nowrap">
-                  {a}
-                  <span className="h-1 w-1 rounded-full bg-line" />
-                </li>
-              ))}
-            </ul>
-          </div>
         </section>
 
         {/* Platforms */}
-        <section id="platforms" className="mx-auto max-w-6xl scroll-mt-16 px-4 pt-24 sm:px-6 sm:pt-32">
+        <section id="platforms" className="mx-auto max-w-6xl scroll-mt-16 px-4 pt-28 sm:px-6 sm:pt-36">
           <SectionHead
-            eyebrow="Where you'll be found"
-            title="On Google. On Meta. In every AI answer."
-            intro="People find local businesses on Google, on Facebook and Instagram, and more and more by asking an AI assistant. I set you up for all of them."
+            title="Found on Google, Maps and AI assistants"
+            intro="More customers now ask ChatGPT or Google's AI before they call. I set your business up to be the answer."
           />
           <Reveal className="mt-14">
-            <p className="text-center font-mono text-xs uppercase tracking-[0.14em] text-muted">Recommended by AI assistants</p>
-            <ul className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
-              {aiAssistants.map((id, i) => (
-                <Reveal as="li" key={id} delay={i * 60}>
-                  <LogoTile id={id} />
-                </Reveal>
-              ))}
-            </ul>
+            <GradientArt variant="ocean" lines className="rounded-3xl px-4 py-14 sm:px-10 sm:py-20">
+              <AiAnswer />
+            </GradientArt>
           </Reveal>
           <Reveal className="mt-10">
-            <p className="text-center font-mono text-xs uppercase tracking-[0.14em] text-muted">Found on search and social</p>
-            <ul className="mx-auto mt-5 grid max-w-md grid-cols-2 gap-3">
-              {(["google", "meta"] as LogoId[]).map((id) => (
-                <li key={id}>
-                  <LogoTile id={id} />
-                </li>
-              ))}
-            </ul>
+            <LogoRow ids={[...aiAssistants, "google", "meta"] as LogoId[]} />
           </Reveal>
         </section>
 
         {/* How it works */}
-        <section id="how-it-works" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-24 sm:px-6 sm:py-32">
-          <SectionHead eyebrow="How it works" title="Three simple steps" />
-          <ol className="mt-14 grid gap-4 md:grid-cols-3">
+        <section id="how-it-works" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-28 sm:px-6 sm:py-36">
+          <SectionHead title="One minute to start. I do the rest." />
+          <ol className="mt-14 grid gap-5 md:grid-cols-3">
             {steps.map((s, i) => {
-              const Art = stepArt[i];
+              const { Art, variant } = stepArt[i];
               return (
-                <Reveal as="li" key={s.title} delay={i * 120} className="overflow-hidden rounded-[20px] bg-white shadow-card">
-                  <div className="h-40 bg-stone/60 px-8 py-6">
+                <Reveal as="li" key={s.title} delay={i * 120}>
+                  <GradientArt variant={variant} className="flex aspect-[4/3] items-center justify-center rounded-3xl p-6">
                     <Art />
-                  </div>
-                  <div className="p-7">
+                  </GradientArt>
+                  <div className="px-1 pt-6">
                     <span className="font-mono text-xs text-muted">0{i + 1}</span>
-                    <h3 className="mt-3 font-display text-2xl font-light tracking-[-0.02em]">{s.title}</h3>
-                    <p className="mt-3 leading-relaxed text-body">{s.body}</p>
+                    <h3 className="mt-2 text-xl font-medium">{s.title}</h3>
+                    <p className="mt-2 leading-relaxed text-body">{s.body}</p>
                   </div>
                 </Reveal>
               );
@@ -267,49 +271,48 @@ export default function ServicesPage() {
         </section>
 
         {/* Pricing */}
-        <section id="pricing" className="scroll-mt-16 bg-surface px-4 py-24 sm:px-6 sm:py-32">
+        <section id="pricing" className="scroll-mt-16 bg-surface px-4 py-28 sm:px-6 sm:py-36">
           <div className="mx-auto max-w-6xl">
             <SectionHead
-              eyebrow="Pricing"
-              title="Clear prices. No surprises."
-              intro={`Pay once for your website, then ${gbp(care.price!)} a month to keep it fast, safe and up to date. You'll know your price before any work starts.`}
+              title={`${gbp(build.price!)} to build. ${gbp(care.price!)} a month to run.`}
+              intro="Your price is agreed before any work starts. Cancel hosting any time."
             />
-            <div className="mt-14 grid gap-4 lg:grid-cols-3">
+            <div className="mt-14 grid gap-5 lg:grid-cols-3">
               {plans.map((plan, i) => (
-                <Reveal
-                  key={plan.id}
-                  delay={i * 120}
-                  className={`flex flex-col rounded-3xl p-8 shadow-card transition-shadow hover:shadow-[0_0_0_1px_rgba(0,0,0,0.08),0_16px_40px_rgba(78,50,23,0.08)] ${i === 0 ? "bg-stone" : "bg-white"}`}
-                >
-                  <div className="flex items-center justify-between gap-4">
-                    <h3 className="text-[15px] font-medium">{plan.name}</h3>
-                    {i === 0 && <span className="rounded-full bg-white px-3 py-1 text-xs font-medium shadow-pill">Start here</span>}
-                    {plan.id === "growth" && <span className="rounded-full bg-surface px-3 py-1 text-xs font-medium text-body">Add-on</span>}
-                  </div>
-                  <p className="mt-8 flex flex-wrap items-baseline gap-x-2">
-                    {plan.price === null ? (
-                      <span className="font-display text-4xl font-light tracking-[-0.03em]">Quoted for you</span>
-                    ) : (
-                      <>
-                        {plan.prefix && <span className="text-sm text-muted">{plan.prefix}</span>}
-                        <span className="font-display text-6xl font-light tracking-[-0.04em]">{gbp(plan.price)}</span>
-                        <span className="text-sm text-muted">{plan.period}</span>
-                      </>
-                    )}
-                  </p>
-                  <p className="mt-4 leading-relaxed text-body">{plan.blurb}</p>
-                  <ul className="mt-8 space-y-3 border-t border-black/5 pt-8 text-[15px]">
-                    {plan.features.map((f) => (
-                      <li key={f} className="flex gap-3">
-                        <Check />
-                        {f}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-auto pt-10">
-                    <Button href={planHref(plan)} variant={i === 0 ? "black" : "white"}>
-                      {plan.cta}
-                    </Button>
+                <Reveal key={plan.id} delay={i * 120} className="flex flex-col overflow-hidden rounded-3xl bg-white shadow-card">
+                  <GradientArt variant={planVariant[i]} lines={i === 0} className="flex h-36 items-center justify-center">
+                    <h3 className="font-display text-3xl font-light tracking-[-0.02em] text-white">{plan.name}</h3>
+                  </GradientArt>
+                  <div className="flex flex-1 flex-col p-8">
+                    <p className="flex flex-wrap items-baseline gap-x-2">
+                      {plan.price === null ? (
+                        <span className="font-display text-4xl font-light tracking-[-0.03em]">Quoted for you</span>
+                      ) : (
+                        <>
+                          {plan.prefix && <span className="text-sm text-muted">{plan.prefix}</span>}
+                          <span className="font-display text-6xl font-light tracking-[-0.04em]">{gbp(plan.price)}</span>
+                          <span className="text-sm text-muted">{plan.period}</span>
+                        </>
+                      )}
+                    </p>
+                    <p className="mt-4 leading-relaxed text-body">{plan.blurb}</p>
+                    <ul className="mt-8 space-y-3 border-t border-black/5 pt-8 text-[15px]">
+                      {plan.features.map((f) => (
+                        <li key={f} className="flex gap-3">
+                          <Check />
+                          {f}
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="mt-auto pt-10">
+                      {plan.cta ? (
+                        <Button href={planHref(plan)} variant={i === 0 ? "black" : "white"}>
+                          {plan.cta}
+                        </Button>
+                      ) : (
+                        <p className="text-sm text-muted">Starts when your site goes live.</p>
+                      )}
+                    </div>
                   </div>
                 </Reveal>
               ))}
@@ -318,72 +321,54 @@ export default function ServicesPage() {
         </section>
 
         {/* Services */}
-        <section id="services" className="mx-auto max-w-6xl scroll-mt-16 px-4 py-24 sm:px-6 sm:py-32">
-          <SectionHead
-            eyebrow="All services"
-            title="More ways I can help"
-            intro="Add the services you want, then continue. Anything without a fixed price is quoted for you."
-          />
-          <div className="mt-12">
+        <section id="services" className="mx-auto max-w-6xl scroll-mt-16 px-4 py-28 sm:px-6 sm:py-36">
+          <SectionHead title="Add what you need" intro="Choose the services you want, then continue. Each one is quoted for your business." />
+          <div className="mt-14">
             <Catalogue />
           </div>
         </section>
 
         {/* Work */}
-        <section id="work" className="scroll-mt-16 bg-surface px-4 py-24 sm:px-6 sm:py-32">
+        <section id="work" className="scroll-mt-16 bg-surface px-4 py-28 sm:px-6 sm:py-36">
           <div className="mx-auto max-w-6xl">
-            <SectionHead eyebrow="Recent work" title="Websites I've built" />
-            <div className="mt-14 grid gap-6 md:grid-cols-2">
+            <SectionHead title="Recent websites" />
+            <div className="mt-14 grid gap-5 md:grid-cols-3">
               {caseStudies.map((c, i) => (
-                <Reveal key={c.url} delay={i * 150}>
-                <a href={c.url} target="_blank" rel="noopener noreferrer" className="group flex h-full flex-col rounded-3xl bg-white p-3 shadow-card transition-shadow hover:shadow-[0_0_0_1px_rgba(0,0,0,0.08),0_16px_40px_rgba(78,50,23,0.08)]">
-                  <div className="overflow-hidden rounded-[20px] shadow-edge">
-                    <Image
-                      src={c.image}
-                      alt={`${c.name} website`}
-                      width={1440}
-                      height={810}
-                      sizes="(min-width: 768px) 560px, 100vw"
-                      className="aspect-video w-full object-cover object-top transition duration-500 group-hover:scale-[1.015]"
-                    />
-                  </div>
-                  <div className="flex flex-1 flex-col p-5">
-                    <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted">{c.sector}</p>
-                    <h3 className="mt-3 flex items-center justify-between gap-4 font-display text-3xl font-light tracking-[-0.02em]">
-                      {c.name}
-                      <span className="text-xl text-muted transition group-hover:translate-x-0.5 group-hover:text-ink" aria-hidden="true">↗</span>
-                    </h3>
-                    <p className="mt-2 leading-relaxed text-body">{c.summary}</p>
-                    <ul className="mt-5 flex flex-wrap gap-2">
-                      {c.built.map((b) => (
-                        <li key={b} className="rounded-full bg-surface px-3 py-1 text-[13px] text-body">
-                          {b}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </a>
+                <Reveal key={c.url} delay={i * 120}>
+                  <a href={c.url} target="_blank" rel="noopener noreferrer" className="group block">
+                    <GradientArt
+                      variant={c.variant}
+                      lines={i === 1}
+                      className="flex aspect-square items-center justify-center rounded-3xl p-8 transition duration-500 group-hover:scale-[0.99]"
+                    >
+                      <p className="text-balance text-center font-display text-4xl font-light leading-tight tracking-[-0.02em] text-white">{c.name}</p>
+                    </GradientArt>
+                    <div className="px-1 pt-5">
+                      <h3 className="text-xl font-medium leading-snug group-hover:underline group-hover:underline-offset-4">{c.summary}</h3>
+                      <p className="mt-2 flex gap-3 text-sm">
+                        <span>{c.sector}</span>
+                        <span className="text-muted">{c.domain}</span>
+                      </p>
+                    </div>
+                  </a>
                 </Reveal>
               ))}
             </div>
 
             <Reveal className="mt-20">
-              <h3 className="text-center font-mono text-xs uppercase tracking-[0.14em] text-muted">More work and press</h3>
-              <ul className="mt-6 divide-y divide-black/[0.06] overflow-hidden rounded-3xl bg-white shadow-card">
+              <h3 className="text-2xl font-medium">More work and press</h3>
+              <ul className="mt-6 divide-y divide-black/[0.06] border-y border-black/[0.06]">
                 {portfolio.map((w) => (
                   <li key={w.url}>
-                    <a
-                      href={w.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group grid grid-cols-[1fr_auto] items-center gap-x-6 gap-y-1 px-6 py-5 transition hover:bg-stone/60 sm:grid-cols-[9rem_1fr_auto]"
-                    >
-                      <span className="font-mono text-xs uppercase tracking-[0.14em] text-muted sm:order-none">{w.kind}</span>
-                      <span className="col-start-1 min-w-0 sm:col-start-2 sm:row-start-1">
-                        <span className="block text-[17px] font-medium leading-snug">{w.title}</span>
-                        <span className="mt-0.5 block text-sm text-body">{w.source}</span>
+                    <a href={w.url} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-5 py-4">
+                      <GradientArt variant={kindVariant[w.kind] ?? "dusk"} className="h-12 w-12 shrink-0 rounded-xl" />
+                      <span className="min-w-0 flex-1">
+                        <span className="block text-[17px] font-medium leading-snug group-hover:underline group-hover:underline-offset-4">{w.title}</span>
+                        <span className="mt-0.5 block text-sm text-muted">
+                          {w.kind} · {w.source}
+                        </span>
                       </span>
-                      <span aria-hidden="true" className="col-start-2 row-span-2 row-start-1 text-xl text-muted transition group-hover:translate-x-0.5 group-hover:text-ink sm:col-start-3 sm:row-span-1">
+                      <span aria-hidden="true" className="text-xl text-muted transition group-hover:translate-x-0.5 group-hover:text-ink">
                         ↗
                       </span>
                     </a>
@@ -395,9 +380,17 @@ export default function ServicesPage() {
         </section>
 
         {/* FAQ */}
-        <section id="faq" className="mx-auto max-w-3xl scroll-mt-16 px-4 py-24 sm:px-6 sm:py-32">
-          <SectionHead eyebrow="FAQ" title="Questions, answered" />
-          <div className="mt-12 divide-y divide-black/[0.06] border-y border-black/[0.06]">
+        <section id="faq" className="mx-auto grid max-w-6xl scroll-mt-16 gap-12 px-4 py-28 sm:px-6 sm:py-36 lg:grid-cols-[1fr_1.6fr]">
+          <div>
+            <SectionHead title="Before you start" align="left" />
+            <p className="mt-5 text-body">
+              Still have a question?{" "}
+              <a href={mailto("Question")} className="text-ink underline decoration-muted underline-offset-4">
+                Email me
+              </a>
+            </p>
+          </div>
+          <div className="divide-y divide-black/[0.06] border-y border-black/[0.06]">
             {faqs.map((f) => (
               <details key={f.q} className="group py-5">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-[17px] font-medium">
@@ -410,32 +403,36 @@ export default function ServicesPage() {
               </details>
             ))}
           </div>
-          <p className="mt-8 text-center text-body">
-            Still have a question?{" "}
-            <a href={mailto("Question")} className="text-ink underline decoration-muted underline-offset-4">
-              Email me
-            </a>
-          </p>
         </section>
 
         {/* Final CTA */}
-        <section className="px-4 pb-24 sm:px-6">
-          <GradientField className="mx-auto max-w-6xl rounded-3xl px-6 py-20 text-center sm:py-28">
-            <h2 className="mx-auto max-w-3xl text-balance font-display text-4xl font-light leading-[1.1] tracking-[-0.03em] sm:text-6xl">
+        <section className="px-4 pb-28 sm:px-6">
+          <GradientArt variant="ember" lines className="mx-auto max-w-6xl rounded-3xl px-6 py-24 text-center sm:py-32">
+            <h2 className="mx-auto max-w-3xl text-balance font-display text-4xl font-light leading-[1.1] tracking-[-0.03em] text-white sm:text-6xl">
               Your new website starts here
             </h2>
-            <p className="mx-auto mt-5 max-w-xl text-lg text-body">
+            <p className="mx-auto mt-5 max-w-xl text-lg text-white/80">
               A few quick questions, about a minute. Then message me on WhatsApp or book a call.
             </p>
             <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
-              <Button href="/start">Start now</Button>
-              <Button href={mailto("Question")} variant="white">Email me</Button>
+              <Button href="/start" variant="white">Start now</Button>
             </div>
-          </GradientField>
+          </GradientArt>
         </section>
       </main>
 
       <Footer />
+
+      {/* WhatsApp orb, after the benchmark's floating voice-chat button. */}
+      <a
+        href={whatsapp}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-5 right-5 z-20 hidden items-center gap-3 rounded-full bg-white py-2 pl-2 pr-5 text-[15px] font-medium shadow-[0_0_0_1px_rgba(0,0,0,0.06),0_12px_32px_rgba(30,20,10,0.16)] transition hover:-translate-y-0.5 sm:flex"
+      >
+        <span className="orb h-9 w-9 rounded-full" />
+        Chat on WhatsApp
+      </a>
     </>
   );
 }

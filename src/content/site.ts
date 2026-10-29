@@ -69,7 +69,7 @@ export const plans: Plan[] = [
       "Click-to-call, contact forms and maps",
       "Yours to keep",
     ],
-    cta: "Start now",
+    cta: "Start your website",
     need: "New website",
   },
   {
@@ -86,7 +86,7 @@ export const plans: Plan[] = [
       "A monthly SEO and AEO report",
       "Cancel any time",
     ],
-    cta: "Start now",
+    cta: "",
     need: "Hosting and care",
   },
   {
@@ -103,7 +103,7 @@ export const plans: Plan[] = [
       "Content that answers your customers' questions",
       "Rankings and AI visibility, tracked monthly",
     ],
-    cta: "Start now",
+    cta: "Get a quote",
     need: "Get found on Google",
   },
 ];
@@ -126,30 +126,27 @@ export type LogoId = keyof typeof logos;
 // Where AEO gets you recommended.
 export const aiAssistants: LogoId[] = ["chatgpt", "claude", "gemini", "perplexity", "copilot", "grok", "metaai", "muse"];
 
-// The full catalogue. `core` shows a "Fixed price" badge: add it to Local SEO and AEO
-// once the SEO and AEO plan has a price. Everything else is quoted.
-export type Service = { title: string; body: string; category: string; core?: boolean; logos?: LogoId[] };
+// The catalogue, grouped by category in this order. Website and hosting are sold as plans above.
+export type Service = { title: string; body: string; category: string; logos?: LogoId[] };
 
 export const services: Service[] = [
-  { title: "Website Design & Build", body: "A custom website that makes it easy to call, book or get in touch.", category: "Website", core: true },
-  { title: "Hosting & Care", body: "Fast, secure hosting, updates and a monthly report. One simple fee.", category: "Website", core: true },
   { title: "Local SEO", body: "Show up on Google and Google Maps when people nearby search for what you do.", category: "Search", logos: ["google"] },
   { title: "Google Business Profile", body: "The right details, photos and categories, so you stand out on Maps.", category: "Search", logos: ["google"] },
-  { title: "AEO", body: "Answer engine optimisation. Get recommended when people ask an AI assistant for a business like yours.", category: "AI search", logos: aiAssistants },
+  { title: "Analytics and tracking", body: "See which calls, forms and sales your marketing brings in.", category: "Search", logos: ["google"] },
+  { title: "AEO", body: "Get recommended when people ask an AI assistant for a business like yours.", category: "AI search", logos: aiAssistants },
   { title: "Google AI Overviews", body: "Appear in the AI answers at the top of Google, and in AI Mode.", category: "AI search", logos: ["google", "gemini"] },
-  { title: "AI Visibility Check", body: "See what each AI assistant says about your business, and what to fix.", category: "AI search", logos: aiAssistants },
+  { title: "AI visibility check", body: "See what each AI assistant says about your business, and what to fix.", category: "AI search", logos: aiAssistants },
   { title: "Google Ads", body: "Search ads that reach people who are ready to buy.", category: "Marketing", logos: ["google"] },
   { title: "Meta Ads", body: "Facebook and Instagram ads, aimed at your local area.", category: "Marketing", logos: ["meta"] },
-  { title: "Social Media Management", body: "Planning, posting and replies on Facebook and Instagram, so your feeds stay active.", category: "Content", logos: ["meta"] },
-  { title: "Photo & Video", body: "Photos and short videos of your business, shot on location.", category: "Content" },
-  { title: "Email Newsletters", body: "Regular emails that bring customers back.", category: "Content" },
-  { title: "Branding & Identity", body: "A logo, colours and tone of voice that feel like you.", category: "Marketing" },
-  { title: "Reviews & Reputation", body: "More Google reviews, better replies and an eye on what people say.", category: "Marketing", logos: ["google"] },
-  { title: "Custom AI Assistants", body: "An assistant set up with your business knowledge, for you and your team.", category: "AI tools", logos: ["chatgpt", "claude", "gemini", "grok"] },
-  { title: "AI Receptionist", body: "Answers your calls, takes messages and books appointments. Day and night.", category: "AI tools" },
-  { title: "AI Website Assistant", body: "A chat assistant on your site that answers customer questions instantly.", category: "AI tools", logos: ["chatgpt", "claude", "gemini"] },
-  { title: "AI Automation", body: "Takes repetitive admin off your hands, like follow-ups and booking reminders.", category: "AI tools" },
-  { title: "Analytics & Tracking", body: "See which calls, forms and sales your marketing brings in.", category: "Search", logos: ["google"] },
+  { title: "Reviews and reputation", body: "More Google reviews, better replies and an eye on what people say.", category: "Marketing", logos: ["google"] },
+  { title: "Branding and identity", body: "A logo, colours and tone of voice that feel like you.", category: "Marketing" },
+  { title: "Social media management", body: "Planning, posting and replies on Facebook and Instagram.", category: "Content", logos: ["meta"] },
+  { title: "Photo and video", body: "Photos and short videos of your business, shot on location.", category: "Content" },
+  { title: "Email newsletters", body: "Regular emails that bring customers back.", category: "Content" },
+  { title: "AI receptionist", body: "Answers your calls, takes messages and books appointments, day and night.", category: "AI tools" },
+  { title: "AI website assistant", body: "A chat assistant on your site that answers customer questions instantly.", category: "AI tools", logos: ["chatgpt", "claude", "gemini"] },
+  { title: "Custom AI assistants", body: "An assistant set up with your business knowledge, for you and your team.", category: "AI tools", logos: ["chatgpt", "claude", "gemini", "grok"] },
+  { title: "AI automation", body: "Takes repetitive admin off your hands, like follow-ups and booking reminders.", category: "AI tools" },
 ];
 
 // Brands Chris has worked with. Without a `logo`, the name shows as a wordmark.
@@ -168,8 +165,6 @@ export const clients: { name: string; logo?: string; url?: string }[] = [
 // More work and press, listed under the case studies. Titles come from each link.
 export const portfolio = [
   { title: "HackHouse", kind: "Venture", source: "hackhouse.xyz", url: "https://www.hackhouse.xyz/" },
-  { title: "CreatorBrands", kind: "Venture", source: "creatorbrands.xyz", url: "https://creatorbrands.xyz/" },
-  { title: "The Private Clubs", kind: "Venture", source: "theprivateclubs.com", url: "https://www.theprivateclubs.com/" },
   {
     title: "Creator economy startup Superjoi raises $25 million",
     kind: "Press",
@@ -205,20 +200,30 @@ export const caseStudies = [
     url: "https://www.richardknightuk.com",
     domain: "richardknightuk.com",
     image: "/work/richardknightuk.jpg",
+    variant: "dusk",
     sector: "Private wealth advice",
     summary: "A website for a British wealth advisor who works with expats in Thailand.",
-    built: ["Design and build", "100+ pages", "Online booking", "Financial calculators", "SEO and AEO"],
+    built: ["Design and build", "100+ pages", "Online booking", "SEO and AEO"],
   },
   {
     name: "The Private Clubs",
     url: "https://www.theprivateclubs.com",
     domain: "theprivateclubs.com",
-    image: "/work/theprivateclubs.jpg",
+    variant: "forest",
     sector: "Membership directory",
     summary: "A directory of private membership clubs, with club profiles, maps, rankings and paid memberships.",
-    built: ["Design and build", "Maps and rankings", "Stripe payments", "AI assistant", "SEO and AEO"],
+    built: ["Design and build", "Maps and rankings", "Stripe payments", "AI assistant"],
   },
-];
+  {
+    name: "CreatorBrands",
+    url: "https://creatorbrands.xyz",
+    domain: "creatorbrands.xyz",
+    variant: "ember",
+    sector: "Creator brand directory",
+    summary: "A directory and community for creator-led brands, ranked by performance.",
+    built: ["Design and build", "Brand rankings", "Community", "SEO and AEO"],
+  },
+] as const;
 
 export const steps = [
   {
@@ -329,11 +334,9 @@ export const questions: Question[] = [
 
 // Maps a service picked in the basket to the matching /start answer.
 export const serviceNeeds: Record<string, string> = {
-  "Website Design & Build": "New website",
-  "Hosting & Care": "Hosting and care",
   "Local SEO": "Get found on Google",
   "Google Business Profile": "Get found on Google",
   AEO: "Get recommended by AI",
   "Google AI Overviews": "Get recommended by AI",
-  "AI Visibility Check": "Get recommended by AI",
+  "AI visibility check": "Get recommended by AI",
 };

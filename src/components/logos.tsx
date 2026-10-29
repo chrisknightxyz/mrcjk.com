@@ -36,3 +36,18 @@ export function LogoTile({ id }: { id: LogoId }) {
     </span>
   );
 }
+
+// A quiet row of platform marks with names, greyscale until hovered.
+export function LogoRow({ ids }: { ids: LogoId[] }) {
+  return (
+    <ul className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+      {ids.map((id) => (
+        <li key={id} className="flex items-center gap-2 text-sm font-medium text-body opacity-70 grayscale transition hover:opacity-100 hover:grayscale-0">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={logos[id].src} alt="" className="h-5 w-5 object-contain" />
+          {logos[id].name}
+        </li>
+      ))}
+    </ul>
+  );
+}
