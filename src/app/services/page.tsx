@@ -2,7 +2,12 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { audiences, caseStudies, faqs, mailto, plans, services, site, steps, stripeLinks, type Plan } from "@/content/site";
+import { GradientField } from "@/components/gradient-field";
+import { AiCard, EnquiryCard, MapsCard, StepBuild, StepGrow, StepTalk } from "@/components/illustrations";
+import { Reveal } from "@/components/reveal";
 import { Catalogue } from "./catalogue";
+
+const stepArt = [StepTalk, StepBuild, StepGrow];
 
 const [build, care] = plans;
 const gbp = (n: number) => `£${n.toLocaleString("en-GB")}`;
@@ -87,11 +92,11 @@ function Check() {
 
 function SectionHead({ eyebrow, title, intro }: { eyebrow: string; title: string; intro?: string }) {
   return (
-    <div className="mx-auto max-w-2xl text-center">
+    <Reveal className="mx-auto max-w-2xl text-center">
       <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted">{eyebrow}</p>
       <h2 className="mt-4 text-balance font-display text-4xl font-light leading-[1.12] tracking-[-0.02em] sm:text-5xl">{title}</h2>
       {intro && <p className="mt-5 text-lg leading-relaxed text-body">{intro}</p>}
-    </div>
+    </Reveal>
   );
 }
 
@@ -128,24 +133,36 @@ export default function ServicesPage() {
         {/* Hero */}
         <section className="px-4 pt-16 sm:px-6 sm:pt-24">
           <div className="mx-auto max-w-4xl text-center">
-            <p className="inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-[13px] font-medium text-body shadow-pill">
-              <span className="h-1.5 w-1.5 rounded-full bg-ink" />
+            <p className="rise inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-[13px] font-medium text-body shadow-pill">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="pulse-ring absolute inset-0 rounded-full bg-ink" />
+                <span className="relative h-1.5 w-1.5 rounded-full bg-ink" />
+              </span>
               Websites, SEO & AEO for UK local businesses
             </p>
-            <h1 className="mt-7 text-balance font-display text-[2.75rem] font-light leading-[1.05] tracking-[-0.035em] sm:text-7xl">
+            <h1 className="rise mt-7 text-balance font-display text-[2.75rem] font-light leading-[1.05] tracking-[-0.035em] [animation-delay:120ms] sm:text-7xl">
               Websites that win you local customers
             </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-body">
+            <p className="rise mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-body [animation-delay:240ms]">
               A custom website from {gbp(build.price!)}, then {gbp(care.price!)} a month for hosting, updates and a monthly
               SEO & AEO report. Built to be found on Google and recommended by AI assistants.
             </p>
-            <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
+            <div className="rise mt-9 flex flex-col justify-center gap-3 [animation-delay:360ms] sm:flex-row">
               <Button href="#pricing">See pricing</Button>
               <Button href="#work" variant="stone">See recent work</Button>
             </div>
           </div>
 
-          <div className="gradient-field mx-auto mt-16 max-w-6xl overflow-hidden rounded-3xl px-4 pt-10 shadow-edge sm:px-16 sm:pt-16">
+          <GradientField className="rise relative mx-auto mt-16 max-w-6xl rounded-3xl px-4 pt-10 [animation-delay:480ms] sm:px-16 sm:pt-16">
+            <div className="absolute left-6 top-24 z-10 hidden md:block">
+              <div className="float"><MapsCard /></div>
+            </div>
+            <div className="absolute right-6 top-48 z-10 hidden md:block">
+              <div className="float [animation-delay:-2s]"><AiCard /></div>
+            </div>
+            <div className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2 md:bottom-10 md:left-auto md:right-24 md:translate-x-0">
+              <div className="float [animation-delay:-4s]"><EnquiryCard /></div>
+            </div>
             <a href={featured.url} target="_blank" rel="noopener noreferrer" className="block overflow-hidden rounded-t-2xl bg-white shadow-card">
               <div className="flex items-center gap-1.5 border-b border-black/5 px-4 py-3">
                 <span className="h-2.5 w-2.5 rounded-full bg-line" />
@@ -163,26 +180,39 @@ export default function ServicesPage() {
                 className="w-full"
               />
             </a>
-          </div>
+          </GradientField>
 
-          <ul className="mx-auto mt-10 flex max-w-4xl flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-muted">
-            {audiences.map((a) => (
-              <li key={a}>{a}</li>
-            ))}
-          </ul>
+          <div className="relative mx-auto mt-10 max-w-6xl overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)]">
+            <ul className="marquee flex w-max gap-10 text-sm text-muted">
+              {[...audiences, ...audiences].map((a, i) => (
+                <li key={i} aria-hidden={i >= audiences.length} className="flex items-center gap-10 whitespace-nowrap">
+                  {a}
+                  <span className="h-1 w-1 rounded-full bg-line" />
+                </li>
+              ))}
+            </ul>
+          </div>
         </section>
 
         {/* How it works */}
         <section id="how-it-works" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-24 sm:px-6 sm:py-32">
           <SectionHead eyebrow="How it works" title="From first call to live website" />
           <ol className="mt-14 grid gap-4 md:grid-cols-3">
-            {steps.map((s, i) => (
-              <li key={s.title} className="rounded-[20px] bg-white p-7 shadow-card">
-                <span className="font-mono text-xs text-muted">0{i + 1}</span>
-                <h3 className="mt-8 font-display text-2xl font-light tracking-[-0.02em]">{s.title}</h3>
-                <p className="mt-3 leading-relaxed text-body">{s.body}</p>
-              </li>
-            ))}
+            {steps.map((s, i) => {
+              const Art = stepArt[i];
+              return (
+                <Reveal as="li" key={s.title} delay={i * 120} className="overflow-hidden rounded-[20px] bg-white shadow-card">
+                  <div className="h-40 bg-stone/60 px-8 py-6">
+                    <Art />
+                  </div>
+                  <div className="p-7">
+                    <span className="font-mono text-xs text-muted">0{i + 1}</span>
+                    <h3 className="mt-3 font-display text-2xl font-light tracking-[-0.02em]">{s.title}</h3>
+                    <p className="mt-3 leading-relaxed text-body">{s.body}</p>
+                  </div>
+                </Reveal>
+              );
+            })}
           </ol>
         </section>
 
@@ -196,7 +226,11 @@ export default function ServicesPage() {
             />
             <div className="mt-14 grid gap-4 lg:grid-cols-3">
               {plans.map((plan, i) => (
-                <div key={plan.id} className={`flex flex-col rounded-3xl p-8 shadow-card ${i === 0 ? "bg-stone" : "bg-white"}`}>
+                <Reveal
+                  key={plan.id}
+                  delay={i * 120}
+                  className={`flex flex-col rounded-3xl p-8 shadow-card transition-shadow hover:shadow-[0_0_0_1px_rgba(0,0,0,0.08),0_16px_40px_rgba(78,50,23,0.08)] ${i === 0 ? "bg-stone" : "bg-white"}`}
+                >
                   <div className="flex items-center justify-between gap-4">
                     <h3 className="text-[15px] font-medium">{plan.name}</h3>
                     {i === 0 && <span className="rounded-full bg-white px-3 py-1 text-xs font-medium shadow-pill">Start here</span>}
@@ -227,7 +261,7 @@ export default function ServicesPage() {
                       {plan.cta}
                     </Button>
                   </div>
-                </div>
+                </Reveal>
               ))}
             </div>
           </div>
@@ -250,8 +284,9 @@ export default function ServicesPage() {
           <div className="mx-auto max-w-6xl">
             <SectionHead eyebrow="Recent work" title="Websites I've built" />
             <div className="mt-14 grid gap-6 md:grid-cols-2">
-              {caseStudies.map((c) => (
-                <a key={c.url} href={c.url} target="_blank" rel="noopener noreferrer" className="group flex flex-col rounded-3xl bg-white p-3 shadow-card">
+              {caseStudies.map((c, i) => (
+                <Reveal key={c.url} delay={i * 150}>
+                <a href={c.url} target="_blank" rel="noopener noreferrer" className="group flex h-full flex-col rounded-3xl bg-white p-3 shadow-card transition-shadow hover:shadow-[0_0_0_1px_rgba(0,0,0,0.08),0_16px_40px_rgba(78,50,23,0.08)]">
                   <div className="overflow-hidden rounded-[20px] shadow-edge">
                     <Image
                       src={c.image}
@@ -278,6 +313,7 @@ export default function ServicesPage() {
                     </ul>
                   </div>
                 </a>
+                </Reveal>
               ))}
             </div>
           </div>
@@ -309,7 +345,7 @@ export default function ServicesPage() {
 
         {/* Final CTA */}
         <section className="px-4 pb-24 sm:px-6">
-          <div className="gradient-field mx-auto max-w-6xl rounded-3xl px-6 py-20 text-center shadow-edge sm:py-28">
+          <GradientField className="mx-auto max-w-6xl rounded-3xl px-6 py-20 text-center sm:py-28">
             <h2 className="mx-auto max-w-3xl text-balance font-display text-4xl font-light leading-[1.1] tracking-[-0.03em] sm:text-6xl">
               Get a website that brings in work
             </h2>
@@ -320,7 +356,7 @@ export default function ServicesPage() {
               <Button href={planHref(build)}>{build.cta}</Button>
               <Button href={mailto("New website enquiry")} variant="white">Ask a question</Button>
             </div>
-          </div>
+          </GradientField>
         </section>
       </main>
 
