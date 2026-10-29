@@ -23,6 +23,7 @@ export function CalModal() {
       setLink(url.toString());
       url.searchParams.set("embed", "true");
       url.searchParams.set("embedType", "inline");
+      url.searchParams.set("layout", "month_view");
       url.searchParams.set("theme", document.documentElement.classList.contains("dark") ? "dark" : "light");
       setSrc(url.toString());
     };

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { GradientArt, type GradientVariant } from "@/components/gradient-art";
 
 const tileArt: GradientVariant[] = ["dusk", "ocean", "ember"];
@@ -27,8 +27,8 @@ export function SectorTabs() {
       <div className="flex flex-col px-5 py-6 sm:px-8 lg:py-16">
       <div role="tablist" aria-label="Kinds of business" className="flex gap-2 overflow-x-auto lg:flex-col lg:gap-4 lg:overflow-visible">
         {sectors.map((x, i) => (
+          <Fragment key={x.name}>
           <button
-            key={x.name}
             role="tab"
             aria-selected={i === active}
             onClick={() => setActive(i)}
@@ -38,9 +38,11 @@ export function SectorTabs() {
           >
             {x.name}
           </button>
+          {i === active && <p className="-mt-2 hidden max-w-sm text-[15px] leading-[22px] text-muted lg:block">{x.line}</p>}
+          </Fragment>
         ))}
       </div>
-        <p className="mt-4 text-[15px] leading-[22px] text-muted lg:mt-10 lg:max-w-sm">{s.line}</p>
+        <p className="mt-4 text-[15px] leading-[22px] text-muted lg:hidden">{s.line}</p>
       </div>
       <div className="p-3 sm:p-4">
         <div className="grid min-h-[22rem] place-items-center rounded-3xl bg-stone px-4 py-10 ring-[0.5px] ring-ink/10 sm:px-10">

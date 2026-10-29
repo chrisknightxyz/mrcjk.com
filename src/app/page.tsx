@@ -176,7 +176,7 @@ export default function HomePage() {
         <Band>
           <div className="grid gap-6 px-5 pb-10 pt-14 sm:px-8 lg:grid-cols-2 lg:items-start lg:gap-12 lg:pb-12 lg:pt-24">
             <div>
-              <h1 className="rise text-[15px] text-muted">Websites, SEO and AEO for UK local businesses</h1>
+              <h1 className="rise text-[14px] text-muted sm:text-[15px]">Websites, SEO and AEO for UK local businesses</h1>
               <p className="rise mt-3 font-display text-[36px] font-light leading-[42px] tracking-[-0.02em] sm:text-[48px] sm:leading-[52px]">
                 Websites that
                 <br />
