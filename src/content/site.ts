@@ -94,27 +94,57 @@ export const plans: Plan[] = [
   },
 ];
 
+// Platform logos (public/logos). Trademarks of their owners; shown to say where the work appears.
+export const logos = {
+  chatgpt: { name: "ChatGPT", src: "/logos/openai.svg" },
+  claude: { name: "Claude", src: "/logos/claude.svg" },
+  gemini: { name: "Gemini", src: "/logos/gemini.svg" },
+  perplexity: { name: "Perplexity", src: "/logos/perplexity.svg" },
+  copilot: { name: "Copilot", src: "/logos/copilot.svg" },
+  grok: { name: "Grok", src: "/logos/grok.svg" },
+  metaai: { name: "Meta AI", src: "/logos/meta.svg" },
+  muse: { name: "Muse", src: "/logos/muse.webp" },
+  google: { name: "Google", src: "/logos/google.svg" },
+  meta: { name: "Meta", src: "/logos/meta.svg" },
+};
+export type LogoId = keyof typeof logos;
+
+// Where AEO gets you recommended.
+export const aiAssistants: LogoId[] = ["chatgpt", "claude", "gemini", "perplexity", "copilot", "grok", "metaai", "muse"];
+
 // The full catalogue. `core` shows a "Fixed price" badge: add it to Local SEO and AEO
 // once the SEO and AEO plan has a price. Everything else is quoted.
-export type Service = { title: string; body: string; category: string; core?: boolean };
+export type Service = { title: string; body: string; category: string; core?: boolean; logos?: LogoId[] };
 
 export const services: Service[] = [
   { title: "Website Design & Build", body: "A custom website that makes it easy to call, book or get in touch.", category: "Website", core: true },
   { title: "Hosting & Care", body: "Fast, secure hosting, updates and a monthly report. One simple fee.", category: "Website", core: true },
-  { title: "Local SEO", body: "Show up on Google and Google Maps when people nearby search for what you do.", category: "Search" },
-  { title: "AEO", body: "Answer engine optimisation. Get recommended when people ask ChatGPT, Gemini or Google's AI.", category: "Search" },
-  { title: "Google Business Profile", body: "The right details, photos and categories, so you stand out on Maps.", category: "Search" },
-  { title: "Google & Bing Ads", body: "Search ads that reach people who are ready to buy.", category: "Marketing" },
-  { title: "Social Ads", body: "Facebook and Instagram ads, aimed at your local area.", category: "Marketing" },
-  { title: "Social Media Management", body: "Planning, posting and replies, so your feeds stay active.", category: "Content" },
+  { title: "Local SEO", body: "Show up on Google and Google Maps when people nearby search for what you do.", category: "Search", logos: ["google"] },
+  { title: "Google Business Profile", body: "The right details, photos and categories, so you stand out on Maps.", category: "Search", logos: ["google"] },
+  { title: "AEO", body: "Answer engine optimisation. Get recommended when people ask an AI assistant for a business like yours.", category: "AI search", logos: aiAssistants },
+  { title: "Google AI Overviews", body: "Appear in the AI answers at the top of Google, and in AI Mode.", category: "AI search", logos: ["google", "gemini"] },
+  { title: "AI Visibility Check", body: "See what each AI assistant says about your business, and what to fix.", category: "AI search", logos: aiAssistants },
+  { title: "Google Ads", body: "Search ads that reach people who are ready to buy.", category: "Marketing", logos: ["google"] },
+  { title: "Meta Ads", body: "Facebook and Instagram ads, aimed at your local area.", category: "Marketing", logos: ["meta"] },
+  { title: "Social Media Management", body: "Planning, posting and replies on Facebook and Instagram, so your feeds stay active.", category: "Content", logos: ["meta"] },
   { title: "Photo & Video", body: "Photos and short videos of your business, shot on location.", category: "Content" },
   { title: "Email Newsletters", body: "Regular emails that bring customers back.", category: "Content" },
   { title: "Branding & Identity", body: "A logo, colours and tone of voice that feel like you.", category: "Marketing" },
-  { title: "Reviews & Reputation", body: "More reviews, better replies and an eye on what people say.", category: "Marketing" },
-  { title: "AI Receptionist", body: "Answers your calls, takes messages and books appointments. Day and night.", category: "AI" },
-  { title: "AI Website Assistant", body: "A chat assistant on your site that answers customer questions instantly.", category: "AI" },
-  { title: "AI Automation", body: "Takes repetitive admin off your hands, like follow-ups and booking reminders.", category: "AI" },
-  { title: "Analytics & Tracking", body: "See which calls, forms and sales your marketing brings in.", category: "Search" },
+  { title: "Reviews & Reputation", body: "More Google reviews, better replies and an eye on what people say.", category: "Marketing", logos: ["google"] },
+  { title: "Custom AI Assistants", body: "An assistant set up with your business knowledge, for you and your team.", category: "AI tools", logos: ["chatgpt", "claude", "gemini", "grok"] },
+  { title: "AI Receptionist", body: "Answers your calls, takes messages and books appointments. Day and night.", category: "AI tools" },
+  { title: "AI Website Assistant", body: "A chat assistant on your site that answers customer questions instantly.", category: "AI tools", logos: ["chatgpt", "claude", "gemini"] },
+  { title: "AI Automation", body: "Takes repetitive admin off your hands, like follow-ups and booking reminders.", category: "AI tools" },
+  { title: "Analytics & Tracking", body: "See which calls, forms and sales your marketing brings in.", category: "Search", logos: ["google"] },
+];
+
+// Brands Chris has worked with. Without a `logo`, the name shows as a wordmark.
+// Logos: Simple Icons (simpleicons.org). Add a Manchester City crest to public/clients to replace the wordmark.
+export const clients: { name: string; logo?: string }[] = [
+  { name: "Snapchat", logo: "/clients/snapchat.svg" },
+  { name: "Nike", logo: "/clients/nike.svg" },
+  { name: "Google", logo: "/clients/google.svg" },
+  { name: "Manchester City" },
 ];
 
 export const caseStudies = [
@@ -179,7 +209,7 @@ export const faqs = [
   },
   {
     q: "What's AEO?",
-    a: "Answer engine optimisation. More people now ask AI assistants like ChatGPT and Gemini for recommendations. AEO helps those assistants understand your business, so they suggest you.",
+    a: "Answer engine optimisation. More people now ask AI assistants like ChatGPT, Claude, Gemini, Perplexity, Copilot, Grok, Meta AI and Muse for recommendations. AEO helps those assistants understand your business, so they suggest you.",
   },
   {
     q: "How is that different from SEO?",
@@ -187,7 +217,7 @@ export const faqs = [
   },
   {
     q: "How are the other services priced?",
-    a: "Ads, social media, photo and video, branding, reviews and AI services are priced for your business. Add the ones you want, then continue.",
+    a: "Ads, social media, photo and video, branding, reviews and AI services are quoted for your business. Add the ones you want, then continue.",
   },
   {
     q: "Will I own my website?",
@@ -252,4 +282,6 @@ export const serviceNeeds: Record<string, string> = {
   "Local SEO": "Get found on Google",
   "Google Business Profile": "Get found on Google",
   AEO: "Get recommended by AI",
+  "Google AI Overviews": "Get recommended by AI",
+  "AI Visibility Check": "Get recommended by AI",
 };

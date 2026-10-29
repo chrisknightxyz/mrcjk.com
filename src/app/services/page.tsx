@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { audiences, caseStudies, faqs, mailto, plans, services, site, steps, type Plan } from "@/content/site";
+import { aiAssistants, audiences, caseStudies, clients, faqs, mailto, plans, services, site, steps, type LogoId, type Plan } from "@/content/site";
+import { LogoTile } from "@/components/logos";
 import { GradientField } from "@/components/gradient-field";
 import { AiCard, EnquiryCard, MapsCard, StepBuild, StepGrow, StepTalk } from "@/components/illustrations";
 import { Reveal } from "@/components/reveal";
@@ -182,6 +183,22 @@ export default function ServicesPage() {
             </a>
           </GradientField>
 
+          <Reveal className="mx-auto mt-16 max-w-4xl">
+            <p className="text-center font-mono text-xs uppercase tracking-[0.14em] text-muted">Brands I&apos;ve worked with</p>
+            <ul className="mt-6 flex flex-wrap items-center justify-center gap-x-12 gap-y-6 sm:gap-x-16">
+              {clients.map((c) => (
+                <li key={c.name} className="opacity-60 grayscale transition hover:opacity-100 hover:grayscale-0">
+                  {c.logo ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={c.logo} alt={c.name} className="h-8 w-auto sm:h-9" />
+                  ) : (
+                    <span className="whitespace-nowrap font-display text-xl font-normal uppercase tracking-[0.08em] sm:text-2xl">{c.name}</span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+
           <div className="relative mx-auto mt-10 max-w-6xl overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)]">
             <ul className="marquee flex w-max gap-10 text-sm text-muted">
               {[...audiences, ...audiences].map((a, i) => (
@@ -192,6 +209,35 @@ export default function ServicesPage() {
               ))}
             </ul>
           </div>
+        </section>
+
+        {/* Platforms */}
+        <section id="platforms" className="mx-auto max-w-6xl scroll-mt-16 px-4 pt-24 sm:px-6 sm:pt-32">
+          <SectionHead
+            eyebrow="Where you'll be found"
+            title="On Google. On Meta. In every AI answer."
+            intro="People find local businesses on Google, on Facebook and Instagram, and more and more by asking an AI assistant. I set you up for all of them."
+          />
+          <Reveal className="mt-14">
+            <p className="text-center font-mono text-xs uppercase tracking-[0.14em] text-muted">Recommended by AI assistants</p>
+            <ul className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {aiAssistants.map((id, i) => (
+                <Reveal as="li" key={id} delay={i * 60}>
+                  <LogoTile id={id} />
+                </Reveal>
+              ))}
+            </ul>
+          </Reveal>
+          <Reveal className="mt-10">
+            <p className="text-center font-mono text-xs uppercase tracking-[0.14em] text-muted">Found on search and social</p>
+            <ul className="mx-auto mt-5 grid max-w-md grid-cols-2 gap-3">
+              {(["google", "meta"] as LogoId[]).map((id) => (
+                <li key={id}>
+                  <LogoTile id={id} />
+                </li>
+              ))}
+            </ul>
+          </Reveal>
         </section>
 
         {/* How it works */}
@@ -367,6 +413,10 @@ export default function ServicesPage() {
           </p>
           <a href={`mailto:${site.email}`} className="hover:text-ink">{site.email}</a>
         </div>
+        <p className="mx-auto max-w-6xl px-4 pb-8 text-xs text-muted sm:px-6">
+          ChatGPT, Claude, Gemini, Perplexity, Copilot, Grok, Meta AI, Muse, Google and Meta are trademarks of their owners.
+          Logos show where the work appears and don&apos;t imply any partnership.
+        </p>
       </footer>
     </>
   );

@@ -127,7 +127,11 @@ export function CategoryIcon({ category }: { category: string }) {
 export function MapsCard() {
   return (
     <div className="w-60 rounded-2xl bg-white/90 p-4 shadow-[0_0_0_1px_rgba(0,0,0,0.06),0_12px_32px_rgba(78,50,23,0.10)] backdrop-blur">
-      <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">Local search</p>
+      <p className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/logos/google.svg" alt="" className="h-3 w-3" />
+        Local search
+      </p>
       <div className="mt-3 flex items-center gap-3">
         <span className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-ink text-white">
           <span className="pulse-ring absolute inset-0 rounded-full bg-ink/30" />

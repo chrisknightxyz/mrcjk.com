@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { CategoryIcon } from "@/components/illustrations";
+import { LogoStack } from "@/components/logos";
 import { Reveal } from "@/components/reveal";
 import { services } from "@/content/site";
 
@@ -59,12 +60,15 @@ export function Catalogue() {
                 <span className="mt-6 font-mono text-xs uppercase tracking-[0.14em] text-muted">{s.category}</span>
                 <span className="mt-2 font-display text-2xl font-light tracking-[-0.02em]">{s.title}</span>
                 <span className="mt-2 flex-1 text-[15px] leading-relaxed text-body">{s.body}</span>
+                <span className="mt-6 flex items-center justify-between gap-3">
                 <span
-                  className={`mt-6 inline-flex h-8 items-center gap-1.5 self-start rounded-full px-3.5 text-[13px] font-medium transition ${
+                  className={`inline-flex h-8 items-center gap-1.5 rounded-full px-3.5 text-[13px] font-medium transition ${
                     on ? "bg-ink text-white" : "bg-surface text-ink"
                   }`}
                 >
                   {on ? "✓ Added" : "+ Add"}
+                </span>
+                  {s.logos && <LogoStack ids={s.logos} />}
                 </span>
               </button>
             </Reveal>
