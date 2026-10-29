@@ -109,19 +109,19 @@ export const plans: Plan[] = [
 ];
 
 // Platform logos (public/logos). Trademarks of their owners; shown to say where the work appears.
-export const logos = {
-  chatgpt: { name: "ChatGPT", src: "/logos/openai.svg" },
+export const logos: Record<string, { name: string; src: string; mono?: boolean }> = {
+  chatgpt: { name: "ChatGPT", src: "/logos/openai.svg", mono: true },
   claude: { name: "Claude", src: "/logos/claude.svg" },
   gemini: { name: "Gemini", src: "/logos/gemini.svg" },
-  perplexity: { name: "Perplexity", src: "/logos/perplexity.svg" },
+  perplexity: { name: "Perplexity", src: "/logos/perplexity.svg", mono: true },
   copilot: { name: "Copilot", src: "/logos/copilot.svg" },
-  grok: { name: "Grok", src: "/logos/grok.svg" },
+  grok: { name: "Grok", src: "/logos/grok.svg", mono: true },
   metaai: { name: "Meta AI", src: "/logos/meta.svg" },
   muse: { name: "Muse", src: "/logos/muse.webp" },
   google: { name: "Google", src: "/logos/google.svg" },
   meta: { name: "Meta", src: "/logos/meta.svg" },
 };
-export type LogoId = keyof typeof logos;
+export type LogoId = "chatgpt" | "claude" | "gemini" | "perplexity" | "copilot" | "grok" | "metaai" | "muse" | "google" | "meta";
 
 // Where AEO gets you recommended.
 export const aiAssistants: LogoId[] = ["chatgpt", "claude", "gemini", "perplexity", "copilot", "grok", "metaai", "muse"];

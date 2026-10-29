@@ -17,7 +17,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en-GB" className={`${display.variable} ${sans.variable} ${mono.variable}`} suppressHydrationWarning>
       <head>
         {/* Marks JavaScript as available, so scroll reveals only hide content when they can show it again. */}
-        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches))d.classList.add('dark')}catch(e){}",
+          }}
+        />
       </head>
       <body>{children}</body>
     </html>

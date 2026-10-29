@@ -6,8 +6,39 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Colour tokens as RGB channels, so Tailwind opacity modifiers work. */
+:root,
+.theme-light {
+  --ink: 0 0 0;
+  --body: 78 78 78;
+  --muted: 119 113 105;
+  --surface: 245 245 245;
+  --stone: 245 242 239;
+  --line: 229 229 229;
+  --canvas: 255 255 255;
+  --card: 255 255 255;
+}
+:root {
+  color-scheme: light;
+}
+.dark {
+  color-scheme: dark;
+  --ink: 242 240 237;
+  --body: 186 181 174;
+  --muted: 140 134 126;
+  --surface: 20 19 18;
+  --stone: 34 31 28;
+  --line: 58 55 51;
+  --canvas: 10 10 10;
+  --card: 26 25 24;
+}
+/* Product scenes stay light in both modes, like real screens. */
+.theme-light {
+  color: rgb(var(--ink));
+}
+
 body {
-  @apply bg-white font-sans tracking-body text-ink antialiased;
+  @apply bg-canvas font-sans tracking-body text-ink antialiased transition-colors duration-300;
 }
 
 summary::-webkit-details-marker {

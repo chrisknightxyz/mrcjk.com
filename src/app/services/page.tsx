@@ -22,6 +22,7 @@ import { GradientArt, type GradientVariant } from "@/components/gradient-art";
 import { AiAnswer, EnquiryCard, MapsCard, StepBuild, StepGrow, StepTalk } from "@/components/illustrations";
 import { LogoRow } from "@/components/logos";
 import { Reveal } from "@/components/reveal";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { Catalogue } from "./catalogue";
 
 const stepArt = [
@@ -95,9 +96,9 @@ const jsonLd = {
 
 function Button({ href, children, variant = "black" }: { href: string; children: React.ReactNode; variant?: "black" | "white" | "stone" }) {
   const styles = {
-    black: "bg-ink text-white hover:bg-ink/80",
-    white: "bg-white text-ink shadow-pill hover:bg-surface",
-    stone: "bg-stone/80 text-ink shadow-warm ring-1 ring-black/[0.04] hover:bg-stone",
+    black: "bg-ink text-canvas hover:bg-ink/80",
+    white: "bg-card text-ink shadow-pill hover:bg-surface",
+    stone: "bg-stone/80 text-ink shadow-warm ring-1 ring-ink/[0.04] hover:bg-stone",
   }[variant];
   const external = href.startsWith("http");
   return (
@@ -137,9 +138,9 @@ export default function ServicesPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       {/* Hairline frame at the content edges, as on the benchmark. */}
-      <div aria-hidden="true" className="pointer-events-none fixed inset-y-0 left-1/2 z-0 hidden w-[calc(72rem+3rem)] -translate-x-1/2 border-x border-black/[0.05] xl:block" />
+      <div aria-hidden="true" className="pointer-events-none fixed inset-y-0 left-1/2 z-0 hidden w-[calc(72rem+3rem)] -translate-x-1/2 border-x border-ink/[0.05] xl:block" />
 
-      <header className="sticky top-0 z-20 border-b border-black/5 bg-white/85 backdrop-blur-md">
+      <header className="sticky top-0 z-20 border-b border-ink/5 bg-canvas/85 backdrop-blur-md">
         <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
           <Link href="/services" className="whitespace-nowrap font-display text-[22px] tracking-[-0.03em]">
             {site.name}
@@ -151,10 +152,11 @@ export default function ServicesPage() {
             <a href="#faq" className="hover:text-ink">FAQ</a>
           </div>
           <div className="flex items-center gap-2">
-            <a href={mailto("Hello")} className="hidden h-9 items-center rounded-full bg-white px-4 text-sm font-medium shadow-pill sm:inline-flex">
+            <ThemeToggle />
+            <a href={mailto("Hello")} className="hidden h-9 items-center rounded-full bg-card px-4 text-sm font-medium shadow-pill sm:inline-flex">
               Email me
             </a>
-            <a href="/start" className="inline-flex h-9 items-center rounded-full bg-ink px-4 text-sm font-medium text-white">
+            <a href="/start" className="inline-flex h-9 items-center rounded-full bg-ink px-4 text-sm font-medium text-canvas">
               Get started
             </a>
           </div>
@@ -165,7 +167,7 @@ export default function ServicesPage() {
         {/* Hero */}
         <section className="px-4 pt-16 sm:px-6 sm:pt-24">
           <div className="mx-auto max-w-4xl text-center">
-            <p className="rise inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-[13px] font-medium text-body shadow-pill">
+            <p className="rise inline-flex items-center gap-2 rounded-full bg-card px-3.5 py-1.5 text-[13px] font-medium text-body shadow-pill">
               <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-br from-[#f39a4c] to-[#6f8fe0]" />
               Websites, SEO and AEO for UK local businesses
             </p>
@@ -191,8 +193,8 @@ export default function ServicesPage() {
                 <EnquiryCard />
               </div>
             </div>
-            <a href={featured.url} target="_blank" rel="noopener noreferrer" className="block overflow-hidden rounded-t-2xl bg-white shadow-[0_24px_60px_rgba(40,20,10,0.25)]">
-              <div className="flex items-center gap-1.5 border-b border-black/5 px-4 py-3">
+            <a href={featured.url} target="_blank" rel="noopener noreferrer" className="theme-light block overflow-hidden rounded-t-2xl bg-white shadow-[0_24px_60px_rgba(40,20,10,0.25)]">
+              <div className="flex items-center gap-1.5 border-b border-ink/5 px-4 py-3">
                 <span className="h-2.5 w-2.5 rounded-full bg-line" />
                 <span className="h-2.5 w-2.5 rounded-full bg-line" />
                 <span className="h-2.5 w-2.5 rounded-full bg-line" />
@@ -221,7 +223,7 @@ export default function ServicesPage() {
                   <a href={c.url} target="_blank" rel="noopener noreferrer" aria-label={c.name} className="block">
                     {c.logo ? (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img src={c.logo} alt={c.name} className="h-8 w-auto" />
+                      <img src={c.logo} alt={c.name} className="h-8 w-auto dark:invert" />
                     ) : (
                       <span className="whitespace-nowrap text-lg font-semibold uppercase tracking-[0.12em]">{c.name}</span>
                     )}
@@ -279,7 +281,7 @@ export default function ServicesPage() {
             />
             <div className="mt-14 grid gap-5 lg:grid-cols-3">
               {plans.map((plan, i) => (
-                <Reveal key={plan.id} delay={i * 120} className="flex flex-col overflow-hidden rounded-3xl bg-white shadow-card">
+                <Reveal key={plan.id} delay={i * 120} className="flex flex-col overflow-hidden rounded-3xl bg-card shadow-card">
                   <GradientArt variant={planVariant[i]} lines={i === 0} className="flex h-36 items-center justify-center">
                     <h3 className="font-display text-3xl font-light tracking-[-0.02em] text-white">{plan.name}</h3>
                   </GradientArt>
@@ -296,7 +298,7 @@ export default function ServicesPage() {
                       )}
                     </p>
                     <p className="mt-4 leading-relaxed text-body">{plan.blurb}</p>
-                    <ul className="mt-8 space-y-3 border-t border-black/5 pt-8 text-[15px]">
+                    <ul className="mt-8 space-y-3 border-t border-ink/5 pt-8 text-[15px]">
                       {plan.features.map((f) => (
                         <li key={f} className="flex gap-3">
                           <Check />
@@ -357,7 +359,7 @@ export default function ServicesPage() {
 
             <Reveal className="mt-20">
               <h3 className="text-2xl font-medium">More work and press</h3>
-              <ul className="mt-6 divide-y divide-black/[0.06] border-y border-black/[0.06]">
+              <ul className="mt-6 divide-y divide-ink/[0.06] border-y border-ink/[0.06]">
                 {portfolio.map((w) => (
                   <li key={w.url}>
                     <a href={w.url} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-5 py-4">
@@ -390,12 +392,12 @@ export default function ServicesPage() {
               </a>
             </p>
           </div>
-          <div className="divide-y divide-black/[0.06] border-y border-black/[0.06]">
+          <div className="divide-y divide-ink/[0.06] border-y border-ink/[0.06]">
             {faqs.map((f) => (
               <details key={f.q} className="group py-5">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-[17px] font-medium">
                   {f.q}
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white text-muted shadow-pill transition group-open:rotate-45">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-card text-muted shadow-pill transition group-open:rotate-45">
                     +
                   </span>
                 </summary>
@@ -428,7 +430,7 @@ export default function ServicesPage() {
         href={whatsapp}
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-5 right-5 z-20 hidden items-center gap-3 rounded-full bg-white py-2 pl-2 pr-5 text-[15px] font-medium shadow-[0_0_0_1px_rgba(0,0,0,0.06),0_12px_32px_rgba(30,20,10,0.16)] transition hover:-translate-y-0.5 sm:flex"
+        className="fixed bottom-5 right-5 z-20 hidden items-center gap-3 rounded-full bg-card py-2 pl-2 pr-5 text-[15px] font-medium shadow-[0_0_0_1px_rgba(0,0,0,0.06),0_12px_32px_rgba(30,20,10,0.16)] transition hover:-translate-y-0.5 sm:flex"
       >
         <span className="orb h-9 w-9 rounded-full" />
         Chat on WhatsApp

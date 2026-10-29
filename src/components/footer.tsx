@@ -34,7 +34,7 @@ export function Footer() {
   ].filter((c) => c.links.length);
 
   return (
-    <footer className="border-t border-black/5">
+    <footer className="border-t border-ink/5">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.4fr_repeat(4,1fr)]">
         <div>
           <Link href="/services" className="whitespace-nowrap font-display text-[22px] tracking-[-0.03em]">
@@ -57,7 +57,7 @@ export function Footer() {
           </div>
         ))}
       </div>
-      <div className="mx-auto max-w-6xl border-t border-black/5 px-4 py-6 text-xs text-muted sm:px-6">
+      <div className="mx-auto max-w-6xl border-t border-ink/5 px-4 py-6 text-xs text-muted sm:px-6">
         <p>
           © {new Date().getFullYear()} {site.name}
         </p>

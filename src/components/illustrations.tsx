@@ -3,7 +3,7 @@ import { aiAssistants, logos } from "@/content/site";
 // Small product scenes, drawn as real UI rather than clip-art. They sit on
 // gradient art, so every surface is a white card with the site's soft shadow.
 
-const card = "rounded-2xl bg-white/95 shadow-[0_0_0_1px_rgba(0,0,0,0.06),0_12px_32px_rgba(30,20,10,0.18)]";
+const card = "theme-light rounded-2xl bg-white/95 shadow-[0_0_0_1px_rgba(0,0,0,0.06),0_12px_32px_rgba(30,20,10,0.18)]";
 
 /* How it works */
 
@@ -97,7 +97,7 @@ export function MapsCard() {
 
 export function EnquiryCard() {
   return (
-    <div className="flex w-56 items-center gap-3 rounded-full bg-white/95 py-2 pl-2 pr-4 shadow-[0_0_0_1px_rgba(0,0,0,0.06),0_12px_32px_rgba(30,20,10,0.18)]">
+    <div className="theme-light flex w-56 items-center gap-3 rounded-full bg-white/95 py-2 pl-2 pr-4 shadow-[0_0_0_1px_rgba(0,0,0,0.06),0_12px_32px_rgba(30,20,10,0.18)]">
       <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-stone">
         <svg viewBox="0 0 16 16" className="h-4 w-4" aria-hidden="true">
           <rect x="2" y="3.5" width="12" height="9" rx="2" fill="none" stroke="currentColor" strokeWidth="1.3" />

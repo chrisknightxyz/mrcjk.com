@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { contact, mailto, questions, serviceNeeds, site } from "@/content/site";
 
 type Answers = Record<string, string[]>;
@@ -51,14 +52,17 @@ export function StartFlow() {
     : "";
 
   return (
-    <div className="flex min-h-[100dvh] flex-col bg-white">
+    <div className="flex min-h-[100dvh] flex-col bg-card">
       <header className="mx-auto flex h-16 w-full max-w-3xl items-center justify-between px-4 sm:px-6">
         <Link href="/services" className="whitespace-nowrap font-display text-[22px] tracking-[-0.03em]">
           {site.name}
         </Link>
-        <Link href="/services" aria-label="Close and go back to services" className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-muted shadow-pill hover:text-ink">
+        <span className="flex items-center gap-2">
+        <ThemeToggle />
+        <Link href="/services" aria-label="Close and go back to services" className="flex h-9 w-9 items-center justify-center rounded-full bg-card text-muted shadow-pill hover:text-ink">
           ✕
         </Link>
+        </span>
       </header>
 
       <div className="mx-auto w-full max-w-3xl px-4 sm:px-6">
@@ -99,7 +103,7 @@ export function StartFlow() {
             </div>
             <div className="mt-10 flex items-center justify-between">
               <BackButton onClick={() => setStep(step - 1)} />
-              <button type="submit" className="inline-flex h-12 items-center rounded-full bg-ink px-7 text-[15px] font-medium text-white hover:bg-ink/80">
+              <button type="submit" className="inline-flex h-12 items-center rounded-full bg-ink px-7 text-[15px] font-medium text-canvas hover:bg-ink/80">
                 Continue
               </button>
             </div>
@@ -200,13 +204,13 @@ function Question({
               aria-pressed={on}
               onClick={() => onChoose(o)}
               className={`flex min-h-14 items-center justify-between gap-3 rounded-2xl px-5 py-3 text-left text-[16px] transition ${
-                on ? "bg-ink text-white" : "bg-white shadow-card hover:shadow-[0_0_0_1px_rgba(0,0,0,0.16)]"
+                on ? "bg-ink text-canvas" : "bg-card shadow-card hover:shadow-[0_0_0_1px_rgba(0,0,0,0.16)]"
               }`}
             >
               {o}
               <span
                 aria-hidden="true"
-                className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[11px] ${on ? "bg-white text-ink" : "ring-1 ring-black/15"}`}
+                className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[11px] ${on ? "bg-canvas text-ink" : "ring-1 ring-ink/15"}`}
               >
                 {on ? "✓" : ""}
               </span>
@@ -222,7 +226,7 @@ function Question({
             type="button"
             onClick={onNext}
             disabled={!selected.length}
-            className="inline-flex h-12 items-center rounded-full bg-ink px-7 text-[15px] font-medium text-white transition hover:bg-ink/80 disabled:cursor-not-allowed disabled:opacity-30"
+            className="inline-flex h-12 items-center rounded-full bg-ink px-7 text-[15px] font-medium text-canvas transition hover:bg-ink/80 disabled:cursor-not-allowed disabled:opacity-30"
           >
             Continue
           </button>
@@ -256,7 +260,7 @@ function Field({
         onChange={(e) => onChange(e.target.value)}
         required={required}
         autoComplete={autoComplete}
-        className="mt-2 h-12 w-full rounded-2xl bg-white px-4 text-[16px] shadow-card outline-none transition focus:shadow-[0_0_0_1.5px_#000]"
+        className="mt-2 h-12 w-full rounded-2xl bg-card px-4 text-[16px] shadow-card outline-none transition focus:shadow-[0_0_0_1.5px_#000]"
       />
     </label>
   );
@@ -277,13 +281,13 @@ function ContactOption({ href, title, body, icon, primary }: { href: string; tit
       href={href}
       {...(external && { target: "_blank", rel: "noopener noreferrer" })}
       className={`group flex items-center gap-4 rounded-3xl p-5 transition ${
-        primary ? "bg-ink text-white hover:bg-ink/85" : "bg-white shadow-card hover:shadow-[0_0_0_1px_rgba(0,0,0,0.16)]"
+        primary ? "bg-ink text-canvas hover:bg-ink/85" : "bg-card shadow-card hover:shadow-[0_0_0_1px_rgba(0,0,0,0.16)]"
       }`}
     >
-      <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${primary ? "bg-white/10" : "bg-stone"}`}>{icon}</span>
+      <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${primary ? "bg-canvas/10" : "bg-stone"}`}>{icon}</span>
       <span className="flex-1">
         <span className="block text-[17px] font-medium">{title}</span>
-        <span className={`mt-0.5 block text-sm ${primary ? "text-white/70" : "text-body"}`}>{body}</span>
+        <span className={`mt-0.5 block text-sm ${primary ? "text-canvas/70" : "text-body"}`}>{body}</span>
       </span>
       <span aria-hidden="true" className="text-xl transition group-hover:translate-x-1">→</span>
     </a>
