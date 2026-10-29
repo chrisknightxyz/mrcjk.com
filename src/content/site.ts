@@ -39,6 +39,8 @@ export const mailto = (subject: string, body = "") =>
 export const stripeLinks = {
   build: "https://buy.stripe.com/test_5kQ28t4C8eRrbAyd3hfbq00",
   care: "https://buy.stripe.com/test_3cI6oJfgM38JcEC4wLfbq01",
+  careQuarterly: "https://buy.stripe.com/test_28E3cxfgMaBb7ki9R5fbq02",
+  careYearly: "https://buy.stripe.com/test_14A00l8SoeRrdIG7IXfbq03",
   ai: "",
 };
 
@@ -57,6 +59,8 @@ export type Plan = {
   need: string;
   // Where the button goes when it isn't a payment link (the AI work is scoped on a call).
   href?: string;
+  // Billing choices on one card. Hosting and care: the same £99 a month whichever you pick, renewing until cancelled.
+  billing?: { label: string; price: number; period: string; link: string }[];
 };
 
 export const plans: Plan[] = [
@@ -95,8 +99,13 @@ export const plans: Plan[] = [
       "Cancel any time",
     ],
     cta: "Subscribe",
-    note: "Cancel any time",
+    note: "Renews until you cancel",
     need: "Hosting and care",
+    billing: [
+      { label: "Monthly", price: 99, period: "a month", link: stripeLinks.care },
+      { label: "Quarterly", price: 297, period: "every 3 months", link: stripeLinks.careQuarterly },
+      { label: "Yearly", price: 1188, period: "a year", link: stripeLinks.careYearly },
+    ],
   },
   {
     id: "ai",
