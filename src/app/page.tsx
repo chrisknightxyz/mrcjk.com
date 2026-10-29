@@ -9,6 +9,7 @@ import { Footer } from "@/components/footer";
 import { GradientArt, type GradientVariant } from "@/components/gradient-art";
 import { HeroDemo } from "@/components/hero-demo";
 import { HowIWork } from "@/components/how-i-work";
+import { IntegrationTabs } from "@/components/integration-tabs";
 import { PlatformTabs } from "@/components/platform-tabs";
 import { Reveal } from "@/components/reveal";
 import { SectorTabs } from "@/components/sector-tabs";
@@ -240,6 +241,15 @@ export default function HomePage() {
             intro="Calls for trades, bookings for salons, menus for cafés. Each site is built around how your customers choose."
           />
           <SectorTabs />
+        </Band>
+
+        {/* Integrations */}
+        <Band id="integrations">
+          <BandHead
+            title="Works with the tools you already use"
+            intro="Bookings, orders, storefronts and payments, connected to your new site. Pick your kind of business to see what I set up."
+          />
+          <IntegrationTabs />
         </Band>
 
         {/* The price, as a figure */}

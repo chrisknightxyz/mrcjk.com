@@ -1,0 +1,69 @@
+"use client";
+
+import { useState } from "react";
+import { bookingTools, paymentTools, type Tool } from "@/content/site";
+
+function ToolTile({ tool }: { tool: Tool }) {
+  return (
+    <a
+      href={tool.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group flex items-center gap-3 rounded-2xl bg-card px-3 py-3 shadow-[0_0_0_0.5px_rgb(var(--ink)/0.12),0_1px_2px_rgb(var(--ink)/0.04)] transition hover:shadow-[0_0_0_0.5px_rgb(var(--ink)/0.25),0_4px_12px_rgb(var(--ink)/0.06)]"
+    >
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white ring-[0.5px] ring-black/10">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={tool.logo} alt="" className="h-full w-full object-contain" loading="lazy" />
+      </span>
+      <span className="min-w-0 flex-1 truncate text-[15px]">{tool.name}</span>
+      <span aria-hidden="true" className="text-muted opacity-0 transition group-hover:opacity-100">
+        ↗
+      </span>
+    </a>
+  );
+}
+
+// The booking and ordering tools each kind of business already uses, then the payment providers.
+export function IntegrationTabs() {
+  const [active, setActive] = useState(0);
+  const group = bookingTools[active];
+
+  return (
+    <div className="border-t border-ink/5">
+      <div role="tablist" aria-label="Kinds of business" className="flex gap-2 overflow-x-auto px-5 pt-8 sm:px-8 lg:flex-wrap">
+        {bookingTools.map((g, i) => (
+          <button
+            key={g.sector}
+            role="tab"
+            aria-selected={i === active}
+            onClick={() => setActive(i)}
+            className={`h-9 shrink-0 whitespace-nowrap rounded-full px-4 text-[15px] transition ${
+              i === active ? "bg-ink text-canvas" : "bg-stone text-body hover:text-ink"
+            }`}
+          >
+            {g.sector}
+          </button>
+        ))}
+      </div>
+      <ul key={active} className="rise grid grid-cols-2 gap-2 px-5 pb-10 pt-6 sm:px-8 lg:grid-cols-4">
+        {group.tools.map((tool) => (
+          <li key={tool.name}>
+            <ToolTile tool={tool} />
+          </li>
+        ))}
+      </ul>
+
+      <div className="border-t border-ink/5 px-5 pb-10 pt-8 sm:px-8">
+        <h3 className="text-[17px]">Payments</h3>
+        <p className="mt-1.5 text-[15px] text-muted">Take cards, wallets and direct debits on your site, in person and by link.</p>
+        <ul className="mt-6 grid grid-cols-2 gap-2 lg:grid-cols-5">
+          {paymentTools.map((tool) => (
+            <li key={tool.name}>
+              <ToolTile tool={tool} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}

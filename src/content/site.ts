@@ -151,10 +151,83 @@ export const services: Service[] = [
   { title: "Social media management", body: "Posts and replies, handled", category: "Content", logos: ["meta"] },
   { title: "Photo and video", body: "Shot at your business", category: "Content" },
   { title: "Email newsletters", body: "Emails that bring customers back", category: "Content" },
+  { title: "Shopify store", body: "Your storefront, products and checkout", category: "Integrations" },
+  { title: "Online booking", body: "Fresha, Booksy, OpenTable and more", category: "Integrations" },
+  { title: "Online payments", body: "Stripe, Square, SumUp and more", category: "Integrations" },
+  { title: "Online ordering", body: "Deliveroo, Uber Eats and Just Eat", category: "Integrations" },
   { title: "AI receptionist", body: "Answers calls and books, 24/7", category: "AI tools" },
   { title: "AI website assistant", body: "Answers questions on your site", category: "AI tools", logos: ["chatgpt", "claude", "gemini"] },
   { title: "Custom AI assistants", body: "Trained on your business", category: "AI tools", logos: ["chatgpt", "claude", "gemini", "grok"] },
   { title: "AI automation", body: "Automated follow-ups", category: "AI tools" },
+];
+
+// Booking, ordering and payment tools that local businesses already use, by kind of business.
+// Logos are each brand's own icon (public/integrations); they show what I can connect, not a partnership.
+export type Tool = { name: string; url: string; logo: string };
+const tool = (name: string, url: string, logo: string): Tool => ({ name, url, logo: `/integrations/${logo}` });
+
+const t = {
+  opentable: tool("OpenTable", "https://www.opentable.co.uk/", "opentable.png"),
+  resdiary: tool("ResDiary", "https://www.resdiary.com/", "resdiary.png"),
+  sevenrooms: tool("SevenRooms", "https://sevenrooms.com/", "sevenrooms.png"),
+  designmynight: tool("DesignMyNight", "https://www.designmynight.com/", "designmynight.png"),
+  thefork: tool("TheFork", "https://www.thefork.co.uk/", "thefork.png"),
+  resy: tool("Resy", "https://resy.com/", "resy.png"),
+  deliveroo: tool("Deliveroo", "https://deliveroo.co.uk/", "deliveroo.png"),
+  ubereats: tool("Uber Eats", "https://www.ubereats.com/gb", "ubereats.png"),
+  justeat: tool("Just Eat", "https://www.just-eat.co.uk/", "just-eat.png"),
+  mindbody: tool("Mindbody", "https://www.mindbodyonline.com/", "mindbodyonline.png"),
+  glofox: tool("Glofox", "https://www.glofox.com/", "glofox.png"),
+  classpass: tool("ClassPass", "https://classpass.com/", "classpass.png"),
+  teamup: tool("TeamUp", "https://goteamup.com/", "goteamup.png"),
+  momence: tool("Momence", "https://momence.com/", "momence.png"),
+  gymcatch: tool("Gymcatch", "https://gymcatch.com/", "gymcatch.png"),
+  wodify: tool("Wodify", "https://www.wodify.com/", "wodify.png"),
+  fresha: tool("Fresha", "https://www.fresha.com/", "fresha.png"),
+  booksy: tool("Booksy", "https://booksy.com/", "booksy.png"),
+  treatwell: tool("Treatwell", "https://www.treatwell.co.uk/", "treatwell.png"),
+  phorest: tool("Phorest", "https://www.phorest.com/", "phorest.png"),
+  timely: tool("Timely", "https://www.gettimely.com/", "gettimely.png"),
+  vagaro: tool("Vagaro", "https://www.vagaro.com/", "vagaro.png"),
+  squire: tool("Squire", "https://www.getsquire.com/", "getsquire.png"),
+  squareAppointments: tool("Square Appointments", "https://squareup.com/gb/en/appointments", "square.svg"),
+  setmore: tool("Setmore", "https://www.setmore.com/", "setmore.png"),
+  cliniko: tool("Cliniko", "https://www.cliniko.com/", "cliniko.png"),
+  jane: tool("Jane", "https://jane.app/", "jane.png"),
+  semble: tool("Semble", "https://www.semble.io/", "semble.png"),
+  calendly: tool("Calendly", "https://calendly.com/", "calendly.png"),
+  cal: tool("Cal.com", "https://cal.com/", "cal.png"),
+  jobber: tool("Jobber", "https://getjobber.com/", "getjobber.png"),
+  tradify: tool("Tradify", "https://www.tradifyhq.com/", "tradifyhq.png"),
+  servicem8: tool("ServiceM8", "https://www.servicem8.com/", "servicem8.png"),
+  checkatrade: tool("Checkatrade", "https://www.checkatrade.com/", "checkatrade.png"),
+  shopify: tool("Shopify", "https://www.shopify.com/uk", "shopify.png"),
+  squareOnline: tool("Square Online", "https://squareup.com/gb/en/online-store", "square.svg"),
+  wix: tool("Wix", "https://www.wix.com/", "wix.png"),
+  woocommerce: tool("WooCommerce", "https://woocommerce.com/", "woocommerce.png"),
+};
+
+export const bookingTools: { sector: string; tools: Tool[] }[] = [
+  { sector: "Restaurants and cafés", tools: [t.opentable, t.resdiary, t.sevenrooms, t.designmynight, t.thefork, t.resy, t.deliveroo, t.ubereats, t.justeat] },
+  { sector: "Gyms and studios", tools: [t.mindbody, t.glofox, t.classpass, t.teamup, t.momence, t.gymcatch, t.wodify] },
+  { sector: "Nails and beauty", tools: [t.fresha, t.booksy, t.treatwell, t.phorest, t.timely, t.vagaro] },
+  { sector: "Barbers", tools: [t.booksy, t.squire, t.fresha, t.squareAppointments, t.setmore, t.timely] },
+  { sector: "Clinics and health", tools: [t.cliniko, t.jane, t.semble, t.setmore, t.calendly, t.cal] },
+  { sector: "Trades", tools: [t.jobber, t.tradify, t.servicem8, t.checkatrade, t.calendly] },
+  { sector: "Shops", tools: [t.shopify, t.squareOnline, t.wix, t.woocommerce] },
+];
+
+export const paymentTools: Tool[] = [
+  tool("Stripe", "https://stripe.com/gb", "stripe.png"),
+  tool("Square", "https://squareup.com/gb", "square.svg"),
+  tool("SumUp", "https://www.sumup.com/en-gb/", "sumup.png"),
+  tool("PayPal", "https://www.paypal.com/uk", "paypal.png"),
+  tool("Zettle by PayPal", "https://www.zettle.com/gb", "zettle.png"),
+  tool("Dojo", "https://dojo.tech/", "dojo.png"),
+  tool("GoCardless", "https://gocardless.com/", "gocardless.png"),
+  tool("Klarna", "https://www.klarna.com/uk/", "klarna.png"),
+  tool("Apple Pay", "https://www.apple.com/uk/apple-pay/", "applepay.svg"),
+  tool("Google Pay", "https://pay.google.com/", "googlepay.svg"),
 ];
 
 // Brands Chris has worked with. `mono` marks are single-colour and invert in dark mode.
