@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { aiAssistants, audiences, caseStudies, clients, faqs, mailto, plans, services, site, social, steps, type LogoId, type Plan } from "@/content/site";
+import { aiAssistants, audiences, caseStudies, clients, faqs, portfolio, mailto, plans, services, site, social, steps, type LogoId, type Plan } from "@/content/site";
 import { LogoTile } from "@/components/logos";
 import { Footer } from "@/components/footer";
 import { GradientField } from "@/components/gradient-field";
@@ -190,12 +190,14 @@ export default function ServicesPage() {
             <ul className="mt-6 flex flex-wrap items-center justify-center gap-x-12 gap-y-6 sm:gap-x-16">
               {clients.map((c) => (
                 <li key={c.name} className="opacity-60 grayscale transition hover:opacity-100 hover:grayscale-0">
+                  <a href={c.url} target="_blank" rel="noopener noreferrer" aria-label={c.name} className="block">
                   {c.logo ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={c.logo} alt={c.name} className="h-8 w-auto sm:h-9" />
                   ) : (
                     <span className="whitespace-nowrap font-display text-xl font-normal uppercase tracking-[0.08em] sm:text-2xl">{c.name}</span>
                   )}
+                  </a>
                 </li>
               ))}
             </ul>
@@ -364,6 +366,31 @@ export default function ServicesPage() {
                 </Reveal>
               ))}
             </div>
+
+            <Reveal className="mt-20">
+              <h3 className="text-center font-mono text-xs uppercase tracking-[0.14em] text-muted">More work and press</h3>
+              <ul className="mt-6 divide-y divide-black/[0.06] overflow-hidden rounded-3xl bg-white shadow-card">
+                {portfolio.map((w) => (
+                  <li key={w.url}>
+                    <a
+                      href={w.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group grid grid-cols-[1fr_auto] items-center gap-x-6 gap-y-1 px-6 py-5 transition hover:bg-stone/60 sm:grid-cols-[9rem_1fr_auto]"
+                    >
+                      <span className="font-mono text-xs uppercase tracking-[0.14em] text-muted sm:order-none">{w.kind}</span>
+                      <span className="col-start-1 min-w-0 sm:col-start-2 sm:row-start-1">
+                        <span className="block text-[17px] font-medium leading-snug">{w.title}</span>
+                        <span className="mt-0.5 block text-sm text-body">{w.source}</span>
+                      </span>
+                      <span aria-hidden="true" className="col-start-2 row-span-2 row-start-1 text-xl text-muted transition group-hover:translate-x-0.5 group-hover:text-ink sm:col-start-3 sm:row-span-1">
+                        ↗
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
           </div>
         </section>
 

@@ -25,8 +25,9 @@ export const social = [
 ];
 
 export const projects = [
-  { name: "The Private Clubs", url: "https://www.theprivateclubs.com" },
+  { name: "HackHouse", url: "https://www.hackhouse.xyz" },
   { name: "CreatorBrands", url: "https://creatorbrands.xyz" },
+  { name: "The Private Clubs", url: "https://www.theprivateclubs.com" },
 ];
 
 export const mailto = (subject: string, body = "") =>
@@ -153,11 +154,49 @@ export const services: Service[] = [
 
 // Brands Chris has worked with. Without a `logo`, the name shows as a wordmark.
 // Logos: Simple Icons (simpleicons.org). Add a Manchester City crest to public/clients to replace the wordmark.
-export const clients: { name: string; logo?: string }[] = [
-  { name: "Snapchat", logo: "/clients/snapchat.svg" },
-  { name: "Nike", logo: "/clients/nike.svg" },
-  { name: "Google", logo: "/clients/google.svg" },
-  { name: "Manchester City" },
+export const clients: { name: string; logo?: string; url?: string }[] = [
+  {
+    name: "Snapchat",
+    logo: "/clients/snapchat.svg",
+    url: "https://www.thedrum.com/news/pepsi-max-among-first-uk-brands-embrace-snapchat-sponsored-lenses-chelfie-valentines",
+  },
+  { name: "Nike", logo: "/clients/nike.svg", url: "https://www.nike.com/" },
+  { name: "Google", logo: "/clients/google.svg", url: "https://forever-beta.com/case-study/google/" },
+  { name: "Manchester City", url: "https://www.theguardian.com/sport/2018/aug/19/manchester-city-fantom" },
+];
+
+// More work and press, listed under the case studies. Titles come from each link.
+export const portfolio = [
+  { title: "HackHouse", kind: "Venture", source: "hackhouse.xyz", url: "https://www.hackhouse.xyz/" },
+  { title: "CreatorBrands", kind: "Venture", source: "creatorbrands.xyz", url: "https://creatorbrands.xyz/" },
+  { title: "The Private Clubs", kind: "Venture", source: "theprivateclubs.com", url: "https://www.theprivateclubs.com/" },
+  {
+    title: "Creator economy startup Superjoi raises $25 million",
+    kind: "Press",
+    source: "Business Insider · 2022",
+    url: "https://www.businessinsider.com/exclusive-creator-economy-startup-superjoi-raises-25-million-2022-4",
+  },
+  {
+    title: "Manchester City and Fantom",
+    kind: "Press",
+    source: "The Guardian · 2018",
+    url: "https://www.theguardian.com/sport/2018/aug/19/manchester-city-fantom",
+  },
+  {
+    title: "Pepsi Max among first UK brands to use Snapchat Sponsored Lenses",
+    kind: "Press",
+    source: "The Drum",
+    url: "https://www.thedrum.com/news/pepsi-max-among-first-uk-brands-embrace-snapchat-sponsored-lenses-chelfie-valentines",
+  },
+  { title: "Google", kind: "Case study", source: "Forever Beta", url: "https://forever-beta.com/case-study/google/" },
+  { title: "Nike", kind: "Brand", source: "nike.com", url: "https://www.nike.com/" },
+  { title: "Rafahia", kind: "Website", source: "Built in Framer", url: "https://rafahia.framer.ai/" },
+  {
+    title: "Clokka",
+    kind: "Product design",
+    source: "Figma prototype",
+    url: "https://www.figma.com/proto/rtYaAoxFtYONCArs3OPVf1/Clokka?node-id=7114-547&t=1zVbBk0EcFZ4t2SN-1",
+  },
 ];
 
 export const caseStudies = [
