@@ -233,8 +233,10 @@ export const services: Service[] = [
   { title: "Online ordering", body: "Deliveroo, Uber Eats and Just Eat", category: "Integrations", logos: ["deliveroo", "ubereats", "justeat"], once: 249 },
   { title: "AI plan", body: "Where AI saves you time, in writing; taken off a full AI build", category: "AI", logos: ["chatgpt", "claude", "gemini"], once: 995 },
   { title: "AI receptionist", body: "Answers calls and books, 24/7", category: "AI", logos: ["chatgpt", "whatsapp", "googlecalendar"], once: 999, monthly: 149 },
-  { title: "AI website assistant", body: "Answers questions on your site", category: "AI", logos: ["chatgpt", "claude", "gemini"], call: "Quoted on a call" },
-  { title: "AI automation", body: "Follow-ups and admin that run themselves", category: "AI", logos: ["zapier", "googlecalendar", "whatsapp"], call: "Quoted on a call" },
+  { title: "Website chat and lead capture", body: "Answers visitors, qualifies them and books calls", category: "AI", logos: ["chatgpt", "claude", "googlecalendar"], once: 499, monthly: 79 },
+  { title: "Quote and invoice automation", body: "Same-day quotes, chased, then invoiced", category: "AI", logos: ["chatgpt", "zapier", "stripe"], once: 1495, monthly: 99 },
+  { title: "AI admin automation", body: "Rekeying, chasing, filing and reports, removed", category: "AI", logos: ["zapier", "googlecalendar", "whatsapp"], call: "From £1,495, quoted on a call" },
+  { title: "AI training", body: "Half a day with your team, plus a follow-up", category: "AI", logos: ["chatgpt", "claude", "gemini"], once: 695 },
   { title: "AI for your business", body: "Assistants, automation and training for your team", category: "AI", logos: ["chatgpt", "claude", "gemini", "grok"], call: "From £4,999, then £399 a month" },
 ];
 
@@ -462,7 +464,7 @@ export const audiences = [
 ];
 
 // Questions about the extra services; the homepage leaves these to /services.
-export const servicesFaq = (q: string) => /AEO|SEO|other services|ad spend|ad accounts|ChatGPT Ads|bundle/.test(q);
+export const servicesFaq = (q: string) => /AEO|SEO|other services|ad spend|ad accounts|ChatGPT Ads|bundle|automations/.test(q);
 
 export const faqs = [
   {
@@ -512,6 +514,10 @@ export const faqs = [
   {
     q: "What are ChatGPT Ads?",
     a: "Ads shown inside ChatGPT answers, open to UK businesses since mid 2026. They're new, so I'd start with a small budget alongside Google, and see what they bring before spending more.",
+  },
+  {
+    q: "Do I own the automations?",
+    a: "Yes. The automations, chat and receptionist set up for you are yours, not rented back to you. Where one runs on a third-party tool, like a phone or calendar service, that tool has its own fee and I'll name it before you buy.",
   },
   {
     q: "What's in a bundle?",
@@ -566,8 +572,10 @@ export const serviceNeeds: Record<string, string> = {
   "Website build": "New website",
   "Hosting and care": "Hosting and care",
   "AI receptionist": "AI for my business",
-  "AI website assistant": "AI for my business",
-  "AI automation": "AI for my business",
+  "Website chat and lead capture": "AI for my business",
+  "Quote and invoice automation": "AI for my business",
+  "AI admin automation": "AI for my business",
+  "AI training": "AI for my business",
   "AI plan": "AI for my business",
   "AI for your business": "AI for my business",
   "Local SEO": "Get found on Google",

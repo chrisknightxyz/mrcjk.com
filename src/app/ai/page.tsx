@@ -7,13 +7,17 @@ import { AiReceptionist, EnquiryCard } from "@/components/illustrations";
 import { PlanCard } from "@/components/plan-card";
 import { Reveal } from "@/components/reveal";
 import { SiteHeader } from "@/components/site-header";
-import { contact, plans, projects } from "@/content/site";
+import { LogoStack } from "@/components/logos";
+import { contact, plans, projects, services, slug } from "@/content/site";
+import { priceLabel } from "@/lib/basket";
 
 const ai = plans.find((p) => p.id === "ai")!;
 const aiPlan = plans.find((p) => p.id === "aiplan")!;
 const receptionist = plans.find((p) => p.id === "receptionist")!;
 const privateClubs = projects.find((p) => p.name === "Private Clubs")?.url ?? "https://www.theprivateclubs.com";
 const gbp = (n: number) => `£${n.toLocaleString("en-GB")}`;
+// The single AI services, beyond the three plans above.
+const addOns = services.filter((s) => s.category === "AI" && !["AI plan", "AI receptionist", "AI for your business"].includes(s.title));
 
 export const metadata: Metadata = {
   title: "AI for your business",
@@ -149,6 +153,38 @@ export default function AiPage() {
             <PlanCard plan={receptionist} href={receptionist.href!} variant="dusk" delay={80} />
             <PlanCard plan={ai} href={contact.calUrl} variant="ember" delay={160} />
           </Cells>
+        </Band>
+
+        {/* One piece at a time: each goes into the basket on /services, or to a call if it needs scoping. */}
+        <Band>
+          <BandHead title="Or add one piece" intro="Each of these works on its own. You own what's set up, with no contract on the monthly part." />
+          <ul className="border-t border-ink/5">
+            {addOns.map((s) => (
+              <li key={s.title} className="border-b border-ink/5 last:border-0">
+                <a
+                  href={s.call ? contact.calUrl : `/services?add=${slug(s.title)}#services`}
+                  className="group flex items-center gap-4 px-5 py-5 transition hover:bg-stone/60 sm:px-8"
+                >
+                  <span className="min-w-0 flex-1">
+                    <span className="flex items-center gap-3">
+                      <span className="truncate text-[17px]">{s.title}</span>
+                      {s.logos && (
+                        <span className="hidden shrink-0 sm:inline-flex">
+                          <LogoStack ids={s.logos} max={3} />
+                        </span>
+                      )}
+                    </span>
+                    <span className="mt-0.5 block truncate text-[14px] text-muted">{s.body}</span>
+                    <span className="mt-1 block whitespace-nowrap text-[14px] tabular-nums sm:hidden">{priceLabel(s)}</span>
+                  </span>
+                  <span className="hidden shrink-0 whitespace-nowrap text-[15px] tabular-nums sm:inline">{priceLabel(s)}</span>
+                  <span className="inline-flex h-9 shrink-0 items-center whitespace-nowrap rounded-full bg-card px-4 text-[15px] shadow-[0_0_0_0.5px_rgb(var(--ink)/0.2)] group-hover:bg-surface">
+                    {s.call ? "Book a call" : "Add"}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
         </Band>
 
         <CtaBand title="Find out where AI saves you time">
