@@ -29,7 +29,7 @@ export function PlanCard({ plan, href, variant, delay }: { plan: Plan; href: str
             ) : (
               <>
                 {plan.prefix && <span className="text-[15px] opacity-80">{plan.prefix}</span>}
-                <span className="font-display text-[48px] font-light leading-none tracking-[-0.02em]">{gbp(plan.price)}</span>
+                <span className="font-display text-[36px] font-light leading-none tracking-[-0.02em] sm:text-[48px]">{gbp(plan.price)}</span>
                 <span className="text-[15px] opacity-80">{plan.period}</span>
               </>
             )}

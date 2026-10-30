@@ -117,8 +117,8 @@ export const categoryVariant: Record<string, GradientVariant> = {
   "Website and hosting": "dusk",
   Search: "ocean",
   "AI search": "dusk",
+  Ads: "ember",
   Marketing: "rose",
-  Content: "forest",
-  "AI tools": "mint",
+  AI: "mint",
   Integrations: "sand",
 };

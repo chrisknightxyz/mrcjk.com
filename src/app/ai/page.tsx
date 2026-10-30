@@ -10,7 +10,8 @@ import { SiteHeader } from "@/components/site-header";
 import { contact, plans, projects } from "@/content/site";
 
 const ai = plans.find((p) => p.id === "ai")!;
-const build = plans.find((p) => p.id === "build")!;
+const aiPlan = plans.find((p) => p.id === "aiplan")!;
+const receptionist = plans.find((p) => p.id === "receptionist")!;
 const privateClubs = projects.find((p) => p.name === "Private Clubs")?.url ?? "https://www.theprivateclubs.com";
 const gbp = (n: number) => `£${n.toLocaleString("en-GB")}`;
 
@@ -139,10 +140,14 @@ export default function AiPage() {
 
         {/* Pricing: the AI work, with the website beside it for anyone who needs that first. */}
         <Band id="pricing">
-          <BandHead title="One fixed price, agreed on a call" intro="Scoped on a call, then one price before any work starts. No VAT to add." />
-          <Cells cols={2}>
-            <PlanCard plan={ai} href={contact.calUrl} variant="ember" delay={0} />
-            <PlanCard plan={build} href="/start" variant="dusk" delay={80} />
+          <BandHead
+            title="Start small, or go all in"
+            intro="Buy the plan or the receptionist online today. The full build is scoped on a call, then one fixed price. No VAT to add."
+          />
+          <Cells from="lg">
+            <PlanCard plan={aiPlan} href={aiPlan.href!} variant="paper" delay={0} />
+            <PlanCard plan={receptionist} href={receptionist.href!} variant="dusk" delay={80} />
+            <PlanCard plan={ai} href={contact.calUrl} variant="ember" delay={160} />
           </Cells>
         </Band>
 

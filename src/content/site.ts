@@ -37,7 +37,7 @@ export const mailto = (subject: string, body = "") =>
 // paid for after the first draft is approved, and hosting when the site goes live, so these links are sent
 // by hand. Kept here so they're in one place.
 // Test mode for now: swap in the live links (buy.stripe.com/...) before taking real payments.
-export const stripeLinks = {
+export const stripeLinks: Record<string, string> = {
   build: "https://buy.stripe.com/test_5kQ28t4C8eRrbAyd3hfbq00",
   care: "https://buy.stripe.com/test_3cI6oJfgM38JcEC4wLfbq01",
   careQuarterly: "https://buy.stripe.com/test_28E3cxfgMaBb7ki9R5fbq02",
@@ -46,7 +46,7 @@ export const stripeLinks = {
 };
 
 export type Plan = {
-  id: keyof typeof stripeLinks;
+  id: string;
   name: string;
   price: number | null;
   prefix: string;
@@ -120,9 +120,35 @@ export const plans: Plan[] = [
       "Training for your team",
     ],
     cta: "Book a call",
-    note: "Scoped on a call",
-    need: "Something else",
+    note: "Scoped on a call, then £399 a month",
+    need: "AI for my business",
     href: contact.calUrl,
+  },
+  {
+    id: "aiplan",
+    name: "AI plan",
+    price: 995,
+    prefix: "",
+    period: "one-off",
+    blurb: "A review of how your business runs, and a written plan for where AI saves you time and money.",
+    features: ["How you work, reviewed", "Where AI pays, in order", "Costs and timings", "Taken off a full AI build"],
+    cta: "Add to basket",
+    note: "Pay online, no call needed",
+    need: "AI for my business",
+    href: "/services?add=ai-plan#services",
+  },
+  {
+    id: "receptionist",
+    name: "AI receptionist",
+    price: 149,
+    prefix: "",
+    period: "a month",
+    blurb: "Answers every call as your business, 24/7, books into your calendar and texts back missed calls.",
+    features: ["Answers as your business", "Books into your calendar", "Texts back missed calls", "Monthly report", "No contract"],
+    cta: "Add to basket",
+    note: "Plus £999 setup",
+    need: "AI for my business",
+    href: "/services?add=ai-receptionist#services",
   },
 ];
 
@@ -170,34 +196,81 @@ export const logos: Record<LogoId, Logo> = logoList;
 // Where AEO gets you recommended.
 export const aiAssistants: LogoId[] = ["chatgpt", "claude", "gemini", "perplexity", "copilot", "grok", "metaai", "muse"];
 
-// The catalogue, grouped by category in this order. Website and hosting are sold as plans above.
-export type Service = { title: string; body: string; category: string; logos?: LogoId[] };
+// The catalogue, grouped by category in this order, with every price on the site. The basket on
+// /services adds these up and /api/checkout charges them, so this list is the one source of truth.
+// once: one-off (or setup) in pounds; monthly: per month, renewing until cancelled; from: the
+// starting price for a standard job; call: scoped on a call, so it isn't sold online.
+export type Service = {
+  title: string;
+  body: string;
+  category: string;
+  logos?: LogoId[];
+  once?: number;
+  monthly?: number;
+  from?: boolean;
+  call?: string;
+};
 
 export const services: Service[] = [
-  { title: "Website build", body: "Your homepage draft in 24 hours", category: "Website and hosting", logos: ["figma", "google"] },
-  { title: "Hosting and care", body: "£99 a month, renews until you cancel", category: "Website and hosting", logos: ["vercel", "google"] },
-  { title: "Local SEO", body: "Show up on Google and Maps near you", category: "Search", logos: ["google", "googlemaps"] },
-  { title: "Google Business Profile", body: "Right details, photos and hours", category: "Search", logos: ["google", "googlemaps"] },
-  { title: "Analytics and tracking", body: "Track calls, forms and sales", category: "Search", logos: ["googleanalytics"] },
-  { title: "AEO", body: "Help ChatGPT and others suggest you", category: "AI search", logos: aiAssistants },
-  { title: "Google AI Overviews", body: "In Google AI answers and AI Mode", category: "AI search", logos: ["google", "gemini"] },
-  { title: "AI visibility check", body: "What AI says about you", category: "AI search", logos: aiAssistants },
-  { title: "Google Ads", body: "Ads for people ready to buy", category: "Marketing", logos: ["googleads"] },
-  { title: "Meta Ads", body: "Facebook and Instagram ads", category: "Marketing", logos: ["meta", "instagram"] },
-  { title: "Reviews and reputation", body: "More reviews, better replies", category: "Marketing", logos: ["google", "trustpilot", "tripadvisor"] },
-  { title: "Branding and identity", body: "Logo, colours and tone of voice", category: "Marketing", logos: ["figma"] },
-  { title: "Social media management", body: "Posts and replies, handled", category: "Content", logos: ["instagram", "meta", "tiktok"] },
-  { title: "Photo and video", body: "Shot at your business", category: "Content", logos: ["instagram", "tiktok", "youtube"] },
-  { title: "Email newsletters", body: "Emails that bring customers back", category: "Content", logos: ["mailchimp"] },
-  { title: "Shopify store", body: "Your storefront, products and checkout", category: "Integrations", logos: ["shopify"] },
-  { title: "Online booking", body: "Fresha, Booksy, OpenTable and more", category: "Integrations", logos: ["fresha", "booksy", "opentable"] },
-  { title: "Online payments", body: "Stripe, Square, SumUp and more", category: "Integrations", logos: ["stripe", "square", "sumup"] },
-  { title: "Online ordering", body: "Deliveroo, Uber Eats and Just Eat", category: "Integrations", logos: ["deliveroo", "ubereats", "justeat"] },
-  { title: "AI receptionist", body: "Answers calls and books, 24/7", category: "AI tools", logos: ["chatgpt", "whatsapp", "googlecalendar"] },
-  { title: "AI website assistant", body: "Answers questions on your site", category: "AI tools", logos: ["chatgpt", "claude", "gemini"] },
-  { title: "Custom AI assistants", body: "Trained on your business", category: "AI tools", logos: ["chatgpt", "claude", "gemini", "grok"] },
-  { title: "AI automation", body: "Automated follow-ups", category: "AI tools", logos: ["zapier", "googlecalendar", "whatsapp"] },
+  { title: "Website build", body: "Your homepage draft in 24 hours", category: "Website and hosting", logos: ["figma", "google"], once: 999, from: true },
+  { title: "Hosting and care", body: "Hosting, updates, fixes and a monthly report", category: "Website and hosting", logos: ["vercel", "google"], monthly: 99 },
+  { title: "Local SEO", body: "Higher on Google and Maps near you, every month", category: "Search", logos: ["google", "googlemaps"], monthly: 399 },
+  { title: "Google Business Profile", body: "Set up right: details, photos and hours", category: "Search", logos: ["google", "googlemaps"], once: 249 },
+  { title: "Analytics and tracking", body: "Track calls, forms and sales", category: "Search", logos: ["googleanalytics"], once: 249 },
+  { title: "AEO", body: "ChatGPT, Gemini and Google AI suggest you", category: "AI search", logos: aiAssistants, monthly: 299 },
+  { title: "AI visibility check", body: "What AI assistants say about you, in writing", category: "AI search", logos: aiAssistants, once: 149 },
+  { title: "Google Ads", body: "Ads for people searching now; spend paid to Google", category: "Ads", logos: ["googleads"], once: 249, monthly: 299 },
+  { title: "Meta Ads", body: "Facebook and Instagram; spend paid to Meta", category: "Ads", logos: ["meta", "instagram"], once: 249, monthly: 299 },
+  { title: "ChatGPT Ads", body: "New: ads in ChatGPT answers; spend paid to OpenAI", category: "Ads", logos: ["chatgpt"], once: 249, monthly: 299 },
+  { title: "Reviews and reputation", body: "More reviews, better replies", category: "Marketing", logos: ["google", "trustpilot", "tripadvisor"], monthly: 99 },
+  { title: "Social media management", body: "Posts and replies, handled", category: "Marketing", logos: ["instagram", "meta", "tiktok"], monthly: 399 },
+  { title: "Email newsletters", body: "Emails that bring customers back", category: "Marketing", logos: ["mailchimp"], monthly: 199 },
+  { title: "Branding and identity", body: "Logo, colours and tone of voice", category: "Marketing", logos: ["figma"], once: 495, from: true },
+  { title: "Photo and video", body: "Shot at your business", category: "Marketing", logos: ["instagram", "tiktok", "youtube"], call: "Quoted on a call" },
+  { title: "Shopify store", body: "Your storefront, products and checkout", category: "Integrations", logos: ["shopify"], once: 1999, from: true },
+  { title: "Online booking", body: "Fresha, Booksy, OpenTable and more", category: "Integrations", logos: ["fresha", "booksy", "opentable"], once: 249 },
+  { title: "Online payments", body: "Stripe, Square, SumUp and more", category: "Integrations", logos: ["stripe", "square", "sumup"], once: 249 },
+  { title: "Online ordering", body: "Deliveroo, Uber Eats and Just Eat", category: "Integrations", logos: ["deliveroo", "ubereats", "justeat"], once: 249 },
+  { title: "AI plan", body: "Where AI saves you time, in writing; taken off a full AI build", category: "AI", logos: ["chatgpt", "claude", "gemini"], once: 995 },
+  { title: "AI receptionist", body: "Answers calls and books, 24/7", category: "AI", logos: ["chatgpt", "whatsapp", "googlecalendar"], once: 999, monthly: 149 },
+  { title: "AI website assistant", body: "Answers questions on your site", category: "AI", logos: ["chatgpt", "claude", "gemini"], call: "Quoted on a call" },
+  { title: "AI automation", body: "Follow-ups and admin that run themselves", category: "AI", logos: ["zapier", "googlecalendar", "whatsapp"], call: "Quoted on a call" },
+  { title: "AI for your business", body: "Assistants, automation and training for your team", category: "AI", logos: ["chatgpt", "claude", "gemini", "grok"], call: "From £4,999, then £399 a month" },
 ];
+
+// Bundles: several services for less than their parts. Picking one ticks what it includes.
+export type Bundle = { id: string; name: string; blurb: string; includes: string[]; once: number; monthly: number; call?: string };
+
+export const bundles: Bundle[] = [
+  {
+    id: "get-found",
+    name: "Get found",
+    blurb: "A website, looked after, that ranks on Google and Maps near you.",
+    includes: ["Website build", "Hosting and care", "Local SEO", "Google Business Profile"],
+    once: 999,
+    monthly: 449,
+  },
+  {
+    id: "get-leads",
+    name: "Get leads",
+    blurb: "Get found, plus AI search, Google Ads and an AI receptionist for every call. Setup fees included.",
+    includes: ["Website build", "Hosting and care", "Local SEO", "Google Business Profile", "AEO", "Google Ads", "AI receptionist"],
+    once: 999,
+    monthly: 999,
+  },
+  {
+    id: "everything",
+    name: "Everything",
+    blurb: "AI across your business, your website, SEO and AEO, and Google, Meta and ChatGPT Ads.",
+    includes: ["Website build", "Hosting and care", "Local SEO", "Google Business Profile", "AEO", "Google Ads", "Meta Ads", "ChatGPT Ads", "AI for your business"],
+    once: 4999,
+    monthly: 1999,
+    call: "From £4,999, then £1,999 a month",
+  },
+];
+
+// A link-safe id for a service, used in basket links such as /services?add=local-seo,aeo.
+export const slug = (title: string) => title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
 // Booking, ordering and payment tools that local businesses already use, by kind of business.
 // Logos are each brand's own icon (public/integrations); they show what I can connect, not a partnership.
@@ -389,7 +462,7 @@ export const audiences = [
 ];
 
 // Questions about the extra services; the homepage leaves these to /services.
-export const servicesFaq = (q: string) => /AEO|SEO|other services/.test(q);
+export const servicesFaq = (q: string) => /AEO|SEO|other services|ad spend|ad accounts|ChatGPT Ads|bundle/.test(q);
 
 export const faqs = [
   {
@@ -398,7 +471,7 @@ export const faqs = [
   },
   {
     q: "When do I pay?",
-    a: "After you've approved your first draft. Hosting and care starts when your site goes live and renews monthly, quarterly or yearly until you cancel. No VAT to add.",
+    a: "Two ways. Send a request and you pay after you've approved your first draft, with hosting starting when your site goes live. Or tick what you want on the services page and pay online: one-off items today, monthly services from today, renewing each month until you cancel. No VAT to add.",
   },
   {
     q: "How fast is it?",
@@ -414,7 +487,7 @@ export const faqs = [
   },
   {
     q: "Can I cancel Hosting and care?",
-    a: "Yes. Cancel any time.",
+    a: "Yes. Every monthly service is month to month, with no contract. Email me and it stops at the end of the month you've paid for.",
   },
   {
     q: "What's AEO?",
@@ -426,7 +499,23 @@ export const faqs = [
   },
   {
     q: "How are the other services priced?",
-    a: "Ads, social media, photo and video, branding, reviews and AI services are quoted for your business. Add the ones you want, then continue.",
+    a: "Every price is on the services page. Tick what you want and the total adds up as you go, then pay online, or send a request first. Photo and video and custom AI work are quoted on a call.",
+  },
+  {
+    q: "Where does my ad spend go?",
+    a: "Straight to Google, Meta or OpenAI, on your own card. The monthly fee pays for me to set up, run and improve the ads. Nothing is marked up.",
+  },
+  {
+    q: "Do I own my ad accounts?",
+    a: "Yes. Your ad accounts, your audiences and your data stay yours, whether we keep working together or not.",
+  },
+  {
+    q: "What are ChatGPT Ads?",
+    a: "Ads shown inside ChatGPT answers, open to UK businesses since mid 2026. They're new, so I'd start with a small budget alongside Google, and see what they bring before spending more.",
+  },
+  {
+    q: "What's in a bundle?",
+    a: "Several services for less than buying them one by one. Get found is your website, hosting, local SEO and Google Business Profile. Get leads adds AEO, Google Ads and an AI receptionist, with the setup fees included.",
   },
   {
     q: "Will I own my website?",
@@ -478,11 +567,11 @@ export const serviceNeeds: Record<string, string> = {
   "Hosting and care": "Hosting and care",
   "AI receptionist": "AI for my business",
   "AI website assistant": "AI for my business",
-  "Custom AI assistants": "AI for my business",
   "AI automation": "AI for my business",
+  "AI plan": "AI for my business",
+  "AI for your business": "AI for my business",
   "Local SEO": "Get found on Google",
   "Google Business Profile": "Get found on Google",
   AEO: "Get recommended by AI",
-  "Google AI Overviews": "Get recommended by AI",
   "AI visibility check": "Get recommended by AI",
 };

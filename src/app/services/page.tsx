@@ -11,7 +11,7 @@ import { contact, faqs, servicesFaq } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Services",
-  description: "Everything I can add to your website: local SEO, AEO, ads, booking, payments, Shopify, content and AI tools. Each one quoted for you.",
+  description: "Websites, local SEO, AEO, Google, Meta and ChatGPT Ads, booking, payments, Shopify and AI, with every price shown. Pick a bundle or build your own, then pay online.",
   alternates: { canonical: "/services" },
 };
 
@@ -49,9 +49,13 @@ export default function ServicesPage() {
         <HowIWork />
 
         <Band id="services">
-          <BandHead title="Choose your services" intro="Your website is ticked already. Add anything else, then continue to tell me about your business." />
+          <BandHead
+            title="Choose your services"
+            intro="Pick a bundle, or tick what you want. Every price is here and your total adds up as you go. Monthly services have no contract."
+          />
           <div className="border-t border-ink/5 px-5 py-12 sm:px-8 lg:py-16">
-            <Catalogue />
+            {/* Checkout shows once Stripe is connected (STRIPE_SECRET_KEY); until then the basket continues to a request. */}
+            <Catalogue checkout={!!process.env.STRIPE_SECRET_KEY} />
           </div>
         </Band>
 

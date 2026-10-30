@@ -77,7 +77,7 @@ const howItWorks = [
   { title: "See your draft within 24 hours", body: "Your homepage, designed and written for your business, ready to look over." },
   { title: "Approve it, pay, then go live", body: `One fixed price, from ${gbp(build.price!)}. Then ${gbp(care.price!)} a month keeps it fast, safe and found.` },
 ];
-const sellPlans = plans.filter((p) => p.id !== "ai");
+const sellPlans = plans.filter((p) => p.id === "build" || p.id === "care");
 const planArt: GradientVariant[] = ["dusk", "paper"];
 const stepScenes = [StepAsk, StepBuild, StepPay];
 
@@ -215,6 +215,10 @@ export default function HomePage() {
             No VAT to add. Need more?{" "}
             <a href="/services" className="whitespace-nowrap text-ink hover:underline hover:underline-offset-4 max-sm:block">
               Add SEO, ads and booking →
+            </a>
+            <span className="px-2 max-sm:hidden">·</span>
+            <a href="/services?bundle=get-found#services" className="whitespace-nowrap text-ink hover:underline hover:underline-offset-4 max-sm:block">
+              Bundles from £449 a month →
             </a>
             <span className="px-2 max-sm:hidden">·</span>
             <a href="/ai" className="whitespace-nowrap text-ink hover:underline hover:underline-offset-4 max-sm:block">
